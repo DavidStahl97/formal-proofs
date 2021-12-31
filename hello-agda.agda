@@ -3,3 +3,6 @@ data Greeting : Set where
 
 greet : Greeting
 greet = hello
+
+test : {A : Set} → A → A
+test A = A
