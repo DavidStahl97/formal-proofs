@@ -1,5 +1,5 @@
-for f in find . -name '*.agda'
+find . -name '*.agda' | while read file
 do
-  echo "check file $f"
-  echo "check file $f succesful"
+  echo "check file $file"
+  echo "check file $file succesful"
 done
