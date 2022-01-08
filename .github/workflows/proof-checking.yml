@@ -2,7 +2,7 @@ name: Compile Agda and Deploy HTML
 on:
   push:
     branches:
-      - test
+      - main
 
 jobs:
   build:
@@ -82,35 +82,12 @@ jobs:
       if: steps.cache-main.outputs.cache-hit == 'true'
       run: cp -f -R ~/main-build/* $GITHUB_WORKSPACE/main
 
-    - name: Compile main library
-      if: steps.cache-main.outputs.cache-hit != 'true'
-      run: |
-        mkdir -p ~/main-build/_build
-        cp -f -R ~/main-build/_build $GITHUB_WORKSPACE/main/_build
-        rm -r ~/main-build
-        cd main
-        find . -type f \( -name "*.agda" -o -name "*.lagda" \) > FileList
-        sort -o FileList FileList
-        echo "{-# OPTIONS --cubical --prop --guardedness --allow-unsolved-metas #-}" > Everything.agda
-        echo "" >> Everything.agda
-        echo "module Everything where" >> Everything.agda
-        echo "" >> Everything.agda
-        echo "-- This file imports every module in the project. Click on" >> Everything.agda
-        echo "-- a module name to go to its source." >> Everything.agda
-        echo "" >> Everything.agda
-        cat FileList | cut -c 3-               \
-                     | cut -f1 -d'.'           \
-                     | sed 's/\//\./g'         \
-                     | sed 's/^/open import /' \
-                     >> Everything.agda
-        rm FileList
-        agda --html --html-dir=docs Everything.agda
-        rm Everything.agda
-        cd ..
-        cp -f -R main/ ~/main-build/
-
-    - name: Deploy html to github pages
-      uses: peaceiris/actions-gh-pages@v3
+    - name: install python
+      if: steps.cache-main.outputs.cache-hit != 'true'      
+      uses: actions/setup-python@v2
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: main/docs
+        python-version: '3.9.9'
+
+    - name: type checking
+      if: steps.cache-main.outputs.cache-hit != 'true'      
+      run: python check-proofs.py
