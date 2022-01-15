@@ -6,4 +6,4 @@ module logic.test123 where
   greet = hello
 
   test : {A : Set} → A → A
-  test A = hello
+  test A = A

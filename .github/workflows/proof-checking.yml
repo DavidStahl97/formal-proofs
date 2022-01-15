@@ -6,12 +6,14 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
 
 # Install Agda
     - name: Install Agda
-      run: sudo apt-get install -y agda-bin      
+      run: |
+        sudo apt-get install -y agda-bin
+        sudo agda --version
 
 # Download and compile main library
     - name: Checkout main
