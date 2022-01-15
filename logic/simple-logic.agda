@@ -15,3 +15,6 @@ module logic.simple-logic where
     if_then_else_ : {A : Set} → Bool → A → A → A
     if false then a else b = b
     if true then a else b = a
+
+    identity : {A : Set} → A → A
+    identity a = a
