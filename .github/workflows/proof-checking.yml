@@ -10,10 +10,9 @@ jobs:
 
     strategy:
       matrix:
-        cubical-ref: ["a60b0c6576fac0ba6e181cab75f9f9de2d167f87"]
         agda-ref: ["v2.6.2"]
         ghc-ver: ["9.0.2"]
-        cabal-ver: ["3.4.0.0"]
+        cabal-ver: ["3.6.1.0"]
 
     steps:
 
@@ -55,12 +54,12 @@ jobs:
     - name: Checkout main
       uses: actions/checkout@v2
 
-    - name: install python
+    - name: Install Python
       if: steps.cache-main.outputs.cache-hit != 'true'      
       uses: actions/setup-python@v2
       with:
         python-version: '3.9.9'
 
-    - name: type checking
+    - name: Type Checking
       if: steps.cache-main.outputs.cache-hit != 'true'      
       run: python check-proofs.py
