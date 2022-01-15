@@ -6,6 +6,7 @@ on:
 
 jobs:
   proof-checking:
+    runs-on: ubuntu-latest
     container: davidstahl97/agda:latest
     steps:
     
