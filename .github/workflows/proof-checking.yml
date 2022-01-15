@@ -5,8 +5,8 @@ on:
       - main
 
 jobs:
-  build:
-    container: davidstahl97/agda
+  proof-checking:
+    container: davidstahl97/agda:latest
     steps:
     
     - name: Checkout main
