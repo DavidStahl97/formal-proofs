@@ -7,67 +7,20 @@ on:
 jobs:
   build:
     runs-on: ubuntu-18.04
-
-    strategy:
-      matrix:
-        agda-ref: ["v2.6.2"]
-        ghc-ver: ["9.0.2"]
-        cabal-ver: ["3.6.1.0"]
-
     steps:
 
 # Install Agda
-    - uses: actions/cache@v2
-      name: Cache cabal packages
-      id: cache-cabal
-      with:
-        path: |
-          ~/.cabal/packages
-          ~/.cabal/store
-          ~/.cabal/bin
-          dist-newstyle
-        key: ${{ runner.os }}-${{ matrix.ghc-ver }}-${{ matrix.cabal-ver }}-${{ matrix.agda-ref }}-agda-opt
-        restore-keys: |
-          ${{ runner.os }}-${{ matrix.ghc-ver }}-${{ matrix.cabal-ver }}-${{ matrix.agda-ref }}-
-          ${{ runner.os }}-${{ matrix.ghc-ver }}-${{ matrix.cabal-ver }}-
-        
-
-    - name: Install cabal
-      if: steps.cache-cabal.outputs.cache-hit != 'true'
-      uses: actions/setup-haskell@v1.1.3
-      with:
-        ghc-version: ${{ matrix.ghc-ver }}
-        cabal-version: ${{ matrix.cabal-ver }}
-
-    - name: Put cabal programs in PATH
-      run: echo "~/.cabal/bin" >> $GITHUB_PATH
-
-    - name: Download Agda from github
-      if: steps.cache-cabal.outputs.cache-hit != 'true'
-      uses: actions/checkout@v2
-      with:
-        repository: agda/agda
-        path: agda
-        ref: ${{ matrix.agda-ref }}
-
     - name: Install Agda
-      if: steps.cache-cabal.outputs.cache-hit != 'true'
-      run: |
-        cabal update
-        cabal install --overwrite-policy=always --ghc-options='-O2 +RTS -M6G -RTS' alex-3.2.6
-        cabal install --overwrite-policy=always --ghc-options='-O2 +RTS -M6G -RTS' happy-1.19.12
-        cabal install Agda
+      run: sudo apt-get install -y agda-bin      
 
 # Download and compile main library
     - name: Checkout main
       uses: actions/checkout@v2
 
-    - name: Install Python
-      if: steps.cache-main.outputs.cache-hit != 'true'      
+    - name: Install Python      
       uses: actions/setup-python@v2
       with:
         python-version: '3.9.9'
 
     - name: Type Checking
-      if: steps.cache-main.outputs.cache-hit != 'true'      
       run: python check-proofs.py
