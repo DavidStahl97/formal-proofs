@@ -22,5 +22,8 @@ jobs:
       with:
         python-version: '3.9.9'
 
-    - name: Type Checking
-      run: python check-proofs.py
+    - name: Generate Agda File for Proof Checking
+      run: python generate-complete-agda-file.py
+
+    - name: Proof Checking
+      run: agda everything.agda

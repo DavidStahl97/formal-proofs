@@ -1,8 +1,11 @@
+import logic.aaa
+import logic.test123
+
 data Greeting : Set where
   hello : Greeting
 
 greet : Greeting
 greet = hello
 
-test : {A : Set} → A → A
-test A = A
+greet2 : logic.aaa.Greeting
+greet2 = logic.aaa.hello
