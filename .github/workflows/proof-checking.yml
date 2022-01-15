@@ -50,6 +50,13 @@ jobs:
         path: agda
         ref: ${{ matrix.agda-ref }}
 
+    - name: Install Agda
+      if: steps.cache-cabal.outputs.cache-hit != 'true'
+      run: |
+        cabal update
+        cabal install --overwrite-policy=always --ghc-options='-O2 +RTS -M6G -RTS' alex-3.2.6
+        cabal install --overwrite-policy=always --ghc-options='-O2 +RTS -M6G -RTS' happy-1.19.12
+
 # Download and compile main library
     - name: Checkout main
       uses: actions/checkout@v2
