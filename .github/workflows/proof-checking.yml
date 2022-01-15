@@ -12,7 +12,7 @@ jobs:
 # Install Agda
     - name: Install Agda
       run: |
-        sudo apt-get install -y agda-bin
+        sudo apt install -y agda-bin=2.6.0.1-1build4
         sudo agda --version
 
 # Download and compile main library
