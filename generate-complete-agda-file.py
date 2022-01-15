@@ -22,6 +22,9 @@ for file in Path(currentDirectory).rglob('*.agda'):
     
     imports.append('import ' + completeModuleName + '\n')
 
+print('generated complete agda file:')
+print(''.join(imports))
+
 everythingFile = open('everything.agda', 'w')
 everythingFile.write(''.join(imports))
 everythingFile.close()    
