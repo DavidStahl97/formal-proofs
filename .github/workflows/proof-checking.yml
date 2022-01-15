@@ -30,4 +30,11 @@ jobs:
       run: python generate-complete-agda-file.py
 
     - name: Proof Checking
-      run: agda everything.agda
+      run: agda --html --html-dir=docs everything.agda
+
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: docs   
