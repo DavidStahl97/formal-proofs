@@ -6,16 +6,9 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    container: davidstahl97/agda
     steps:
-
-# Install Agda
-    - name: Install Agda
-      run: |
-        sudo apt install -y agda-bin=2.6.0.1-1build4
-        sudo agda --version
-
-# Download and compile main library
+    
     - name: Checkout main
       uses: actions/checkout@v2
 

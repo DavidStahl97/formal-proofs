@@ -2,8 +2,8 @@ name: Build and Push Agda Docker Image
 
 on:
   push:
-    branches:
-      - main
+    paths:
+      - 'agda.Dockerfile'
 
 jobs:
   build:
