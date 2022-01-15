@@ -7,7 +7,7 @@ imports = []
 
 for file in Path(currentDirectory).rglob('*.agda'):
     relativeFilePath = os.path.relpath(str(file), currentDirectory)    
-    if relativeFilePath == 'everything.agda':
+    if relativeFilePath == 'index.agda':
         continue
 
     split = os.path.split(relativeFilePath)
@@ -31,7 +31,7 @@ for file in Path(currentDirectory).rglob('*.agda'):
 print('generated complete agda file: \n\n')
 print(''.join(imports))
 
-everythingFile = open('everything.agda', 'w')
+everythingFile = open('index.agda', 'w')
 everythingFile.write(''.join(imports))
 everythingFile.close()    
 
