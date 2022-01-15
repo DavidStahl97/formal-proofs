@@ -9,7 +9,7 @@ env:
   PYTHON_VERSION: 3.9.9
 
 jobs:
-  build:
+  proof-checking:
     runs-on: ubuntu-latest
     steps:
 
@@ -24,7 +24,7 @@ jobs:
     - name: Install Python      
       uses: actions/setup-python@v2
       with:
-        python-version: '${PYTHON_VERSION}'
+        python-version: ${PYTHON_VERSION}
 
     - name: Generate Agda File for Proof Checking
       run: python generate-complete-agda-file.py
