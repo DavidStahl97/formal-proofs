@@ -1,4 +1,4 @@
-module logic.simple-logic where
+module logic.bool where
     
     data Bool : Set where
         false : Bool
