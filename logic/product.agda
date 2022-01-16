@@ -8,3 +8,6 @@ module logic.product where
 
     proj₂ : {A B : Set} → A × B → B
     proj₂ (a , b) = b
+
+    ×-comm :  {A B : Set} → (A × B) → (B × A)
+    ×-comm p = (proj₂ p) , (proj₁ p)
