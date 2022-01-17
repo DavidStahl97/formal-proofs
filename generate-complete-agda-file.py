@@ -10,7 +10,7 @@ for file in Path(currentDirectory).rglob('*.agda'):
     if relativeFilePath == 'index.agda':
         continue
 
-    split = os.path.split(relativeFilePath)
+    split = os.path.normpath(relativeFilePath).split(os.sep)
     assert len(split) > 0, split
 
     if split[0] == '':
@@ -23,7 +23,7 @@ for file in Path(currentDirectory).rglob('*.agda'):
     assert len(module) == 2, module
     assert module[1] == '', module
 
-    split = split[:-1] + (module[0],)
+    split = split[:-1] + [module[0]]
     completeModuleName = '.'.join(split)
     
     imports.append('import ' + completeModuleName + '\n')
