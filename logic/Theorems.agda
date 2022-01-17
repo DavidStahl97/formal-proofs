@@ -1,4 +1,4 @@
-module logic.logic where
+module Logic.Theorems where
 
     K : {A B : Set} → A → B → A
     K a b = a
