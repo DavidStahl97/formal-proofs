@@ -5,3 +5,5 @@ module Algebra.Naturals.Multiplication where
   _*_ : ℕ → ℕ → ℕ
   zero * b = zero
   suc a * b = b + (a * b)
+
+  infixl 7 _*_

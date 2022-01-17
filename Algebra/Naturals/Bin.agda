@@ -19,7 +19,7 @@ module Algebra.Naturals.Bin where
 
   from : Bin → ℕ
   from ⟨⟩ = zero
-  from (b t) = 1 + (2  * (from b))
+  from (b t) = 1 + 2  * (from b)
   from (b f) = 2 * (from b)
 
   from6 = from (⟨⟩ t t f)

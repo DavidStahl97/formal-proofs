@@ -5,3 +5,5 @@ module Algebra.Naturals.Exponentiation where
   _^_ : ℕ → ℕ → ℕ
   a ^ zero = 1
   a ^ suc b = a * (a ^ b)
+
+  infixl 8 _^_

@@ -9,3 +9,5 @@ module Algebra.Naturals.Addition where
   a ∸ zero = a
   zero ∸ suc b = zero
   suc a ∸ suc b = a ∸ b
+
+  infixl 6 _+_ _∸_
