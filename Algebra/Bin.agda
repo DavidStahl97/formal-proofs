@@ -1,7 +1,5 @@
-module Algebra.Naturals.Bin where
-  open import Algebra.Naturals.Data
-  open import Algebra.Naturals.Multiplication
-  open import Algebra.Naturals.Addition
+module Algebra.Bin where
+  open import Algebra.Naturals
   
   data Bin : Set where
     ⟨⟩ : Bin
