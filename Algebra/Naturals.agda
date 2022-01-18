@@ -41,6 +41,13 @@ module Algebra.Naturals where
   +-suc zero n = refl
   +-suc (suc m) n = cong suc (+-suc m n)
 
+  +-add1ᵣ : ∀ (m : ℕ) → m + 1 ≡ suc m
+  +-add1ᵣ zero = refl
+  +-add1ᵣ (suc m) = cong suc (+-add1ᵣ m)
+
+  +-add1ₗ : ∀ (m : ℕ) → 1 + m ≡ suc m
+  +-add1ₗ m = refl
+
   +-comm : ∀ (m n : ℕ) → m + n ≡ n + m
   +-comm m zero = +-identity m
   +-comm m (suc n) = trans (+-suc m n) (cong suc (+-comm m n))
@@ -118,9 +125,19 @@ module Algebra.Naturals where
     1 * p + (m * p + n * p)   ≡⟨ sym (+-assoc (1 * p) (m * p) (n * p)) ⟩
     (1 * p + m * p) + n * p   ≡⟨ cong (λ a → a + n * p) (+-comm (1 * p) (m * p)) ⟩
     (m * p + 1 * p) + n * p   ≡⟨ sym (cong (λ a → a + n * p) (*-distrib-+ m 1 p)) ⟩
-    (m + 1) * p + n * p       ≡⟨ cong (λ a → a * p + n * p) (+-suc m zero) ⟩ 
-    suc (m + 0) * p + n * p   ≡⟨ cong (λ a → (suc a) * p + n * p) (+-identity m) ⟩
+    (m + 1) * p + n * p       ≡⟨ cong (λ a → a * p + n * p) (+-add1ᵣ m) ⟩ 
     (suc m) * p + n * p ∎
+
+  *-assoc : ∀ (m n p : ℕ) → (m * n) * p ≡ m * (n * p)
+  *-assoc zero n p = refl
+  *-assoc (suc m) n p = begin
+    (suc m * n) * p           ≡⟨⟩
+    (n + m * n) * p           ≡⟨ *-distrib-+ n (m * n) p ⟩
+    n * p + m * n * p         ≡⟨ sym (cong (λ a → a + m * n * p) (*-identityₗ (n * p))) ⟩
+    1 * (n * p) + m * n * p   ≡⟨ cong (λ a → 1 * (n * p) + a) (*-assoc m n p) ⟩
+    1 * (n * p) + m * (n * p) ≡⟨ sym (*-distrib-+ 1 m (n * p)) ⟩
+    (1 + m) * (n * p)         ≡⟨ cong (λ a → a * (n * p)) (+-add1ₗ m) ⟩
+    suc m * (n * p) ∎
 
   {-  
       ----------
