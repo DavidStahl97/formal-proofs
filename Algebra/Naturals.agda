@@ -52,6 +52,21 @@ module Algebra.Naturals where
       suc (m + n) ≡⟨ cong suc (+-comm' m n) ⟩
       suc (n + m) ∎
 
+  +-assoc : ∀ (m n p : ℕ) → (m + n) + p ≡ m + (n + p)
+  +-assoc zero n p = refl
+  +-assoc (suc m) n p = cong suc (+-assoc m n p)
+
+  +-assoc' : ∀ (m n p : ℕ) → (m + n) + p ≡ m + (n + p)
+  +-assoc' zero n p = begin
+    (zero + n) + p ≡⟨⟩
+    n + p ≡⟨⟩
+    zero + (n + p) ∎
+  +-assoc' (suc m) n p = begin
+    (suc m + n) + p ≡⟨⟩
+    suc (m + n) + p ≡⟨⟩
+    suc ((m + n) + p) ≡⟨ cong suc (+-assoc' m n p) ⟩
+    suc (m + (n + p)) ∎
+
   {-  
       ----------
       Multiplication 
