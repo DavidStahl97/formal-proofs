@@ -92,6 +92,35 @@ module Algebra.Naturals where
 
   infixl 7 _*_
 
+  *-zero : ∀ (m : ℕ) → m * zero ≡ zero
+  *-zero zero = refl
+  *-zero (suc m) = begin
+    suc m * zero ≡⟨⟩
+    zero + (m * zero) ≡⟨⟩
+    m * zero ≡⟨ *-zero m ⟩
+    zero ∎
+
+  *-identityᵣ : ∀ (m : ℕ) → m * 1 ≡ m
+  *-identityᵣ zero = refl
+  *-identityᵣ (suc m) = cong suc (*-identityᵣ m)
+
+  *-identityₗ : ∀ (m : ℕ) → 1 * m ≡ m
+  *-identityₗ zero = refl
+  *-identityₗ (suc m) = cong suc (*-identityₗ m)
+
+  *-distrib-+ : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
+  *-distrib-+ zero n p = refl
+  *-distrib-+ (suc m) n p = begin
+    (suc m + n) * p           ≡⟨⟩
+    suc (m + n) * p           ≡⟨⟩
+    p + (m + n) * p           ≡⟨ cong (λ a → p + a) (*-distrib-+ m n p) ⟩
+    p + (m * p + n * p)       ≡⟨ sym (cong (λ a → a + (m * p + n * p)) (*-identityₗ p)) ⟩
+    1 * p + (m * p + n * p)   ≡⟨ sym (+-assoc (1 * p) (m * p) (n * p)) ⟩
+    (1 * p + m * p) + n * p   ≡⟨ cong (λ a → a + n * p) (+-comm (1 * p) (m * p)) ⟩
+    (m * p + 1 * p) + n * p   ≡⟨ sym (cong (λ a → a + n * p) (*-distrib-+ m 1 p)) ⟩
+    (m + 1) * p + n * p       ≡⟨ cong (λ a → a * p + n * p) (+-suc m zero) ⟩ 
+    suc (m + 0) * p + n * p   ≡⟨ cong (λ a → (suc a) * p + n * p) (+-identity m) ⟩
+    (suc m) * p + n * p ∎
 
   {-  
       ----------
