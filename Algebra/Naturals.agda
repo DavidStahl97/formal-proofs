@@ -67,6 +67,13 @@ module Algebra.Naturals where
     suc ((m + n) + p) ≡⟨ cong suc (+-assoc' m n p) ⟩
     suc (m + (n + p)) ∎
 
+  +-rearrange : ∀ (m n p q : ℕ) → (m + n) + (p + q) ≡ m + (n + p) + q
+  +-rearrange m n p q = begin
+    (m + n) + (p + q) ≡⟨ +-assoc m n (p + q) ⟩
+    m + (n + (p + q)) ≡⟨ cong (λ a → m + a) (sym (+-assoc n p q)) ⟩
+    m + ((n + p) + q) ≡⟨ sym (+-assoc m (n + p) q) ⟩
+    (m + (n + p)) + q ∎
+
   {-  
       ----------
       Multiplication 
@@ -77,6 +84,7 @@ module Algebra.Naturals where
   suc a * b = b + (a * b)
 
   infixl 7 _*_
+
 
   {-  
       ----------
@@ -90,3 +98,4 @@ module Algebra.Naturals where
   infixl 8 _^_
 
   
+ 
