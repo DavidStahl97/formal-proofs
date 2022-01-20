@@ -1,5 +1,6 @@
 module Algebra.Naturals where
   open import Algebra.Equality
+  open import Algebra.Structures
   
   data ℕ : Set where
     zero : ℕ
@@ -33,6 +34,13 @@ module Algebra.Naturals where
 
   infixl 6 _+_ _∸_
 
+  +-assoc : ∀ (m n p : ℕ) → (m + n) + p ≡ m + (n + p)
+  +-assoc zero n p = refl
+  +-assoc (suc m) n p = cong suc (+-assoc m n p)
+
+  ℕ-Semigroup : Semigroup _+_
+  Semigroup.assoc ℕ-Semigroup = +-assoc
+
   +-identity : ∀ (m : ℕ) → m + zero ≡ m
   +-identity zero = refl
   +-identity (suc n) = cong suc (+-identity n)
@@ -59,9 +67,7 @@ module Algebra.Naturals where
       suc (m + n) ≡⟨ cong suc (+-comm' m n) ⟩
       suc (n + m) ∎
 
-  +-assoc : ∀ (m n p : ℕ) → (m + n) + p ≡ m + (n + p)
-  +-assoc zero n p = refl
-  +-assoc (suc m) n p = cong suc (+-assoc m n p)  
+ 
 
   +-assoc' : ∀ (m n p : ℕ) → (m + n) + p ≡ m + (n + p)
   +-assoc' zero n p = begin
