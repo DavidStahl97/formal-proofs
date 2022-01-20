@@ -1,9 +1,11 @@
 module Algebra.Naturals.Addition where  
-  open import Algebra.Naturals.Definition
+  open import Algebra.Naturals.Definition public
 
   _+_ : ℕ → ℕ → ℕ
   zero + b = b
   suc a + b = suc (a + b)
+
+  infixl 6 _+_
 
   +-assoc : ∀ (m n p : ℕ) → (m + n) + p ≡ m + (n + p)
   +-assoc zero n p = refl
@@ -56,20 +58,3 @@ module Algebra.Naturals.Addition where
       (m + suc n) ≡⟨ +-suc m n ⟩
       suc (m + n) ≡⟨ cong suc (+-comm' m n) ⟩
       suc (n + m) ∎
-
-{-
-  +-rearrange : ∀ (m n p q : ℕ) → (m + n) + (p + q) ≡ m + (n + p) + q
-  +-rearrange m n p q = begin
-    (m + n) + (p + q) ≡⟨ assoc ℕ-+-Semigroup m n (p + q) ⟩
-    m + (n + (p + q)) ≡⟨ cong (λ a → m + a) (sym (assoc ℕ-+-Semigroup n p q)) ⟩
-    m + ((n + p) + q) ≡⟨ sym (assoc ℕ-+-Semigroup m (n + p) q) ⟩
-    (m + (n + p)) + q ∎
-
-  +-swap : ∀ (m n p : ℕ) → m + (n + p) ≡ n + (m + p)
-  +-swap m n p = begin
-    m + (n + p) ≡⟨ +-comm m (n + p) ⟩
-    (n + p) + m ≡⟨ assoc ℕ-+-Semigroup n p m ⟩
-    n + (p + m) ≡⟨ cong (λ a → n + a) (+-comm p m) ⟩
-    n + (m + p) ∎
-
--}
