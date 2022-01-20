@@ -22,9 +22,11 @@ module Algebra.Naturals.Addition where
     suc ((m + n) + p) ≡⟨ cong suc (+-assoc' m n p) ⟩
     suc (m + (n + p)) ∎
 
+  {- Semigroup -} 
   ℕ-+-Semigroup : Semigroup _+_
   assoc ℕ-+-Semigroup = +-assoc
 
+  {- Monoid -}
   +-right-identity : ∀ (m : ℕ) → m + zero ≡ m
   +-right-identity zero = refl
   +-right-identity (suc n) = cong suc (+-right-identity n)
@@ -37,16 +39,10 @@ module Algebra.Naturals.Addition where
   left (identity ℕ-+-Monoid) = +-left-identity
   right (identity ℕ-+-Monoid) = +-right-identity
 
+  {- Commutative Monoid -}
   +-suc : ∀ (m n : ℕ) → m + suc n ≡ suc (m + n)
   +-suc zero n = refl
   +-suc (suc m) n = cong suc (+-suc m n)
-
-  +-add1ᵣ : ∀ (m : ℕ) → m + 1 ≡ suc m
-  +-add1ᵣ zero = refl
-  +-add1ᵣ (suc m) = cong suc (+-add1ᵣ m)
-
-  +-add1ₗ : ∀ (m : ℕ) → 1 + m ≡ suc m
-  +-add1ₗ m = refl
 
   +-comm : ∀ (m n : ℕ) → m + n ≡ n + m
   +-comm m zero = +-right-identity m
@@ -58,3 +54,15 @@ module Algebra.Naturals.Addition where
       (m + suc n) ≡⟨ +-suc m n ⟩
       suc (m + n) ≡⟨ cong suc (+-comm' m n) ⟩
       suc (n + m) ∎
+
+  ℕ-+-CommutativeMonoid : CommutativeMonoid _+_ 0
+  monoid ℕ-+-CommutativeMonoid = ℕ-+-Monoid
+  comm ℕ-+-CommutativeMonoid = +-comm
+
+  {- Additional Theorems -}
+  +-add1ᵣ : ∀ (m : ℕ) → m + 1 ≡ suc m
+  +-add1ᵣ zero = refl
+  +-add1ᵣ (suc m) = cong suc (+-add1ᵣ m)
+
+  +-add1ₗ : ∀ (m : ℕ) → 1 + m ≡ suc m
+  +-add1ₗ m = refl
