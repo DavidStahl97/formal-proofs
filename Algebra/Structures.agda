@@ -24,6 +24,17 @@ module Algebra.Structures where
             left : left-identity _·_ e
             right : right-identity _·_ e
 
+    open Identity public
+
     record Semigroup {A : Set} (_·_ : op₂ A) : Set where
         field
             assoc : associative _·_
+
+    open Semigroup public
+
+    record Monoid {A : Set} (_·_ : op₂ A) (e : A) : Set where
+        field
+            semigroup : Semigroup _·_
+            identity : Identity _·_ e
+
+    open Monoid public
