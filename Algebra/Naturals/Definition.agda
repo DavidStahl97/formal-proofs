@@ -1,6 +1,6 @@
-module Algebra.Naturals where
-  open import Algebra.Equality
-  open import Algebra.Structures
+module Algebra.Naturals.Definition where
+  open import Algebra.Equality public
+  open import Algebra.Structures.Monoid public
   
   data ℕ : Set where
     zero : ℕ
@@ -23,88 +23,18 @@ module Algebra.Naturals where
       Addition 
       ----------
   -}
-  _+_ : ℕ → ℕ → ℕ
-  zero + b = b
-  suc a + b = suc (a + b)
 
-  _∸_ : ℕ → ℕ → ℕ
-  a ∸ zero = a
-  zero ∸ suc b = zero
-  suc a ∸ suc b = a ∸ b
+  
+  
 
-  infixl 6 _+_ _∸_
 
-  +-assoc : ∀ (m n p : ℕ) → (m + n) + p ≡ m + (n + p)
-  +-assoc zero n p = refl
-  +-assoc (suc m) n p = cong suc (+-assoc m n p)
-
-  +-assoc' : ∀ (m n p : ℕ) → (m + n) + p ≡ m + (n + p)
-  +-assoc' zero n p = begin
-    (zero + n) + p ≡⟨⟩
-    n + p ≡⟨⟩
-    zero + (n + p) ∎
-  +-assoc' (suc m) n p = begin
-    (suc m + n) + p ≡⟨⟩
-    suc (m + n) + p ≡⟨⟩
-    suc ((m + n) + p) ≡⟨ cong suc (+-assoc' m n p) ⟩
-    suc (m + (n + p)) ∎
-
-  ℕ-+-Semigroup : Semigroup _+_
-  assoc ℕ-+-Semigroup = +-assoc
-
-  +-right-identity : ∀ (m : ℕ) → m + zero ≡ m
-  +-right-identity zero = refl
-  +-right-identity (suc n) = cong suc (+-right-identity n)
-
-  +-left-identity : ∀ (m : ℕ) → zero + m ≡ m
-  +-left-identity m = refl
-
-  ℕ-+-Monoid : Monoid _+_ 0
-  semigroup ℕ-+-Monoid = ℕ-+-Semigroup
-  left (identity ℕ-+-Monoid) = +-left-identity
-  right (identity ℕ-+-Monoid) = +-right-identity
-
-  +-suc : ∀ (m n : ℕ) → m + suc n ≡ suc (m + n)
-  +-suc zero n = refl
-  +-suc (suc m) n = cong suc (+-suc m n)
-
-  +-add1ᵣ : ∀ (m : ℕ) → m + 1 ≡ suc m
-  +-add1ᵣ zero = refl
-  +-add1ᵣ (suc m) = cong suc (+-add1ᵣ m)
-
-  +-add1ₗ : ∀ (m : ℕ) → 1 + m ≡ suc m
-  +-add1ₗ m = refl
-
-  +-comm : ∀ (m n : ℕ) → m + n ≡ n + m
-  +-comm m zero = +-right-identity m
-  +-comm m (suc n) = trans (+-suc m n) (cong suc (+-comm m n))
-
-  +-comm' : ∀ (m n : ℕ) → m + n ≡ n + m
-  +-comm' m zero = +-right-identity m
-  +-comm' m (suc n) = begin
-      (m + suc n) ≡⟨ +-suc m n ⟩
-      suc (m + n) ≡⟨ cong suc (+-comm' m n) ⟩
-      suc (n + m) ∎
-
-  +-rearrange : ∀ (m n p q : ℕ) → (m + n) + (p + q) ≡ m + (n + p) + q
-  +-rearrange m n p q = begin
-    (m + n) + (p + q) ≡⟨ assoc ℕ-+-Semigroup m n (p + q) ⟩
-    m + (n + (p + q)) ≡⟨ cong (λ a → m + a) (sym (assoc ℕ-+-Semigroup n p q)) ⟩
-    m + ((n + p) + q) ≡⟨ sym (assoc ℕ-+-Semigroup m (n + p) q) ⟩
-    (m + (n + p)) + q ∎
-
-  +-swap : ∀ (m n p : ℕ) → m + (n + p) ≡ n + (m + p)
-  +-swap m n p = begin
-    m + (n + p) ≡⟨ +-comm m (n + p) ⟩
-    (n + p) + m ≡⟨ assoc ℕ-+-Semigroup n p m ⟩
-    n + (p + m) ≡⟨ cong (λ a → n + a) (+-comm p m) ⟩
-    n + (m + p) ∎
 
   {-  
       ----------
       Multiplication 
       ----------
   -}
+  {-
   _*_ : ℕ → ℕ → ℕ
   zero * b = zero
   suc a * b = (a * b) + b
@@ -125,7 +55,7 @@ module Algebra.Naturals where
     suc m * 1 ≡⟨⟩
     m * 1 + 1 ≡⟨ cong (λ a → a + 1) (*-identity m) ⟩
     m + 1 ≡⟨ +-add1ᵣ m ⟩
-    suc m ∎ 
+    suc m ∎ -}
 
   {-
   *-distrib-+ᵣ : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p

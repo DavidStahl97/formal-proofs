@@ -1,5 +1,5 @@
-module Algebra.Bin where
-  open import Algebra.Naturals
+module Algebra.Naturals.Bin where
+  {- open import Algebra.Naturals
   
   data Bin : Set where
     ⟨⟩ : Bin
@@ -24,3 +24,4 @@ module Algebra.Bin where
   from23 = from (⟨⟩ t f t t t)
   from23WithZeros = from (⟨⟩ f f f t f t t t)
   
+-}
