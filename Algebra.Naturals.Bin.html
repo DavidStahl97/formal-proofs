@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html><head><meta charset="utf-8"><title>Algebra.Naturals.Bin</title><link rel="stylesheet" href="Agda.css"></head><body><pre class="Agda"><a id="1" class="Keyword">module</a> <a id="8" href="Algebra.Naturals.Bin.html" class="Module">Algebra.Naturals.Bin</a> <a id="29" class="Keyword">where</a>
+  <a id="37" class="Comment">{- open import Algebra.Naturals
+  
+  data Bin : Set where
+    ⟨⟩ : Bin
+    _t : Bin → Bin
+    _f : Bin → Bin
+
+  inc : Bin → Bin
+  inc ⟨⟩ = ⟨⟩ t
+  inc (b t) = (inc b) f
+  inc (b f) = b t
+
+  to : ℕ → Bin
+  to zero = ⟨⟩ f
+  to (suc n) = inc (to n)
+
+  from : Bin → ℕ
+  from ⟨⟩ = zero
+  from (b t) = 1 + 2  * (from b)
+  from (b f) = 2 * (from b)
+
+  from6 = from (⟨⟩ t t f)
+  from23 = from (⟨⟩ t f t t t)
+  from23WithZeros = from (⟨⟩ f f f t f t t t)
+  
+-}</a></pre></body></html>

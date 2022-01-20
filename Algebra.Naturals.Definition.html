@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html><head><meta charset="utf-8"><title>Algebra.Naturals.Definition</title><link rel="stylesheet" href="Agda.css"></head><body><pre class="Agda"><a id="1" class="Keyword">module</a> <a id="8" href="Algebra.Naturals.Definition.html" class="Module">Algebra.Naturals.Definition</a> <a id="36" class="Keyword">where</a>
+  <a id="44" class="Keyword">open</a> <a id="49" class="Keyword">import</a> <a id="56" href="Algebra.Equality.html" class="Module">Algebra.Equality</a> <a id="73" class="Keyword">public</a>
+  <a id="82" class="Keyword">open</a> <a id="87" class="Keyword">import</a> <a id="94" href="Algebra.Structures.Monoid.html" class="Module">Algebra.Structures.Monoid</a> <a id="120" class="Keyword">public</a>
+  
+  <a id="132" class="Keyword">data</a> <a id="ℕ"></a><a id="137" href="Algebra.Naturals.Definition.html#137" class="Datatype">ℕ</a> <a id="139" class="Symbol">:</a> <a id="141" class="PrimitiveType">Set</a> <a id="145" class="Keyword">where</a>
+    <a id="ℕ.zero"></a><a id="155" href="Algebra.Naturals.Definition.html#155" class="InductiveConstructor">zero</a> <a id="160" class="Symbol">:</a> <a id="162" href="Algebra.Naturals.Definition.html#137" class="Datatype">ℕ</a>
+    <a id="ℕ.suc"></a><a id="168" href="Algebra.Naturals.Definition.html#168" class="InductiveConstructor">suc</a> <a id="172" class="Symbol">:</a> <a id="174" href="Algebra.Naturals.Definition.html#137" class="Datatype">ℕ</a> <a id="176" class="Symbol">→</a> <a id="178" href="Algebra.Naturals.Definition.html#137" class="Datatype">ℕ</a>
+
+  <a id="one"></a><a id="183" href="Algebra.Naturals.Definition.html#183" class="Function">one</a> <a id="187" class="Symbol">=</a> <a id="189" href="Algebra.Naturals.Definition.html#168" class="InductiveConstructor">suc</a> <a id="193" href="Algebra.Naturals.Definition.html#155" class="InductiveConstructor">zero</a>
+  <a id="two"></a><a id="200" href="Algebra.Naturals.Definition.html#200" class="Function">two</a> <a id="204" class="Symbol">=</a> <a id="206" href="Algebra.Naturals.Definition.html#168" class="InductiveConstructor">suc</a> <a id="210" href="Algebra.Naturals.Definition.html#183" class="Function">one</a>
+  <a id="three"></a><a id="216" href="Algebra.Naturals.Definition.html#216" class="Function">three</a> <a id="222" class="Symbol">=</a> <a id="224" href="Algebra.Naturals.Definition.html#168" class="InductiveConstructor">suc</a> <a id="228" href="Algebra.Naturals.Definition.html#200" class="Function">two</a>
+  <a id="four"></a><a id="234" href="Algebra.Naturals.Definition.html#234" class="Function">four</a> <a id="239" class="Symbol">=</a> <a id="241" href="Algebra.Naturals.Definition.html#168" class="InductiveConstructor">suc</a> <a id="245" href="Algebra.Naturals.Definition.html#216" class="Function">three</a>
+  <a id="five"></a><a id="253" href="Algebra.Naturals.Definition.html#253" class="Function">five</a> <a id="258" class="Symbol">=</a> <a id="260" href="Algebra.Naturals.Definition.html#168" class="InductiveConstructor">suc</a> <a id="264" href="Algebra.Naturals.Definition.html#234" class="Function">four</a>
+  <a id="six"></a><a id="271" href="Algebra.Naturals.Definition.html#271" class="Function">six</a> <a id="275" class="Symbol">=</a> <a id="277" href="Algebra.Naturals.Definition.html#168" class="InductiveConstructor">suc</a> <a id="281" href="Algebra.Naturals.Definition.html#253" class="Function">five</a>
+  <a id="seven"></a><a id="288" href="Algebra.Naturals.Definition.html#288" class="Function">seven</a> <a id="294" class="Symbol">=</a> <a id="296" href="Algebra.Naturals.Definition.html#168" class="InductiveConstructor">suc</a> <a id="300" href="Algebra.Naturals.Definition.html#271" class="Function">six</a>
+  <a id="eight"></a><a id="306" href="Algebra.Naturals.Definition.html#306" class="Function">eight</a> <a id="312" class="Symbol">=</a> <a id="314" href="Algebra.Naturals.Definition.html#168" class="InductiveConstructor">suc</a> <a id="318" href="Algebra.Naturals.Definition.html#288" class="Function">seven</a>
+  <a id="nine"></a><a id="326" href="Algebra.Naturals.Definition.html#326" class="Function">nine</a> <a id="331" class="Symbol">=</a> <a id="333" href="Algebra.Naturals.Definition.html#168" class="InductiveConstructor">suc</a> <a id="337" href="Algebra.Naturals.Definition.html#306" class="Function">eight</a>
+
+  <a id="346" class="Symbol">{-#</a> <a id="350" class="Keyword">BUILTIN</a> <a id="358" class="Pragma">NATURAL</a>  <a id="367" href="Algebra.Naturals.Definition.html#137" class="Datatype">ℕ</a> <a id="369" class="Symbol">#-}</a>
+
+  <a id="376" class="Comment">{-  
+      ----------
+      Addition 
+      ----------
+  -}</a>
+
+  
+  
+
+
+
+  <a id="448" class="Comment">{-  
+      ----------
+      Multiplication 
+      ----------
+  -}</a>
+  <a id="516" class="Comment">{-
+  _*_ : ℕ → ℕ → ℕ
+  zero * b = zero
+  suc a * b = (a * b) + b
+
+  infixl 7 _*_
+
+  *-zero : ∀ (m : ℕ) → m * zero ≡ zero
+  *-zero zero = refl
+  *-zero (suc m) = begin
+    suc m * zero ≡⟨⟩
+    m * zero + zero ≡⟨ +-right-identity (m * zero) ⟩
+    m * zero ≡⟨ *-zero m ⟩
+    zero ∎
+
+  *-identity : ∀ (m : ℕ) → m * 1 ≡ m
+  *-identity zero = refl
+  *-identity (suc m) = begin
+    suc m * 1 ≡⟨⟩
+    m * 1 + 1 ≡⟨ cong (λ a → a + 1) (*-identity m) ⟩
+    m + 1 ≡⟨ +-add1ᵣ m ⟩
+    suc m ∎ -}</a>
+
+  <a id="1001" class="Comment">{-
+  *-distrib-+ᵣ : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
+  *-distrib-+ᵣ zero n p = refl
+  *-distrib-+ᵣ (suc m) n p = begin
+    (suc m + n) * p ≡⟨⟩
+    suc (m + n) * p ≡⟨⟩
+    (m + n) * p + p ≡⟨ cong (λ a → a + p) (*-distrib-+ᵣ m n p) ⟩
+    m * p + n * p + p ≡⟨ {!   !} ⟩
+
+    suc m * p + n * p ∎
+
+  *-distrib-+ₗ : ∀ (m n p : ℕ) → m * (n + p) ≡ m * n + m * p
+  *-distrib-+ₗ zero n p = refl
+  *-distrib-+ₗ (suc m) n p = begin
+    suc m * (n + p) ≡⟨⟩
+    m * (n + p) + (n + p) ≡⟨ cong (λ a → a + (n + p)) (*-distrib-+ₗ m n p) ⟩
+    m * n + m * p + (n + p) ≡⟨ {!   !} ⟩
+    suc m * n + suc m * p ∎
+
+-}</a>
+<a id="1606" class="Comment">{-
+  *-distrib-+ᵣ : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
+  *-distrib-+ᵣ zero n p = refl
+  *-distrib-+ᵣ (suc m) n p = begin
+    (suc m + n) * p           ≡⟨⟩
+    suc (m + n) * p           ≡⟨⟩
+    (m + n) * p + p          ≡⟨ cong (λ a → a + p) (*-distrib-+ᵣ m n p) ⟩
+    (m * p + n * p) + p      ≡⟨ +-comm (m * p + n * p) p ⟩
+    p + (m * p + n * p)   ≡⟨ sym (+-assoc (1 * p) (m * p) (n * p)) ⟩
+    (1 * p + m * p) + n * p   ≡⟨ cong (λ a → a + n * p) (+-comm (1 * p) (m * p)) ⟩
+    (m * p + 1 * p) + n * p   ≡⟨ sym (cong (λ a → a + n * p) (*-distrib-+ᵣ m 1 p)) ⟩
+    (m + 1) * p + n * p       ≡⟨ cong (λ a → a * p + n * p) (+-add1ᵣ m) ⟩ 
+    (suc m) * p + n * p ∎
+-}</a>
+  <a id="2280" class="Comment">{-
+  *-distrib-+ᵣ-suc : ∀ (m p : ℕ) → suc m * p ≡ p + m * p
+  *-distrib-+ᵣ-suc m p = begin
+    suc m * p ≡⟨⟩
+    (1 + m) * p ≡⟨ *-distrib-+ᵣ 1 m p ⟩
+    1 * p + m * p ≡⟨ {!   !} ⟩
+    p + m * p ∎   
+
+  *-distrib-+ₗ : ∀ (m n p : ℕ) → p * (m + n) ≡ p * m + p * n
+  *-distrib-+ₗ m n zero = refl
+  *-distrib-+ₗ m n (suc p) = begin
+    suc p * (m + n) ≡⟨⟩
+    (m + n) + p * (m + n) ≡⟨ cong (λ a → m + n + a) (*-distrib-+ₗ m n p) ⟩
+    (m + n) + (p * m + p * n) ≡⟨ +-assoc m n (p * m + p * n) ⟩
+    m + (n + (p * m + p * n)) ≡⟨ cong (λ a → m + a) (+-comm n (p * m + p * n)) ⟩
+    m + (p * m + p * n + n) ≡⟨ cong (λ a → m + a) (+-assoc (p * m) (p * n) n) ⟩
+    m + (p * m + (p * n + n)) ≡⟨ sym (+-assoc m (p * m) (p * n + n)) ⟩
+    (m + p * m) + (p * n + n) ≡⟨ cong (λ a → (m + p * m) + a) (+-comm (p * n) n) ⟩
+    (m + p * m) + (n + p * n) ≡⟨ {!   !} ⟩    
+    suc p * m + suc p * n ∎
+
+  *-assoc : ∀ (m n p : ℕ) → (m * n) * p ≡ m * (n * p)
+  *-assoc zero n p = refl
+  *-assoc (suc m) n p = begin
+    (suc m * n) * p           ≡⟨⟩
+    (n + m * n) * p           ≡⟨ *-distrib-+ᵣ n (m * n) p ⟩
+    n * p + m * n * p         ≡⟨ sym (cong (λ a → a + m * n * p) (*-identityₗ (n * p))) ⟩
+    1 * (n * p) + m * n * p   ≡⟨ cong (λ a → 1 * (n * p) + a) (*-assoc m n p) ⟩
+    1 * (n * p) + m * (n * p) ≡⟨ sym (*-distrib-+ᵣ 1 m (n * p)) ⟩
+    (1 + m) * (n * p)         ≡⟨ cong (λ a → a * (n * p)) (+-add1ₗ m) ⟩
+    suc m * (n * p) ∎
+
+  *-comm : ∀ (m n) → m * n ≡ n * m
+  *-comm zero n = begin
+    zero * n ≡⟨⟩
+    zero ≡⟨ sym (*-zero n) ⟩
+    n * zero ∎
+  *-comm (suc m) n = begin
+    suc m * n ≡⟨⟩
+    n + m * n ≡⟨ {!   !} ⟩    
+    n * suc m ∎
+
+  {-  
+      ----------
+      Exponentiation 
+      ----------
+  -}
+  _^_ : ℕ → ℕ → ℕ
+  a ^ zero = 1
+  a ^ suc b = a * (a ^ b)
+
+  infixl 8 _^_ -}</a>
+
+  
+ </pre></body></html>
