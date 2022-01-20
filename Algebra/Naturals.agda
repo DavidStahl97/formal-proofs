@@ -61,16 +61,7 @@ module Algebra.Naturals where
 
   +-assoc : ∀ (m n p : ℕ) → (m + n) + p ≡ m + (n + p)
   +-assoc zero n p = refl
-  +-assoc (suc m) n p = cong suc (+-assoc m n p)
-  
-  +-swap₁₂ : ∀ (m n p : ℕ) → m + n + p ≡ n + m + p
-  +-swap₁₂ m n p = begin
-    m + n + p ≡⟨ cong (λ a → a + p) (+-comm m n) ⟩
-    n + m + p ∎
-
-  +-swap₁₃ : ∀ (m n p : ℕ) → m + n + p ≡ p + n + m
-  +-swap₁₃ m n p = {! begin
-    !}
+  +-assoc (suc m) n p = cong suc (+-assoc m n p)  
 
   +-assoc' : ∀ (m n p : ℕ) → (m + n) + p ≡ m + (n + p)
   +-assoc' zero n p = begin
@@ -124,6 +115,7 @@ module Algebra.Naturals where
     m + 1 ≡⟨ +-add1ᵣ m ⟩
     suc m ∎ 
 
+  {-
   *-distrib-+ᵣ : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
   *-distrib-+ᵣ zero n p = refl
   *-distrib-+ᵣ (suc m) n p = begin
@@ -142,6 +134,7 @@ module Algebra.Naturals where
     m * n + m * p + (n + p) ≡⟨ {!   !} ⟩
     suc m * n + suc m * p ∎
 
+-}
 {-
   *-distrib-+ᵣ : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
   *-distrib-+ᵣ zero n p = refl
