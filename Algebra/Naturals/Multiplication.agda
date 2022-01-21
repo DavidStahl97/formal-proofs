@@ -79,3 +79,14 @@ module Algebra.Naturals.Multiplication where
   Semigroup.Carrier ℕ-*-Semigroup = ℕ
   Semigroup._·_ ℕ-*-Semigroup = _*_
   Semigroup.isSemigroup ℕ-*-Semigroup = ℕ-*-IsSemigroup
+
+  {- Monoid -}
+  ℕ-*-IsMonoid : IsMonoid _*_ 1
+  IsMonoid.semigroup ℕ-*-IsMonoid = ℕ-*-IsSemigroup
+  IsMonoid.identity ℕ-*-IsMonoid = ℕ-*-HasIdentity
+
+  ℕ-*-Monoid : Monoid
+  Monoid.Carrier ℕ-*-Monoid = ℕ
+  Monoid._·_ ℕ-*-Monoid = _*_
+  Monoid.e ℕ-*-Monoid = 1
+  Monoid.isMonoid ℕ-*-Monoid = ℕ-*-IsMonoid
