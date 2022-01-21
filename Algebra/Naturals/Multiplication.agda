@@ -90,3 +90,29 @@ module Algebra.Naturals.Multiplication where
   Monoid._·_ ℕ-*-Monoid = _*_
   Monoid.e ℕ-*-Monoid = 1
   Monoid.isMonoid ℕ-*-Monoid = ℕ-*-IsMonoid
+
+  {- Commutative Monoid -}
+  ℕ-*-comm : commutative _*_
+  ℕ-*-comm zero n = begin
+    zero * n ≡⟨⟩
+    zero ≡⟨ sym (*-zero n) ⟩
+    n * zero ∎
+  ℕ-*-comm (suc m) n = begin
+    suc m * n ≡⟨⟩
+    m * n + n ≡⟨ +-comm (m * n) n ⟩
+    n + m * n ≡⟨ sym (cong (λ a → a + m * n) (ℕ-*-right-identity n)) ⟩
+    n * 1 + m * n ≡⟨ cong (λ a → n * 1 + a) (ℕ-*-comm m n) ⟩
+    n * 1 + n * m ≡⟨ sym (*-distrib-+ₗ n 1 m) ⟩
+    n * (1 + m) ≡⟨⟩
+    n * suc m ∎
+
+  ℕ-*-IsCommutativeMonoid : IsCommutativeMonoid _*_ 1
+  IsCommutativeMonoid.isSemigroup ℕ-*-IsCommutativeMonoid = ℕ-*-IsSemigroup
+  IsCommutativeMonoid.leftIdentity ℕ-*-IsCommutativeMonoid = ℕ-*-left-identity
+  IsCommutativeMonoid.comm ℕ-*-IsCommutativeMonoid = ℕ-*-comm
+
+  ℕ-*-CommutativeMonoid : CommutativeMonoid
+  CommutativeMonoid.Carrier ℕ-*-CommutativeMonoid = ℕ
+  CommutativeMonoid._·_ ℕ-*-CommutativeMonoid = _*_
+  CommutativeMonoid.e ℕ-*-CommutativeMonoid = 1
+  CommutativeMonoid.isCommutativeMonoid ℕ-*-CommutativeMonoid = ℕ-*-IsCommutativeMonoid
