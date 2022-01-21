@@ -44,14 +44,16 @@ module Algebra.Naturals.Addition where
   right ℕ-+-HasIdentity = +-right-identity
 
   {- Monoid -}
+  ℕ-+-IsMonoid : IsMonoid _+_ 0
+  semigroup ℕ-+-IsMonoid = ℕ-+-IsSemigroup
+  identity ℕ-+-IsMonoid = ℕ-+-HasIdentity
+
   ℕ-+-Monoid : Monoid
   Carrier ℕ-+-Monoid = ℕ
   _·_ ℕ-+-Monoid = _+_
   e ℕ-+-Monoid = 0
-  semigroup (isMonoid ℕ-+-Monoid) = ℕ-+-IsSemigroup
-  identity (isMonoid ℕ-+-Monoid) = ℕ-+-HasIdentity
+  isMonoid ℕ-+-Monoid = ℕ-+-IsMonoid
 
-{-
   {- Commutative Monoid -}
   +-suc : ∀ (m n : ℕ) → m + suc n ≡ suc (m + n)
   +-suc zero n = refl
@@ -68,9 +70,9 @@ module Algebra.Naturals.Addition where
       suc (m + n) ≡⟨ cong suc (+-comm' m n) ⟩
       suc (n + m) ∎
 
-  ℕ-+-CommutativeMonoid : CommutativeMonoid _+_ 0
-  monoid ℕ-+-CommutativeMonoid = ℕ-+-Monoid
-  comm ℕ-+-CommutativeMonoid = +-comm
+  ℕ-+-IsCommutativeMonoid : IsCommutativeMonoid _+_ 0
+  monoid ℕ-+-IsCommutativeMonoid = ℕ-+-IsMonoid
+  comm ℕ-+-IsCommutativeMonoid = +-comm
 
   {- Additional Theorems -}
   +-add1ᵣ : ∀ (m : ℕ) → m + 1 ≡ suc m
@@ -79,4 +81,3 @@ module Algebra.Naturals.Addition where
 
   +-add1ₗ : ∀ (m : ℕ) → 1 + m ≡ suc m
   +-add1ₗ m = refl 
-  -}
