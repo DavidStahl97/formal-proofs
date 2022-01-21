@@ -5,12 +5,8 @@ module Algebra.Structures.Semigroup where
         field
             assoc : associative _·_
 
-    open IsSemigroup public
-
     record Semigroup : Set₁ where
         field
             Carrier : Set
             _·_ : op₂ Carrier
             isSemigroup : IsSemigroup _·_
-
-    open Semigroup public

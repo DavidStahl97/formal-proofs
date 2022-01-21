@@ -24,12 +24,12 @@ module Algebra.Naturals.Addition where
     suc (m + (n + p)) ∎
    
   ℕ-+-IsSemigroup : IsSemigroup _+_
-  assoc ℕ-+-IsSemigroup = +-assoc
+  IsSemigroup.assoc ℕ-+-IsSemigroup = +-assoc
 
   ℕ-+-Semigroup : Semigroup
-  Carrier ℕ-+-Semigroup = ℕ
-  _·_ ℕ-+-Semigroup = _+_
-  isSemigroup ℕ-+-Semigroup = ℕ-+-IsSemigroup
+  Semigroup.Carrier ℕ-+-Semigroup = ℕ
+  Semigroup._·_ ℕ-+-Semigroup = _+_
+  Semigroup.isSemigroup ℕ-+-Semigroup = ℕ-+-IsSemigroup
 
   {- Identity -}
   +-right-identity : right-identity _+_ 0
@@ -40,19 +40,19 @@ module Algebra.Naturals.Addition where
   +-left-identity m = refl
 
   ℕ-+-HasIdentity : Identity _+_ 0
-  left ℕ-+-HasIdentity = +-left-identity
-  right ℕ-+-HasIdentity = +-right-identity
+  Identity.left ℕ-+-HasIdentity = +-left-identity
+  Identity.right ℕ-+-HasIdentity = +-right-identity
 
   {- Monoid -}
   ℕ-+-IsMonoid : IsMonoid _+_ 0
-  semigroup ℕ-+-IsMonoid = ℕ-+-IsSemigroup
-  identity ℕ-+-IsMonoid = ℕ-+-HasIdentity
+  IsMonoid.semigroup ℕ-+-IsMonoid = ℕ-+-IsSemigroup
+  IsMonoid.identity ℕ-+-IsMonoid = ℕ-+-HasIdentity
 
   ℕ-+-Monoid : Monoid
-  Carrier ℕ-+-Monoid = ℕ
-  _·_ ℕ-+-Monoid = _+_
-  e ℕ-+-Monoid = 0
-  isMonoid ℕ-+-Monoid = ℕ-+-IsMonoid
+  Monoid.Carrier ℕ-+-Monoid = ℕ
+  Monoid._·_ ℕ-+-Monoid = _+_
+  Monoid.e ℕ-+-Monoid = 0
+  Monoid.isMonoid ℕ-+-Monoid = ℕ-+-IsMonoid
 
   {- Commutative Monoid -}
   +-suc : ∀ (m n : ℕ) → m + suc n ≡ suc (m + n)
@@ -71,8 +71,9 @@ module Algebra.Naturals.Addition where
       suc (n + m) ∎
 
   ℕ-+-IsCommutativeMonoid : IsCommutativeMonoid _+_ 0
-  monoid ℕ-+-IsCommutativeMonoid = ℕ-+-IsMonoid
-  comm ℕ-+-IsCommutativeMonoid = +-comm
+  IsCommutativeMonoid.isSemigroup ℕ-+-IsCommutativeMonoid = ℕ-+-IsSemigroup
+  IsCommutativeMonoid.leftIdentity ℕ-+-IsCommutativeMonoid = +-left-identity
+  IsCommutativeMonoid.comm ℕ-+-IsCommutativeMonoid = +-comm
 
   {- Additional Theorems -}
   +-add1ᵣ : ∀ (m : ℕ) → m + 1 ≡ suc m

@@ -28,8 +28,8 @@ module Algebra.Naturals.Multiplication where
   ℕ-*-left-identity m = refl
 
   ℕ-*-HasIdentity : Identity _*_ 1
-  left ℕ-*-HasIdentity = ℕ-*-left-identity
-  right ℕ-*-HasIdentity = ℕ-*-right-identity
+  Identity.left ℕ-*-HasIdentity = ℕ-*-left-identity
+  Identity.right ℕ-*-HasIdentity = ℕ-*-right-identity
 
   {- Distributivity -}
   *-distrib-+ᵣ : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
@@ -38,7 +38,7 @@ module Algebra.Naturals.Multiplication where
     (suc m + n) * p ≡⟨⟩
     suc (m + n) * p ≡⟨⟩
     (m + n) * p + p ≡⟨ cong (λ a → a + p) (*-distrib-+ᵣ m n p) ⟩
-    m * p + n * p + p ≡⟨ swap021 ℕ-+-IsCommutativeMonoid (m * p) (n * p) p ⟩
+    m * p + n * p + p ≡⟨ IsCommutativeMonoid.swap021 ℕ-+-IsCommutativeMonoid (m * p) (n * p) p ⟩
     m * p + p + n * p ≡⟨ cong (λ a → m * p + a + n * p) (ℕ-*-left-identity p) ⟩
     m * p + 1 * p + n * p ≡⟨ cong (λ a → a + n * p) (sym (*-distrib-+ᵣ m 1 p)) ⟩
     (m + 1) * p + n * p ≡⟨ cong (λ a → a * p + n * p) (+-add1ᵣ m) ⟩
@@ -49,12 +49,12 @@ module Algebra.Naturals.Multiplication where
   *-distrib-+ₗ (suc m) n p = begin
     suc m * (n + p) ≡⟨⟩
     m * (n + p) + (n + p) ≡⟨ cong (λ a → a + (n + p)) (*-distrib-+ₗ m n p) ⟩
-    m * n + m * p + (n + p) ≡⟨ swap021 ℕ-+-IsCommutativeMonoid (m * n) (m * p) (n + p) ⟩
-    m * n + (n + p) + m * p ≡⟨ cong (λ a → a + m * p) (sym (assoc ℕ-+-IsSemigroup (m * n) n p)) ⟩
-    m * n + n + p + m * p ≡⟨ swap021 ℕ-+-IsCommutativeMonoid (m * n + n) p (m * p) ⟩
+    m * n + m * p + (n + p) ≡⟨ IsCommutativeMonoid.swap021 ℕ-+-IsCommutativeMonoid (m * n) (m * p) (n + p) ⟩
+    m * n + (n + p) + m * p ≡⟨ cong (λ a → a + m * p) (sym (IsSemigroup.assoc ℕ-+-IsSemigroup (m * n) n p)) ⟩
+    m * n + n + p + m * p ≡⟨ IsCommutativeMonoid.swap021 ℕ-+-IsCommutativeMonoid (m * n + n) p (m * p) ⟩
     m * n + n + m * p + p ≡⟨⟩
     m * n + 1 * n + m * p + 1 * p ≡⟨ cong (λ a → a + m * p + 1 * p) (sym (*-distrib-+ᵣ m 1 n)) ⟩
-    (m + 1) * n + m * p + 1 * p ≡⟨ assoc ℕ-+-IsSemigroup ((m + 1) * n) (m * p) (1 * p) ⟩
+    (m + 1) * n + m * p + 1 * p ≡⟨ IsSemigroup.assoc ℕ-+-IsSemigroup ((m + 1) * n) (m * p) (1 * p) ⟩
     (m + 1) * n + (m * p + 1 * p) ≡⟨ cong (λ a → (m + 1) * n + a) (sym (*-distrib-+ᵣ m 1 p)) ⟩
     (m + 1) * n + (m + 1) * p ≡⟨ cong (λ a → a * n + (m + 1) * p) (+-add1ᵣ m) ⟩
     suc m * n + (m + 1) * p ≡⟨ cong (λ a → suc m * n + a * p) (+-add1ᵣ m) ⟩
@@ -73,9 +73,9 @@ module Algebra.Naturals.Multiplication where
     suc m * (n * p) ∎
 
   ℕ-*-IsSemigroup : IsSemigroup _*_
-  assoc ℕ-*-IsSemigroup = *-assoc
+  IsSemigroup.assoc ℕ-*-IsSemigroup = *-assoc
 
   ℕ-*-Semigroup : Semigroup
-  Carrier ℕ-*-Semigroup = ℕ
-  _·_ ℕ-*-Semigroup = _*_
-  isSemigroup ℕ-*-Semigroup = ℕ-*-IsSemigroup
+  Semigroup.Carrier ℕ-*-Semigroup = ℕ
+  Semigroup._·_ ℕ-*-Semigroup = _*_
+  Semigroup.isSemigroup ℕ-*-Semigroup = ℕ-*-IsSemigroup
