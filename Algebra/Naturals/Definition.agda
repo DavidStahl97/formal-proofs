@@ -18,79 +18,8 @@ module Algebra.Naturals.Definition where
 
   {-# BUILTIN NATURAL  ℕ #-}
 
-  {-  
-      ----------
-      Addition 
-      ----------
-  -}
-
-  
-  
 
 
-
-  {-  
-      ----------
-      Multiplication 
-      ----------
-  -}
-  {-
-  _*_ : ℕ → ℕ → ℕ
-  zero * b = zero
-  suc a * b = (a * b) + b
-
-  infixl 7 _*_
-
-  *-zero : ∀ (m : ℕ) → m * zero ≡ zero
-  *-zero zero = refl
-  *-zero (suc m) = begin
-    suc m * zero ≡⟨⟩
-    m * zero + zero ≡⟨ +-right-identity (m * zero) ⟩
-    m * zero ≡⟨ *-zero m ⟩
-    zero ∎
-
-  *-identity : ∀ (m : ℕ) → m * 1 ≡ m
-  *-identity zero = refl
-  *-identity (suc m) = begin
-    suc m * 1 ≡⟨⟩
-    m * 1 + 1 ≡⟨ cong (λ a → a + 1) (*-identity m) ⟩
-    m + 1 ≡⟨ +-add1ᵣ m ⟩
-    suc m ∎ -}
-
-  {-
-  *-distrib-+ᵣ : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
-  *-distrib-+ᵣ zero n p = refl
-  *-distrib-+ᵣ (suc m) n p = begin
-    (suc m + n) * p ≡⟨⟩
-    suc (m + n) * p ≡⟨⟩
-    (m + n) * p + p ≡⟨ cong (λ a → a + p) (*-distrib-+ᵣ m n p) ⟩
-    m * p + n * p + p ≡⟨ {!   !} ⟩
-
-    suc m * p + n * p ∎
-
-  *-distrib-+ₗ : ∀ (m n p : ℕ) → m * (n + p) ≡ m * n + m * p
-  *-distrib-+ₗ zero n p = refl
-  *-distrib-+ₗ (suc m) n p = begin
-    suc m * (n + p) ≡⟨⟩
-    m * (n + p) + (n + p) ≡⟨ cong (λ a → a + (n + p)) (*-distrib-+ₗ m n p) ⟩
-    m * n + m * p + (n + p) ≡⟨ {!   !} ⟩
-    suc m * n + suc m * p ∎
-
--}
-{-
-  *-distrib-+ᵣ : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
-  *-distrib-+ᵣ zero n p = refl
-  *-distrib-+ᵣ (suc m) n p = begin
-    (suc m + n) * p           ≡⟨⟩
-    suc (m + n) * p           ≡⟨⟩
-    (m + n) * p + p          ≡⟨ cong (λ a → a + p) (*-distrib-+ᵣ m n p) ⟩
-    (m * p + n * p) + p      ≡⟨ +-comm (m * p + n * p) p ⟩
-    p + (m * p + n * p)   ≡⟨ sym (+-assoc (1 * p) (m * p) (n * p)) ⟩
-    (1 * p + m * p) + n * p   ≡⟨ cong (λ a → a + n * p) (+-comm (1 * p) (m * p)) ⟩
-    (m * p + 1 * p) + n * p   ≡⟨ sym (cong (λ a → a + n * p) (*-distrib-+ᵣ m 1 p)) ⟩
-    (m + 1) * p + n * p       ≡⟨ cong (λ a → a * p + n * p) (+-add1ᵣ m) ⟩ 
-    (suc m) * p + n * p ∎
--}
   {-
   *-distrib-+ᵣ-suc : ∀ (m p : ℕ) → suc m * p ≡ p + m * p
   *-distrib-+ᵣ-suc m p = begin
