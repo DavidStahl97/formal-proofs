@@ -8,16 +8,34 @@ module Algebra.Structures.Monoid where
 
     open Identity public
 
-    record Monoid {A : Set} (_·_ : op₂ A) (e : A) : Set where
+    record IsMonoid {A : Set} (_·_ : op₂ A) (e : A) : Set where
         field
-            semigroup : Semigroup _·_
+            semigroup : IsSemigroup _·_
             identity : Identity _·_ e
 
-    open Monoid public
+    open IsMonoid public
     
-    record CommutativeMonoid {A : Set} (_·_ : op₂ A) (e : A) : Set where
+    record Monoid : Set₁ where
         field
-            monoid : Monoid _·_ e
-            comm : commutative _·_
+            Carrier : Set
+            _·_ : op₂ Carrier
+            e : Carrier
+            isMonoid : IsMonoid _·_ e             
 
+    open Monoid public
+
+    record IsCommutativeMonoid {A : Set} (_·_ : op₂ A) (e : A) : Set where
+        field
+            monoid : IsMonoid _·_ e
+            comm : commutative _·_        
+
+    open IsCommutativeMonoid public
+
+    record CommutativeMonoid : Set₁ where
+        field
+            Carrier : Set
+            _·_ : op₂ Carrier
+            e : Carrier
+            isCommutativeMonoid : IsCommutativeMonoid _·_ e
+    
     open CommutativeMonoid public

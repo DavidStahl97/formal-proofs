@@ -23,10 +23,15 @@ module Algebra.Naturals.Addition where
     suc (m + (n + p)) ∎
 
   {- Semigroup -} 
-  ℕ-+-Semigroup : Semigroup _+_
-  assoc ℕ-+-Semigroup = +-assoc
+  ℕ-+-IsSemigroup : IsSemigroup _+_
+  assoc ℕ-+-IsSemigroup = +-assoc
 
-  {- Monoid -}
+  ℕ-+-Semigroup : Semigroup
+  Carrier ℕ-+-Semigroup = ℕ
+  _·_ ℕ-+-Semigroup = _+_
+  isSemigroup ℕ-+-Semigroup = ℕ-+-IsSemigroup
+
+  {- Identity -}
   +-right-identity : ∀ (m : ℕ) → m + zero ≡ m
   +-right-identity zero = refl
   +-right-identity (suc n) = cong suc (+-right-identity n)
@@ -34,11 +39,19 @@ module Algebra.Naturals.Addition where
   +-left-identity : ∀ (m : ℕ) → zero + m ≡ m
   +-left-identity m = refl
 
-  ℕ-+-Monoid : Monoid _+_ 0
-  semigroup ℕ-+-Monoid = ℕ-+-Semigroup
-  left (identity ℕ-+-Monoid) = +-left-identity
-  right (identity ℕ-+-Monoid) = +-right-identity
+  ℕ-+-HasIdentity : Identity _+_ 0
+  left ℕ-+-HasIdentity = +-left-identity
+  right ℕ-+-HasIdentity = +-right-identity
 
+  {- Monoid -}
+  ℕ-+-Monoid : Monoid
+  Carrier ℕ-+-Monoid = ℕ
+  _·_ ℕ-+-Monoid = _+_
+  e ℕ-+-Monoid = 0
+  semigroup (isMonoid ℕ-+-Monoid) = ℕ-+-IsSemigroup
+  identity (isMonoid ℕ-+-Monoid) = ℕ-+-HasIdentity
+
+{-
   {- Commutative Monoid -}
   +-suc : ∀ (m n : ℕ) → m + suc n ≡ suc (m + n)
   +-suc zero n = refl
@@ -65,4 +78,5 @@ module Algebra.Naturals.Addition where
   +-add1ᵣ (suc m) = cong suc (+-add1ᵣ m)
 
   +-add1ₗ : ∀ (m : ℕ) → 1 + m ≡ suc m
-  +-add1ₗ m = refl
+  +-add1ₗ m = refl 
+  -}
