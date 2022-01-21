@@ -7,11 +7,12 @@ module Algebra.Naturals.Addition where
 
   infixl 6 _+_
 
-  +-assoc : ∀ (m n p : ℕ) → (m + n) + p ≡ m + (n + p)
+  {- Semigroup -}
+  +-assoc : associative _+_
   +-assoc zero n p = refl
   +-assoc (suc m) n p = cong suc (+-assoc m n p)
 
-  +-assoc' : ∀ (m n p : ℕ) → (m + n) + p ≡ m + (n + p)
+  +-assoc' : associative _+_
   +-assoc' zero n p = begin
     (zero + n) + p ≡⟨⟩
     n + p ≡⟨⟩
@@ -21,8 +22,7 @@ module Algebra.Naturals.Addition where
     suc (m + n) + p ≡⟨⟩
     suc ((m + n) + p) ≡⟨ cong suc (+-assoc' m n p) ⟩
     suc (m + (n + p)) ∎
-
-  {- Semigroup -} 
+   
   ℕ-+-IsSemigroup : IsSemigroup _+_
   assoc ℕ-+-IsSemigroup = +-assoc
 
@@ -32,11 +32,11 @@ module Algebra.Naturals.Addition where
   isSemigroup ℕ-+-Semigroup = ℕ-+-IsSemigroup
 
   {- Identity -}
-  +-right-identity : ∀ (m : ℕ) → m + zero ≡ m
+  +-right-identity : right-identity _+_ 0
   +-right-identity zero = refl
   +-right-identity (suc n) = cong suc (+-right-identity n)
 
-  +-left-identity : ∀ (m : ℕ) → zero + m ≡ m
+  +-left-identity : left-identity _+_ 0
   +-left-identity m = refl
 
   ℕ-+-HasIdentity : Identity _+_ 0
@@ -59,11 +59,11 @@ module Algebra.Naturals.Addition where
   +-suc zero n = refl
   +-suc (suc m) n = cong suc (+-suc m n)
 
-  +-comm : ∀ (m n : ℕ) → m + n ≡ n + m
+  +-comm : commutative _+_
   +-comm m zero = +-right-identity m
   +-comm m (suc n) = trans (+-suc m n) (cong suc (+-comm m n))
 
-  +-comm' : ∀ (m n : ℕ) → m + n ≡ n + m
+  +-comm' : commutative _+_
   +-comm' m zero = +-right-identity m
   +-comm' m (suc n) = begin
       (m + suc n) ≡⟨ +-suc m n ⟩

@@ -58,4 +58,24 @@ module Algebra.Naturals.Multiplication where
     (m + 1) * n + (m * p + 1 * p) ≡⟨ cong (λ a → (m + 1) * n + a) (sym (*-distrib-+ᵣ m 1 p)) ⟩
     (m + 1) * n + (m + 1) * p ≡⟨ cong (λ a → a * n + (m + 1) * p) (+-add1ᵣ m) ⟩
     suc m * n + (m + 1) * p ≡⟨ cong (λ a → suc m * n + a * p) (+-add1ᵣ m) ⟩
-    suc m * n + suc m * p ∎ 
+    suc m * n + suc m * p ∎
+
+  {- Semigroup -}
+  *-assoc : associative _*_
+  *-assoc zero n p = refl
+  *-assoc (suc m) n p = begin
+    (suc m * n) * p ≡⟨⟩
+    (m * n + n) * p ≡⟨ *-distrib-+ᵣ (m * n) n p ⟩
+    m * n * p + n * p ≡⟨⟩
+    m * n * p + 1 * (n * p) ≡⟨ cong (λ a → a + 1 * (n * p)) (*-assoc m n p) ⟩
+    m * (n * p) + 1 * (n * p) ≡⟨ sym (*-distrib-+ᵣ m 1 (n * p)) ⟩
+    (m + 1) * (n * p) ≡⟨ cong (λ a → a * (n * p)) (+-add1ᵣ m) ⟩
+    suc m * (n * p) ∎
+
+  ℕ-*-IsSemigroup : IsSemigroup _*_
+  assoc ℕ-*-IsSemigroup = *-assoc
+
+  ℕ-*-Semigroup : Semigroup
+  Carrier ℕ-*-Semigroup = ℕ
+  _·_ ℕ-*-Semigroup = _*_
+  isSemigroup ℕ-*-Semigroup = ℕ-*-IsSemigroup

@@ -17,4 +17,4 @@ module Algebra.Structures.Definitions where
     left-identity _·_ e = ∀ m → e · m ≡ m
 
     right-identity : {A : Set} → op₂ A → (e : A) → Set
-    right-identity _·_ e = ∀ m → m · e ≡ m
+    right-identity _·_ e = ∀ m → m · e ≡ m    
