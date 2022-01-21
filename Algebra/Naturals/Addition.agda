@@ -81,4 +81,4 @@ module Algebra.Naturals.Addition where
   +-add1ᵣ (suc m) = cong suc (+-add1ᵣ m)
 
   +-add1ₗ : ∀ (m : ℕ) → 1 + m ≡ suc m
-  +-add1ₗ m = refl 
+  +-add1ₗ m = refl
