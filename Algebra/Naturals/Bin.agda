@@ -25,3 +25,21 @@ module Algebra.Naturals.Bin where
   from6 = from (⟨⟩ t t f)
   from23 = from (⟨⟩ t f t t t)
   from23WithZeros = from (⟨⟩ f f f t f t t t)
+
+  Bin-ℕ-Suc-Homomorph : ∀ (b : Bin) → from (inc b) ≡ suc (from b)
+  Bin-ℕ-Suc-Homomorph ⟨⟩ = refl
+  Bin-ℕ-Suc-Homomorph (b t) = begin
+    from (inc (b t)) ≡⟨⟩ 
+    from ((inc b) f) ≡⟨⟩ 
+    2 * (from (inc b)) ≡⟨ cong (λ a → 2 * a) (Bin-ℕ-Suc-Homomorph b) ⟩
+    2 * suc (from b) ≡⟨⟩
+    2 * (1 + (from b)) ≡⟨ *-distrib1ₗ-+ₗ 2 (from b) ⟩
+    2 + 2 * (from b) ≡⟨⟩
+    suc (1 + 2 * (from b)) ≡⟨⟩
+    suc (from (b t)) ∎
+  Bin-ℕ-Suc-Homomorph (b f) = begin
+    from (inc (b f)) ≡⟨⟩ 
+    from (b t) ≡⟨⟩
+    1 + 2 * (from b) ≡⟨⟩
+    suc (2 * from b) ≡⟨⟩
+    suc (from (b f)) ∎
