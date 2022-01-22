@@ -43,3 +43,11 @@ module Algebra.Naturals.Bin where
     1 + 2 * (from b) ≡⟨⟩
     suc (2 * from b) ≡⟨⟩
     suc (from (b f)) ∎
+
+  to-inverse-from : ∀ (n : ℕ) → from (to n) ≡ n
+  to-inverse-from zero = refl
+  to-inverse-from (suc n) = begin
+    from (to (suc n)) ≡⟨⟩ 
+    from (inc (to n)) ≡⟨ Bin-ℕ-Suc-Homomorph (to n) ⟩
+    suc (from (to n)) ≡⟨ cong (λ a → suc a) (to-inverse-from n) ⟩
+    suc n ∎
