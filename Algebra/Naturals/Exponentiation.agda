@@ -21,23 +21,24 @@ module Algebra.Naturals.Exponentiation where
     (m ^ n) * (m ^ 1) * (m ^ p) ≡⟨ cong (λ a → a * (m ^ p)) (sym (^-distribₗ m n 1)) ⟩
     (m ^ (n + 1)) * (m ^ p) ≡⟨ cong (λ a → (m ^ a) * (m ^ p)) (+-add1ᵣ n) ⟩
     (m ^ suc n) * (m ^ p) ∎
-
-    {-
   
   ^-distribᵣ : ∀ (m n p : ℕ) → (m * n) ^ p ≡ (m ^ p) * (n ^ p)
   ^-distribᵣ m n zero = refl
   ^-distribᵣ m n (suc p) = begin
      (m * n) ^ suc p ≡⟨⟩ 
-     m * n * ((m * n) ^ p) ≡⟨ cong (λ a → m * n * a) (^-distribᵣ m n p) ⟩
-     m * n * ((m ^ p) * (n ^ p)) ≡⟨ IsCommutativeMonoid.swap021 ℕ-*-IsCommutativeMonoid m n ((m ^ p) * (n ^ p)) ⟩
-     m * ((m ^ p) * (n ^ p)) * n ≡⟨ cong (λ a → a * n) (sym (IsSemigroup.assoc ℕ-*-IsSemigroup m (m ^ p) (n ^ p))) ⟩
-     m * (m ^ p) * (n ^ p) * n ≡⟨ IsSemigroup.assoc ℕ-*-IsSemigroup (m * (m ^ p)) (n ^ p) n ⟩
-     m * (m ^ p) * ((n ^ p) * n) ≡⟨ cong (λ a → a * (m ^ p) * ((n ^ p) * n)) (sym (^-right-identity m)) ⟩
-     (m ^ 1) * (m ^ p) * ((n ^ p) * n) ≡⟨ cong (λ a → a * ((n ^ p) * n)) (sym (^-distribₗ m 1 p)) ⟩
-     (m ^ suc p) * ((n ^ p) * n) ≡⟨ cong (λ a → (m ^ suc p) * ((n ^ p) * a)) (sym (^-right-identity n)) ⟩
+     ((m * n) ^ p) * (m * n) ≡⟨ cong (λ a → a * (m * n)) (^-distribᵣ m n p) ⟩
+     (m ^ p) * (n ^ p) * (m * n) ≡⟨ sym (IsSemigroup.assoc ℕ-*-IsSemigroup ((m ^ p) * (n ^ p)) m n) ⟩
+     (m ^ p) * (n ^ p) * m * n ≡⟨ cong (λ a → a * n) (IsCommutativeMonoid.swap021 ℕ-*-IsCommutativeMonoid (m ^ p) (n ^ p) m) ⟩
+     (m ^ p) * m * (n ^ p) * n ≡⟨ IsSemigroup.assoc ℕ-*-IsSemigroup ((m ^ p) * m) (n ^ p) n ⟩
+     (m ^ p) * m * ((n ^ p) * n) ≡⟨⟩
+     (m ^ p) * (m ^ 1) * ((n ^ p) * (n ^ 1)) ≡⟨ cong (λ a → a * ((n ^ p) * (n ^ 1))) (sym (^-distribₗ m p 1)) ⟩
+     (m ^ (p + 1)) * ((n ^ p) * (n ^ 1)) ≡⟨ cong (λ a → (m ^ a) * ((n ^ p) * (n ^ 1))) (+-add1ᵣ p) ⟩
      (m ^ suc p) * ((n ^ p) * (n ^ 1)) ≡⟨ cong (λ a → (m ^ suc p) * a) (sym (^-distribₗ n p 1)) ⟩
      (m ^ suc p) * (n ^ (p + 1)) ≡⟨ cong (λ a → (m ^ suc p) * (n ^ a)) (+-add1ᵣ p) ⟩
      (m ^ suc p) * (n ^ suc p) ∎
+    {-
+  
+
   
   ^-*-assoc : ∀ (m n p : ℕ) → (m ^ n) ^ p ≡ m ^ (n * p)
   ^-*-assoc m n zero = begin
