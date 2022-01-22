@@ -44,14 +44,14 @@ module Algebra.Naturals.Multiplication where
     (m + 1) * p + n * p ≡⟨ cong (λ a → a * p + n * p) (+-add1ᵣ m) ⟩
     suc m * p + n * p ∎
 
-  *-distrib1ᵣ-+ᵣ : ∀ (m n p : ℕ) → (m + 1) * p ≡ m * p + p
-  *-distrib1ᵣ-+ᵣ m n p = begin
+  *-distrib1ᵣ-+ᵣ : ∀ (m p : ℕ) → (m + 1) * p ≡ m * p + p
+  *-distrib1ᵣ-+ᵣ m p = begin
     (m + 1) * p ≡⟨ *-distrib-+ᵣ m 1 p ⟩
     m * p + 1 * p ≡⟨⟩ 
     m * p + p ∎
 
-  *-distrib1ₗ-+ᵣ : ∀ (m n p : ℕ) → (1 + m) * p ≡ p + m * p
-  *-distrib1ₗ-+ᵣ m n p = begin 
+  *-distrib1ₗ-+ᵣ : ∀ (m p : ℕ) → (1 + m) * p ≡ p + m * p
+  *-distrib1ₗ-+ᵣ m p = begin 
     (1 + m) * p ≡⟨ *-distrib-+ᵣ 1 m p ⟩ 
     1 * p + m * p ≡⟨⟩
     p + m * p ∎
@@ -128,3 +128,17 @@ module Algebra.Naturals.Multiplication where
   CommutativeMonoid._·_ ℕ-*-CommutativeMonoid = _*_
   CommutativeMonoid.e ℕ-*-CommutativeMonoid = 1
   CommutativeMonoid.isCommutativeMonoid ℕ-*-CommutativeMonoid = ℕ-*-IsCommutativeMonoid
+
+  *-distrib1ᵣ-+ₗ : ∀ (m p : ℕ) → m * (p + 1) ≡ m * p + m
+  *-distrib1ᵣ-+ₗ m p = begin
+    m * (p + 1) ≡⟨ ℕ-*-comm m (p + 1) ⟩ 
+    (p + 1) * m ≡⟨ *-distrib1ᵣ-+ᵣ p m ⟩
+    p * m + m ≡⟨ cong (λ a → a + m) (ℕ-*-comm p m) ⟩
+    m * p + m ∎
+
+  *-distrib1ₗ-+ₗ : ∀ (m p : ℕ) → m * (1 + p) ≡ m + m * p
+  *-distrib1ₗ-+ₗ m p = begin
+    m * (1 + p) ≡⟨ ℕ-*-comm m (1 + p) ⟩ 
+    (1 + p) * m ≡⟨ *-distrib1ₗ-+ᵣ p m ⟩
+    m + p * m ≡⟨ cong (λ a → m + a) (ℕ-*-comm p m) ⟩
+    m + m * p ∎

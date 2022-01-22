@@ -9,7 +9,6 @@ module Algebra.Naturals.Exponentiation where
 
   infixl 8 _^_ 
 
-
   ^-distribₗ : ∀ (m n p : ℕ) → m ^ (n + p) ≡ (m ^ n) * (m ^ p)
   ^-distribₗ m zero p = refl
   ^-distribₗ m (suc n) p = begin
@@ -38,13 +37,13 @@ module Algebra.Naturals.Exponentiation where
      (m ^ suc p) * (n ^ suc p) ∎
 
   ^-*-assoc : ∀ (m n p : ℕ) → (m ^ n) ^ p ≡ m ^ (n * p)
-  ^-*-assoc m n zero = begin
-    (m ^ n) ^ 0 ≡⟨ {!   !} ⟩
-     m ^ (n * 0) ∎
+  ^-*-assoc m n zero = sym (begin 
+    m ^ (n * zero) ≡⟨ cong (λ a → m ^ a) (*-zero n) ⟩
+    1 ∎)
   ^-*-assoc m n (suc p) = begin
     (m ^ n) ^ suc p ≡⟨⟩
     (m ^ n) ^ p * (m ^ n) ≡⟨ cong (λ a → a * (m ^ n)) (^-*-assoc m n p) ⟩
     m ^ (n * p) * (m ^ n) ≡⟨ sym (^-distribₗ m (n * p) n) ⟩ 
-    m ^ (n * p + n) ≡⟨ {!   !} ⟩ 
-    m ^ (n * p + n * 1) ≡⟨ {!   !} ⟩ 
+    m ^ (n * p + n) ≡⟨ cong (λ a → m ^ a ) (sym (*-distrib1ᵣ-+ₗ n p)) ⟩ 
+    m ^ (n * (p + 1)) ≡⟨ cong (λ a → m ^ (n * a)) (+-add1ᵣ p) ⟩ 
     m ^ (n * suc p) ∎
