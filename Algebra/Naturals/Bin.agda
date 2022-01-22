@@ -1,5 +1,7 @@
 module Algebra.Naturals.Bin where
-  {- open import Algebra.Naturals
+  open import Algebra.Naturals.Definition
+  open import Algebra.Naturals.Addition
+  open import Algebra.Naturals.Multiplication
   
   data Bin : Set where
     ⟨⟩ : Bin
@@ -23,5 +25,3 @@ module Algebra.Naturals.Bin where
   from6 = from (⟨⟩ t t f)
   from23 = from (⟨⟩ t f t t t)
   from23WithZeros = from (⟨⟩ f f f t f t t t)
-  
--}
