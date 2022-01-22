@@ -36,14 +36,15 @@ module Algebra.Naturals.Exponentiation where
      (m ^ suc p) * ((n ^ p) * (n ^ 1)) ≡⟨ cong (λ a → (m ^ suc p) * a) (sym (^-distribₗ n p 1)) ⟩
      (m ^ suc p) * (n ^ (p + 1)) ≡⟨ cong (λ a → (m ^ suc p) * (n ^ a)) (+-add1ᵣ p) ⟩
      (m ^ suc p) * (n ^ suc p) ∎
-    {-
-  
 
-  
   ^-*-assoc : ∀ (m n p : ℕ) → (m ^ n) ^ p ≡ m ^ (n * p)
   ^-*-assoc m n zero = begin
     (m ^ n) ^ 0 ≡⟨ {!   !} ⟩
      m ^ (n * 0) ∎
   ^-*-assoc m n (suc p) = begin
-    (m ^ n) ^ suc p ≡⟨ {!   !} ⟩
-    m ^ (n * suc p) ∎ -}
+    (m ^ n) ^ suc p ≡⟨⟩
+    (m ^ n) ^ p * (m ^ n) ≡⟨ cong (λ a → a * (m ^ n)) (^-*-assoc m n p) ⟩
+    m ^ (n * p) * (m ^ n) ≡⟨ sym (^-distribₗ m (n * p) n) ⟩ 
+    m ^ (n * p + n) ≡⟨ {!   !} ⟩ 
+    m ^ (n * p + n * 1) ≡⟨ {!   !} ⟩ 
+    m ^ (n * suc p) ∎

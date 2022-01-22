@@ -44,6 +44,18 @@ module Algebra.Naturals.Multiplication where
     (m + 1) * p + n * p ≡⟨ cong (λ a → a * p + n * p) (+-add1ᵣ m) ⟩
     suc m * p + n * p ∎
 
+  *-distrib1ᵣ-+ᵣ : ∀ (m n p : ℕ) → (m + 1) * p ≡ m * p + p
+  *-distrib1ᵣ-+ᵣ m n p = begin
+    (m + 1) * p ≡⟨ *-distrib-+ᵣ m 1 p ⟩
+    m * p + 1 * p ≡⟨⟩ 
+    m * p + p ∎
+
+  *-distrib1ₗ-+ᵣ : ∀ (m n p : ℕ) → (1 + m) * p ≡ p + m * p
+  *-distrib1ₗ-+ᵣ m n p = begin 
+    (1 + m) * p ≡⟨ *-distrib-+ᵣ 1 m p ⟩ 
+    1 * p + m * p ≡⟨⟩
+    p + m * p ∎
+
   *-distrib-+ₗ : ∀ (m n p : ℕ) → m * (n + p) ≡ m * n + m * p
   *-distrib-+ₗ zero n p = refl
   *-distrib-+ₗ (suc m) n p = begin
