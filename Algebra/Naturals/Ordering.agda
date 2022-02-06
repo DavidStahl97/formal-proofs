@@ -6,9 +6,9 @@ module Algebra.Naturals.Ordering where
     -- TO-DO: define relation
     data _≤_ : ℕ → ℕ → Set where
         z≤n : ∀ {n : ℕ} → zero ≤ n
-        s≤s : ∀ {m n : ℕ} → m ≤ n → suc m ≤ suc n
+        s≤s : ∀ {m n : ℕ} → m ≤ n → suc m ≤ suc n        
     
-    infix 4 _≤_ 
+    infix 4 _≤_
 
     inv-s≤s : ∀ {m n : ℕ} → suc m ≤ suc n → m ≤ n
     inv-s≤s (s≤s m≤n) = m≤n
@@ -76,3 +76,15 @@ module Algebra.Naturals.Ordering where
 
     *-mono-≤ : ∀ (m n p q : ℕ) → m ≤ n → p ≤ q → m * p ≤ n * q
     *-mono-≤ m n p q m≤n p≤q = ≤-trans (*-monoₗ-≤ m n p m≤n) (*-monoᵣ-≤ n p q p≤q)
+
+    {- Strict inequality -}
+    infix 4 _<_
+    
+    data _<_ : ℕ → ℕ → Set where
+        z<s : ∀ {n : ℕ} → zero < suc n
+        s<s : ∀ {m n : ℕ} → m < n → suc m < suc n
+
+    <-trans : ∀ {m n p : ℕ} → m < n → n < p → m < p
+    <-trans z<s (s<s n<p) = z<s
+    <-trans (s<s m<n) (s<s n<p) = s<s (<-trans m<n n<p)
+    
