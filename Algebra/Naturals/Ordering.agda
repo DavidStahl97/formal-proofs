@@ -86,7 +86,17 @@ module Algebra.Naturals.Ordering where
 
     <-trans : ∀ {m n p : ℕ} → m < n → n < p → m < p
     <-trans z<s (s<s n<p) = z<s
-    <-trans (s<s m<n) (s<s n<p) = s<s (<-trans m<n n<p)
+    <-trans (s<s m<n) (s<s n<p) = s<s (<-trans m<n n<p)    
+
+    +-monoᵣ-< : ∀ (n p q : ℕ) → p < q → n + p < n + q
+    +-monoᵣ-< zero p q p<q = p<q
+    +-monoᵣ-< (suc n) p q p<q = s<s (+-monoᵣ-< n p q p<q)
+
+    +-monoₗ-< : ∀ (m n p : ℕ) → m < n → m + p < n + p
+    +-monoₗ-< m n p m<n rewrite +-comm m p | +-comm n p = +-monoᵣ-< p m n m<n
+
+    +-mono-< : ∀ (m n p q : ℕ) → m < n → p < q → m + p < n + q
+    +-mono-< m n p q m<n p<q = <-trans (+-monoₗ-< m n p m<n) (+-monoᵣ-< n p q p<q)
 
     data _>_ : ℕ → ℕ → Set where
         co-m>n : ∀ {m n : ℕ} → n < m → m > n
@@ -94,6 +104,7 @@ module Algebra.Naturals.Ordering where
     ℕ-suc-> : ∀ {m n : ℕ} → m > n → suc m > suc n
     ℕ-suc-> (co-m>n x) = co-m>n (s<s x)
 
+    {- Trichotomy -}
     data Trichotomy (m n : ℕ) : Set where
         t-m>n : m > n → Trichotomy m n
         t-m≡n : m ≡ n → Trichotomy m n
