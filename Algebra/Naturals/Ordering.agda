@@ -78,7 +78,7 @@ module Algebra.Naturals.Ordering where
     *-mono-≤ m n p q m≤n p≤q = ≤-trans (*-monoₗ-≤ m n p m≤n) (*-monoᵣ-≤ n p q p≤q)
 
     {- Strict inequality -}
-    infix 4 _<_
+    infix 4 _<_ _>_
     
     data _<_ : ℕ → ℕ → Set where
         z<s : ∀ {n : ℕ} → zero < suc n
@@ -87,4 +87,26 @@ module Algebra.Naturals.Ordering where
     <-trans : ∀ {m n p : ℕ} → m < n → n < p → m < p
     <-trans z<s (s<s n<p) = z<s
     <-trans (s<s m<n) (s<s n<p) = s<s (<-trans m<n n<p)
+
+    data _>_ : ℕ → ℕ → Set where
+        co-m>n : ∀ {m n : ℕ} → n < m → m > n
+
+    ℕ-suc-> : ∀ {m n : ℕ} → m > n → suc m > suc n
+    ℕ-suc-> (co-m>n x) = co-m>n (s<s x)
+
+    data Trichotomy (m n : ℕ) : Set where
+        t-m>n : m > n → Trichotomy m n
+        t-m≡n : m ≡ n → Trichotomy m n
+        t-m<n : m < n → Trichotomy m n
+
+    ℕ-suc-Trichotomy : ∀ {m n : ℕ} → Trichotomy m n → Trichotomy (suc m) (suc n)
+    ℕ-suc-Trichotomy (t-m>n x) = t-m>n (ℕ-suc-> x)
+    ℕ-suc-Trichotomy (t-m≡n refl) = t-m≡n refl
+    ℕ-suc-Trichotomy (t-m<n x) = t-m<n (s<s x)
+
+    ℕ-is-Trichotomy : ∀ (m n : ℕ) → Trichotomy m n
+    ℕ-is-Trichotomy zero zero = t-m≡n refl
+    ℕ-is-Trichotomy zero (suc n) = t-m<n z<s
+    ℕ-is-Trichotomy (suc m) zero = t-m>n (co-m>n z<s)
+    ℕ-is-Trichotomy (suc m) (suc n) = ℕ-suc-Trichotomy (ℕ-is-Trichotomy m n)
     

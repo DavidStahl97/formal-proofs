@@ -17,3 +17,6 @@ module Algebra.Naturals.Definition where
   nine = suc eight
 
   {-# BUILTIN NATURAL  ℕ #-} 
+
+  ℕ-suc-≡ : ∀ {m n : ℕ} → m ≡ n → suc m ≡ suc n
+  ℕ-suc-≡ refl = refl
