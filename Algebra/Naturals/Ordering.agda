@@ -1,6 +1,7 @@
 module Algebra.Naturals.Ordering where
     open import Algebra.Naturals.Definition public
     open import Algebra.Naturals.Addition public
+    open import Algebra.Naturals.Multiplication public
 
     -- TO-DO: define relation
     data _≤_ : ℕ → ℕ → Set where
@@ -65,3 +66,13 @@ module Algebra.Naturals.Ordering where
 
     +-mono-≤ : ∀ (m n p q : ℕ) → m ≤ n → p ≤ q → m + p ≤ n + q
     +-mono-≤ m n p q m≤n p≤q = ≤-trans (+-monoₗ-≤ m n p m≤n) (+-monoᵣ-≤ n p q p≤q)
+
+    *-monoᵣ-≤ : ∀ (n p q : ℕ) → p ≤ q → n * p ≤ n * q
+    *-monoᵣ-≤ zero p q p≤q = z≤n
+    *-monoᵣ-≤ (suc n) p q p≤q = +-mono-≤ (n * p) (n * q) p q (*-monoᵣ-≤ n p q p≤q) p≤q
+
+    *-monoₗ-≤ : ∀ (m n p : ℕ) → m ≤ n → m * p ≤ n * p
+    *-monoₗ-≤ m n p m≤n  rewrite ℕ-*-comm m p | ℕ-*-comm n p = *-monoᵣ-≤ p m n m≤n
+
+    *-mono-≤ : ∀ (m n p q : ℕ) → m ≤ n → p ≤ q → m * p ≤ n * q
+    *-mono-≤ m n p q m≤n p≤q = ≤-trans (*-monoₗ-≤ m n p m≤n) (*-monoᵣ-≤ n p q p≤q)
