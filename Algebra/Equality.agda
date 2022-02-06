@@ -3,6 +3,8 @@ module Algebra.Equality where
     refl : x ≡ x
 
   infix 4 _≡_
+  
+  {-# BUILTIN EQUALITY _≡_ #-}
 
   sym : ∀ {A : Set} {x y : A} → x ≡ y → y ≡ x
   sym refl = refl
