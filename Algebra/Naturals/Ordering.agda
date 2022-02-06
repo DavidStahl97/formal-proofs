@@ -98,6 +98,17 @@ module Algebra.Naturals.Ordering where
     +-mono-< : ∀ (m n p q : ℕ) → m < n → p < q → m + p < n + q
     +-mono-< m n p q m<n p<q = <-trans (+-monoₗ-< m n p m<n) (+-monoᵣ-< n p q p<q)
 
+    suc-≤→< : ∀ (m n : ℕ) → suc m ≤ n → m < n
+    suc-≤→< zero (suc n) leq = z<s
+    suc-≤→< (suc m) (suc n) (s≤s leq) = s<s (suc-≤→< m n leq)
+
+    <→suc-≤ : ∀ (m n : ℕ) → m < n → suc m ≤ n
+    <→suc-≤ zero (suc n) le = s≤s z≤n
+    <→suc-≤ (suc m) (suc n) (s<s le) = s≤s (<→suc-≤ m n le)
+
+    suc-≤⇆-< : ∀ (m n : ℕ) → (m < n) ≡₁ (suc m ≤ n)
+    suc-≤⇆-< m n = {!   !}
+
     data _>_ : ℕ → ℕ → Set where
         co-m>n : ∀ {m n : ℕ} → n < m → m > n
 

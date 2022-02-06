@@ -2,6 +2,11 @@ module Algebra.Equality where
   data _≡_ {A : Set} (x : A) : A → Set where
     refl : x ≡ x
 
+  record _≡₁_ (A B : Set) : Set where
+    field
+      left : A ≡₁ B → (A → B)
+      right : A ≡₁ B → (B → A)
+
   infix 4 _≡_
   
   {-# BUILTIN EQUALITY _≡_ #-}
