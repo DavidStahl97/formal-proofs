@@ -1,4 +1,4 @@
-module Logic.Bool where
+module Dave.Logic.Bool where
     
     data Bool : Set where
         false : Bool

@@ -1,7 +1,7 @@
-module Algebra.Naturals.Exponentiation where
-  open import Algebra.Naturals.Definition
-  open import Algebra.Naturals.Multiplication
-  open import Algebra.Naturals.Addition
+module Dave.Algebra.Naturals.Exponentiation where
+  open import Dave.Algebra.Naturals.Definition
+  open import Dave.Algebra.Naturals.Multiplication
+  open import Dave.Algebra.Naturals.Addition
 
   _^_ : ℕ → ℕ → ℕ
   a ^ zero = 1

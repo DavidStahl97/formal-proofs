@@ -1,5 +1,5 @@
-module Algebra.LeibnizEquality where
-    open import Algebra.Equality public
+module Dave.LeibnizEquality where
+    open import Dave.Equality public
 
     _≐_ : ∀ {A : Set} (x y : A) → Set₁
     _≐_ {A} x y = ∀ (P : A → Set) → P x → P y

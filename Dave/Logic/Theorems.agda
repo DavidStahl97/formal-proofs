@@ -1,4 +1,4 @@
-module Logic.Theorems where
+module Dave.Logic.Theorems where
 
     K : {A B : Set} → A → B → A
     K a b = a

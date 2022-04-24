@@ -1,5 +1,5 @@
-module Algebra.Naturals.Excercises where
-  open import Algebra.Naturals.Addition
+module Dave.Algebra.Naturals.Excercises where
+  open import Dave.Algebra.Naturals.Addition
 
   +-rearrange : ∀ (m n p q : ℕ) → (m + n) + (p + q) ≡ m + (n + p) + q
   +-rearrange m n p q = begin

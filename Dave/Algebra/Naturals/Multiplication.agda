@@ -1,5 +1,5 @@
-module Algebra.Naturals.Multiplication where
-  open import Algebra.Naturals.Addition
+module Dave.Algebra.Naturals.Multiplication where
+  open import Dave.Algebra.Naturals.Addition public
 
   _*_ : ℕ → ℕ → ℕ
   zero * b = zero

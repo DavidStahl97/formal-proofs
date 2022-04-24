@@ -1,5 +1,5 @@
-module Algebra.Naturals.Addition where  
-  open import Algebra.Naturals.Definition public
+module Dave.Algebra.Naturals.Addition where  
+  open import Dave.Algebra.Naturals.Definition public
 
   _+_ : ℕ → ℕ → ℕ
   zero + b = b

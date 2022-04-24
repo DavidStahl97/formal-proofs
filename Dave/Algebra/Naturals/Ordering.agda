@@ -1,7 +1,7 @@
-module Algebra.Naturals.Ordering where
-    open import Algebra.Naturals.Definition public
-    open import Algebra.Naturals.Addition public
-    open import Algebra.Naturals.Multiplication public
+module Dave.Algebra.Naturals.Ordering where
+    open import Dave.Algebra.Naturals.Definition public
+    open import Dave.Algebra.Naturals.Addition public
+    open import Dave.Algebra.Naturals.Multiplication public
 
     -- TO-DO: define relation
     data _≤_ : ℕ → ℕ → Set where
