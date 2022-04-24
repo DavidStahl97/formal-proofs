@@ -1,5 +1,6 @@
 module Dave.Algebra.Naturals.Addition where  
   open import Dave.Algebra.Naturals.Definition public
+  open import Dave.Extensionality
 
   _+_ : ℕ → ℕ → ℕ
   zero + b = b
@@ -82,3 +83,22 @@ module Dave.Algebra.Naturals.Addition where
 
   +-add1ₗ : ∀ (m : ℕ) → 1 + m ≡ suc m
   +-add1ₗ m = refl
+
+  {- Another equal Addition Definition -}
+  _+´_ : ℕ → ℕ → ℕ
+  m +´ zero = m
+  m +´ suc n = suc (m +´ n)
+
+  app-+≡+´ : ∀ (m n : ℕ) → m + n ≡ m +´ n
+  app-+≡+´ zero zero = refl
+  app-+≡+´ zero (suc n) = cong suc (app-+≡+´ zero n)
+  app-+≡+´ (suc m) zero = cong suc (app-+≡+´ m zero)
+  app-+≡+´ (suc m) (suc n) = cong suc ( 
+    begin
+      m + suc n ≡⟨ +-suc m n ⟩
+      suc m + n ≡⟨ app-+≡+´ (suc m) n ⟩
+      suc m +´ n ∎ )
+
+  +≡+´ : _+_ ≡ _+´_
+  +≡+´ = extensionality (λ m → extensionality (λ n → app-+≡+´ m n))
+  
