@@ -55,10 +55,15 @@ module Dave.Isomorphism where
             to = (to B≃C) ∘ (to A≃B);
             from = (from A≃B) ∘ (from B≃C);
             from∘to = λ x → begin
-                  (from A≃B ∘ from B≃C) ((to B≃C ∘ to A≃B) x) ≡⟨⟩
-                  from A≃B (from B≃C (to B≃C (to A≃B x))) ≡⟨ {!   !} ⟩
-                  x ∎;
-            to∘from = {!   !}
+                (from A≃B ∘ from B≃C) ((to B≃C ∘ to A≃B) x) ≡⟨⟩
+                from A≃B (from B≃C (to B≃C (to A≃B x))) ≡⟨ cong (from A≃B) (from∘to B≃C (to A≃B x)) ⟩
+                from A≃B (to A≃B x) ≡⟨ from∘to A≃B x ⟩
+                x ∎;
+            to∘from = λ x → begin
+                (to B≃C ∘ to A≃B) ((from A≃B ∘ from B≃C) x) ≡⟨⟩
+                to B≃C (to A≃B (from A≃B (from B≃C x))) ≡⟨ cong (to B≃C) (to∘from A≃B (from B≃C x)) ⟩
+                to B≃C (from B≃C x) ≡⟨ to∘from B≃C x ⟩
+                x ∎
         }
     
         
