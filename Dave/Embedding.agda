@@ -75,3 +75,11 @@ module Dave.Embedding where
         A ≲-∎ = ≲-refl
 
     open ≲-Reasoning    
+
+    ≃-implies-≲ : ∀ {A B : Set} → A ≃ B → A ≲ B
+    ≃-implies-≲ A≃B = record 
+        { 
+            to = _≃_.to A≃B; 
+            from = _≃_.from A≃B; 
+            from∘to = _≃_.from∘to A≃B         
+        }
