@@ -1,17 +1,32 @@
 module Dave.Logic.Basics where
+    open import Dave.Equality
+    open import Dave.Isomorphism
 
+    {- Product (And) -}
     data _×_ (A B : Set) : Set where
-        _,_ : A → B → A × B
+        ⟨_,_⟩ : A → B → A × B
+
+    infixr 2 _×_
 
     proj₁ : {A B : Set} → A × B → A
-    proj₁ (a , b) = a
+    proj₁ ⟨ a , b ⟩ = a
 
     proj₂ : {A B : Set} → A × B → B
-    proj₂ (a , b) = b
+    proj₂ ⟨ a , b ⟩ = b
+    
+    ×-comm :  {A B : Set} → (A × B) ≃ (B × A)
+    ×-comm = record 
+        {
+            to = λ{ ⟨ a , b ⟩ → ⟨ b , a ⟩ };
+            from = λ {⟨ b , a ⟩ → ⟨ a , b ⟩};
+            from∘to = λ { ⟨ a , b ⟩ → refl };
+            to∘from = λ { ⟨ b , a ⟩ → refl }
+        }
 
-    ×-comm :  {A B : Set} → (A × B) → (B × A)
-    ×-comm p = (proj₂ p) , (proj₁ p)
-
+    η-× : ∀ {A B : Set} (w : A × B) →  ⟨ proj₁ w , proj₂ w ⟩ ≡ w
+    η-× ⟨ x , y ⟩ = refl    
+    
+    {- Equality -}
     record _⇔_ (A B : Set) : Set where
         field
             to   : A → B
@@ -38,4 +53,4 @@ module Dave.Logic.Basics where
         {
             to = λ a → to B⇔C (to A⇔B a);
             from = λ c → from A⇔B (from B⇔C c)
-        }
+        }        
