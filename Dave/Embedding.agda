@@ -44,7 +44,8 @@ module Dave.Embedding where
             from = λ b → from A≲B b ;
             from∘to = from∘to A≲B;
             to∘from = λ b → begin
-                to A≲B (from A≲B b) ≡⟨ {! 
-                  !} ⟩
+                to A≲B (from A≲B b) ≡⟨ cong (λ x → (to A≲B (x b))) from≡to ⟩
+                to A≲B (to B≲A b) ≡⟨ cong-app to≡from (to B≲A b) ⟩
+                from B≲A (to B≲A b) ≡⟨ from∘to B≲A b ⟩
                 b ∎
         }    
