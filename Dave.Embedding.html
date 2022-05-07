@@ -76,4 +76,12 @@
         <a id="1991" href="Dave.Embedding.html#1991" class="Bound">A</a> <a id="1993" href="Dave.Embedding.html#1926" class="Function Operator">≲-∎</a> <a id="1997" class="Symbol">=</a> <a id="1999" href="Dave.Embedding.html#314" class="Function">≲-refl</a>
 
     <a id="2011" class="Keyword">open</a> <a id="2016" href="Dave.Embedding.html#1547" class="Module">≲-Reasoning</a>    
+
+    <a id="≃-implies-≲"></a><a id="2037" href="Dave.Embedding.html#2037" class="Function">≃-implies-≲</a> <a id="2049" class="Symbol">:</a> <a id="2051" class="Symbol">∀</a> <a id="2053" class="Symbol">{</a><a id="2054" href="Dave.Embedding.html#2054" class="Bound">A</a> <a id="2056" href="Dave.Embedding.html#2056" class="Bound">B</a> <a id="2058" class="Symbol">:</a> <a id="2060" class="PrimitiveType">Set</a><a id="2063" class="Symbol">}</a> <a id="2065" class="Symbol">→</a> <a id="2067" href="Dave.Embedding.html#2054" class="Bound">A</a> <a id="2069" href="Dave.Isomorphism.html#120" class="Record Operator">≃</a> <a id="2071" href="Dave.Embedding.html#2056" class="Bound">B</a> <a id="2073" class="Symbol">→</a> <a id="2075" href="Dave.Embedding.html#2054" class="Bound">A</a> <a id="2077" href="Dave.Embedding.html#151" class="Record Operator">≲</a> <a id="2079" href="Dave.Embedding.html#2056" class="Bound">B</a>
+    <a id="2085" href="Dave.Embedding.html#2037" class="Function">≃-implies-≲</a> <a id="2097" href="Dave.Embedding.html#2097" class="Bound">A≃B</a> <a id="2101" class="Symbol">=</a> <a id="2103" class="Keyword">record</a> 
+        <a id="2119" class="Symbol">{</a> 
+            <a id="2134" href="Dave.Embedding.html#205" class="Field">to</a> <a id="2137" class="Symbol">=</a> <a id="2139" href="Dave.Isomorphism.html#174" class="Field">_≃_.to</a> <a id="2146" href="Dave.Embedding.html#2097" class="Bound">A≃B</a><a id="2149" class="Symbol">;</a> 
+            <a id="2164" href="Dave.Embedding.html#228" class="Field">from</a> <a id="2169" class="Symbol">=</a> <a id="2171" href="Dave.Isomorphism.html#197" class="Field">_≃_.from</a> <a id="2180" href="Dave.Embedding.html#2097" class="Bound">A≃B</a><a id="2183" class="Symbol">;</a> 
+            <a id="2198" href="Dave.Embedding.html#253" class="Field">from∘to</a> <a id="2206" class="Symbol">=</a> <a id="2208" href="Dave.Isomorphism.html#222" class="Field">_≃_.from∘to</a> <a id="2220" href="Dave.Embedding.html#2097" class="Bound">A≃B</a>         
+        <a id="2241" class="Symbol">}</a>
 </pre></body></html>
