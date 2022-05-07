@@ -2,6 +2,7 @@ module Dave.Algebra.Naturals.Bin where
   open import Dave.Algebra.Naturals.Definition
   open import Dave.Algebra.Naturals.Addition
   open import Dave.Algebra.Naturals.Multiplication
+  open import Dave.Embedding
   
   data Bin : Set where
     ⟨⟩ : Bin
@@ -51,3 +52,11 @@ module Dave.Algebra.Naturals.Bin where
     from (inc (to n)) ≡⟨ Bin-ℕ-Suc-Homomorph (to n) ⟩
     suc (from (to n)) ≡⟨ cong (λ a → suc a) (to-inverse-from n) ⟩
     suc n ∎
+
+  ℕ≲Bin : ℕ ≲ Bin
+  ℕ≲Bin = record 
+    {
+      to = to;
+      from = from;
+      from∘to = to-inverse-from
+    }
