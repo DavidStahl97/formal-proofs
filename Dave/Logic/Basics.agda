@@ -1,6 +1,7 @@
 module Dave.Logic.Basics where
     open import Dave.Equality
     open import Dave.Isomorphism
+    open import Dave.Structures.Monoid
 
     {- True -}
     data ⊤ : Set where
@@ -40,7 +41,22 @@ module Dave.Logic.Basics where
         }
 
     η-× : ∀ {A B : Set} (w : A × B) →  ⟨ proj₁ w , proj₂ w ⟩ ≡ w
-    η-× ⟨ x , y ⟩ = refl    
+    η-× ⟨ x , y ⟩ = refl   
+
+    ⊤-identityˡ : ∀ {A : Set} → ⊤ × A ≃ A
+    ⊤-identityˡ = record
+        { 
+            to      = λ{ ⟨ tt , x ⟩ → x }; 
+            from    = λ{ x → ⟨ tt , x ⟩ }; 
+            from∘to = λ{ ⟨ tt , x ⟩ → refl }; 
+            to∘from = λ{ x → refl }
+        }
+
+    ⊤-identityʳ : ∀ {A : Set} → (A × ⊤) ≃ A
+    ⊤-identityʳ {A} = ≃-begin
+        (A × ⊤) ≃⟨ ×-comm ⟩
+        (⊤ × A) ≃⟨ ⊤-identityˡ ⟩
+        A ≃-∎
     
     {- Equality -}
     record _⇔_ (A B : Set) : Set where

@@ -90,5 +90,5 @@ module Dave.Isomorphism where
             → A ≃ A
         A ≃-∎ = ≃-refl
 
-    open ≃-Reasoning    
+    open ≃-Reasoning public  
         
