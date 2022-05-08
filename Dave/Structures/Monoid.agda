@@ -1,5 +1,5 @@
-module Dave.Algebra.Structures.Monoid where
-    open import Dave.Algebra.Structures.Semigroup public
+module Dave.Structures.Monoid where
+    open import Dave.Structures.Semigroup public
 
     record Identity {A : Set} (_·_ : op₂ A) (e : A) : Set where
         field

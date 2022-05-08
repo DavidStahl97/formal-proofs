@@ -1,6 +1,6 @@
 module Dave.Algebra.Naturals.Definition where
   open import Dave.Equality public
-  open import Dave.Algebra.Structures.Monoid public
+  open import Dave.Structures.Monoid public
   
   data ℕ : Set where
     zero : ℕ

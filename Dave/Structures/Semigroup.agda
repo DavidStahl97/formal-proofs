@@ -1,5 +1,5 @@
-module Dave.Algebra.Structures.Semigroup where
-    open import Dave.Algebra.Structures.Definitions public
+module Dave.Structures.Semigroup where
+    open import Dave.Structures.Definitions public
 
     record IsSemigroup {A : Set} (_·_ : op₂ A) : Set where
         field

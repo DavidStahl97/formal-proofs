@@ -2,6 +2,13 @@ module Dave.Logic.Basics where
     open import Dave.Equality
     open import Dave.Isomorphism
 
+    {- True -}
+    data ⊤ : Set where
+        tt : ⊤
+
+    η-⊤ : ∀ (w : ⊤) → tt ≡ w
+    η-⊤ tt = refl
+
     {- Product (And) -}
     data _×_ (A B : Set) : Set where
         ⟨_,_⟩ : A → B → A × B

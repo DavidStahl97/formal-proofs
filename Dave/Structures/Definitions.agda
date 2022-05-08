@@ -1,4 +1,4 @@
-module Dave.Algebra.Structures.Definitions where
+module Dave.Structures.Definitions where
     open import Dave.Equality public
 
     op₁ : Set → Set
