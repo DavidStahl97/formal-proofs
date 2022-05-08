@@ -23,6 +23,15 @@ module Dave.Logic.Basics where
             to∘from = λ { ⟨ b , a ⟩ → refl }
         }
 
+    ×-assoc : ∀ {A B C : Set} → (A × B) × C ≃ A × (B × C)
+    ×-assoc = record 
+        {
+            to = λ {⟨ ⟨ a , b ⟩ , c ⟩ → ⟨ a , ⟨ b , c ⟩ ⟩};
+            from = λ {⟨ a , ⟨ b , c ⟩ ⟩ → ⟨ ⟨ a , b ⟩ , c ⟩};
+            from∘to = λ {⟨ ⟨ a , b ⟩ , c ⟩ → refl};
+            to∘from = λ {⟨ a , ⟨ b , c ⟩ ⟩ → refl}
+        }
+
     η-× : ∀ {A B : Set} (w : A × B) →  ⟨ proj₁ w , proj₂ w ⟩ ≡ w
     η-× ⟨ x , y ⟩ = refl    
     
