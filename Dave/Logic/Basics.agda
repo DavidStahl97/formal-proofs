@@ -11,6 +11,16 @@ module Dave.Logic.Basics where
     η-⊤ : ∀ (w : ⊤) → tt ≡ w
     η-⊤ tt = refl
 
+    {- False -}
+    data ⊥ : Set where
+        -- no clauses!
+
+    ⊥-elim : ∀ {A : Set} → ⊥ → A
+    ⊥-elim ()
+
+    uniq-⊥ : ∀ {C : Set} (h : ⊥ → C) (w : ⊥) → ⊥-elim w ≡ h w
+    uniq-⊥ h ()
+
     {- Product (Conjunction) -}
     data _×_ (A B : Set) : Set where
         ⟨_,_⟩ : A → B → A × B
@@ -84,6 +94,15 @@ module Dave.Logic.Basics where
     η-⊎ (inj₁ x) = refl
     η-⊎ (inj₂ y) = refl
 
+    ⊥-identityˡ : ∀ {A : Set} → ⊥ ⊎ A ≃ A
+    ⊥-identityˡ = record 
+        {
+            to = λ {(inj₂ a) → a};
+            from = λ a → inj₂ a;
+            from∘to = λ {(inj₂ a) → refl};
+            to∘from = λ a → refl
+        }
+
     ⊎-comm : ∀ {A B : Set} → A ⊎ B ≃ B ⊎ A
     ⊎-comm = record 
         {
@@ -113,6 +132,12 @@ module Dave.Logic.Basics where
                        ; (inj₂ (inj₁ x)) → refl
                        ; (inj₂ (inj₂ x)) → refl}
         }
+
+    ⊥-identityʳ : ∀ {A : Set} → A ⊎ ⊥ ≃ A
+    ⊥-identityʳ {A} = ≃-begin 
+        (A ⊎ ⊥) ≃⟨ ⊎-comm ⟩
+        (⊥ ⊎ A) ≃⟨ ⊥-identityˡ ⟩
+        A ≃-∎
 
     {- Equality -}
     record _⇔_ (A B : Set) : Set where
