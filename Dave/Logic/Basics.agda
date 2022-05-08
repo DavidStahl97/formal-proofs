@@ -62,4 +62,13 @@ module Dave.Logic.Basics where
         {
             to = λ a → to B⇔C (to A⇔B a);
             from = λ c → from A⇔B (from B⇔C c)
-        }        
+        }   
+
+    ⇔≃× : ∀ {A B : Set} → A ⇔ B ≃ (A → B) × (B → A)
+    ⇔≃× = record
+        {
+            to = λ {A⇔B → ⟨ to A⇔B , from A⇔B ⟩};
+            from = λ {x → record { to = proj₁ x; from = proj₂ x } };
+            from∘to = λ A⇔B → refl;
+            to∘from = λ {⟨ A→B , B→A ⟩ → refl}
+        }  
