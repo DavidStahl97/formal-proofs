@@ -23,6 +23,21 @@ module Dave.Logic.Basics where
     uniq-⊥ : ∀ {C : Set} (h : ⊥ → C) (w : ⊥) → ⊥-elim w ≡ h w
     uniq-⊥ h ()
 
+    {- Negation -}
+    ¬_ : Set → Set
+    ¬ A = A → ⊥
+
+    infix 3 ¬_
+
+    ¬-elim : ∀ {A : Set} → ¬ A → A → ⊥
+    ¬-elim ¬x x = ¬x x   
+
+    ¬¬-intro : ∀ {A : Set} → A → ¬ ¬ A
+    ¬¬-intro x ¬x = ¬x x
+
+    ¬¬¬-elim : ∀ {A : Set} → ¬ ¬ ¬ A → ¬ A
+    ¬¬¬-elim ¬¬¬a a = ¬¬¬a (¬¬-intro a)
+
     {- Product (Conjunction) -}
     data _×_ (A B : Set) : Set where
         ⟨_,_⟩ : A → B → A × B
