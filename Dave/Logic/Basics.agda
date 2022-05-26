@@ -3,6 +3,7 @@ module Dave.Logic.Basics where
     open import Dave.Equality
     open import Dave.Extensionality
     open import Dave.Isomorphism
+    open import Dave.Embedding
     open import Dave.Structures.Monoid
 
     {- True -}
@@ -139,6 +140,39 @@ module Dave.Logic.Basics where
         (A ⊎ ⊥) ≃⟨ ⊎-comm ⟩
         (⊥ ⊎ A) ≃⟨ ⊥-identityˡ ⟩
         A ≃-∎
+
+    ×-distrib-⊎ : ∀ {A B C : Set} → (A ⊎ B) × C ≃ (A × C) ⊎ (B × C)
+    ×-distrib-⊎ = record
+        { 
+            to      = λ{ ⟨ inj₁ x , z ⟩ → (inj₁ ⟨ x , z ⟩);
+                         ⟨ inj₂ y , z ⟩ → (inj₂ ⟨ y , z ⟩)}; 
+            from    = λ{ (inj₁ ⟨ x , z ⟩) → ⟨ inj₁ x , z ⟩;
+                         (inj₂ ⟨ y , z ⟩) → ⟨ inj₂ y , z ⟩};
+            from∘to = λ{ ⟨ inj₁ x , z ⟩ → refl; 
+                         ⟨ inj₂ y , z ⟩ → refl};
+            to∘from = λ{ (inj₁ ⟨ x , z ⟩) → refl; 
+                         (inj₂ ⟨ y , z ⟩) → refl}
+        } 
+
+    ⊎-distrib-× : ∀ {A B C : Set} → (A × B) ⊎ C ≲ (A ⊎ C) × (B ⊎ C)
+    ⊎-distrib-× = record
+        { 
+            to      = λ{ (inj₁ ⟨ x , y ⟩) → ⟨ inj₁ x , inj₁ y ⟩; 
+                         (inj₂ z)         → ⟨ inj₂ z , inj₂ z ⟩}; 
+            from    = λ{ ⟨ inj₁ x , inj₁ y ⟩ → (inj₁ ⟨ x , y ⟩); 
+                         ⟨ inj₁ x , inj₂ z ⟩ → (inj₂ z); 
+                         ⟨ inj₂ z , _      ⟩ → (inj₂ z)}; 
+            from∘to = λ{ (inj₁ ⟨ x , y ⟩) → refl; 
+                         (inj₂ z)         → refl}
+        }   
+
+    ⊎-weak-× : ∀ {A B C : Set} → (A ⊎ B) × C → A ⊎ (B × C)
+    ⊎-weak-× ⟨ inj₁ a , c ⟩ = inj₁ a
+    ⊎-weak-× ⟨ inj₂ b , c ⟩ = inj₂ ⟨ b , c ⟩  
+
+    ⊎×-implies-×⊎ : ∀ {A B C D : Set} → (A × B) ⊎ (C × D) → (A ⊎ C) × (B ⊎ D)
+    ⊎×-implies-×⊎ (inj₁ ⟨ a , b ⟩) = ⟨ inj₁ a , inj₁ b ⟩
+    ⊎×-implies-×⊎ (inj₂ ⟨ c , d ⟩) = ⟨ inj₂ c , inj₂ d ⟩  
 
     {- Implication -}
 
