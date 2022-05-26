@@ -1,6 +1,7 @@
 module Dave.Logic.Basics where
     open import Dave.Functions
     open import Dave.Equality
+    open import Dave.Extensionality
     open import Dave.Isomorphism
     open import Dave.Structures.Monoid
 
@@ -67,7 +68,7 @@ module Dave.Logic.Basics where
     ⊤-identityʳ {A} = ≃-begin
         (A × ⊤) ≃⟨ ×-comm ⟩
         (⊤ × A) ≃⟨ ⊤-identityˡ ⟩
-        A ≃-∎
+        A ≃-∎    
     
     {- Sum (Disjunction) -}
     data _⊎_ (A B : Set) : Set where
@@ -139,6 +140,44 @@ module Dave.Logic.Basics where
         (⊥ ⊎ A) ≃⟨ ⊥-identityˡ ⟩
         A ≃-∎
 
+    {- Implication -}
+
+    {- modus ponens-}
+    →-elim : ∀ {A B : Set} → (A → B) → A → B
+    →-elim A→B a = A→B a
+
+    η-→ : ∀ {A B : Set} (f : A → B) → (λ (x : A) → f x) ≡ f
+    η-→ f = refl
+
+    currying : ∀ {A B C : Set} → (A → B → C) ≃ (A × B → C)
+    currying = record 
+        { 
+            to      =  λ{ f → λ{ ⟨ x , y ⟩ → f x y }}; 
+            from    =  λ{ g → λ{ x → λ{ y → g ⟨ x , y ⟩ }}};
+            from∘to =  λ{ f → refl };
+            to∘from =  λ{ g → extensionality λ{ ⟨ x , y ⟩ → refl }}
+        }
+
+    →-distrib-⊎ : ∀ {A B C : Set} → (A ⊎ B → C) ≃ ((A → C) × (B → C))
+    →-distrib-⊎ = record
+        {
+            to = λ f → ⟨ f ∘ inj₁ , f ∘ inj₂ ⟩;
+            from = λ{⟨ A→C , B→C ⟩ → λ{(inj₁ a) → A→C a
+                                     ; (inj₂ b) → B→C b}};
+            from∘to = λ f → extensionality λ{ (inj₁ a) → refl
+                                            ; (inj₂ b) → refl };
+            to∘from = λ{ ⟨ A→C , B→C ⟩ → refl }
+        }
+
+    →-distrib-× : ∀ {A B C : Set} → (A → B × C) ≃ (A → B) × (A → C)
+    →-distrib-× = record
+        { 
+            to      = λ{ f → ⟨ proj₁ ∘ f , proj₂ ∘ f ⟩ };
+            from    = λ{ ⟨ g , h ⟩ → λ x → ⟨ g x , h x ⟩ };
+            from∘to = λ{ f → extensionality λ{ x → η-× (f x) } };
+            to∘from = λ{ ⟨ g , h ⟩ → refl }
+        }
+
     {- Equality -}
     record _⇔_ (A B : Set) : Set where
         field
@@ -176,3 +215,4 @@ module Dave.Logic.Basics where
             from∘to = λ A⇔B → refl;
             to∘from = λ {⟨ A→B , B→A ⟩ → refl}
         }  
+ 
