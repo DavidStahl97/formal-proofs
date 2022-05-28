@@ -2,6 +2,7 @@ module Dave.Algebra.Naturals.Ordering where
     open import Dave.Algebra.Naturals.Definition public
     open import Dave.Algebra.Naturals.Addition public
     open import Dave.Algebra.Naturals.Multiplication public
+    open import Dave.Logic.Basics
 
     -- TO-DO: define relation
     data _≤_ : ℕ → ℕ → Set where
@@ -105,6 +106,10 @@ module Dave.Algebra.Naturals.Ordering where
     <→suc-≤ : ∀ (m n : ℕ) → m < n → suc m ≤ n
     <→suc-≤ zero (suc n) le = s≤s z≤n
     <→suc-≤ (suc m) (suc n) (s<s le) = s≤s (<→suc-≤ m n le)
+
+    <-irreflexive : ∀ {n : ℕ} → ¬ (n < n)
+    <-irreflexive {zero} ()
+    <-irreflexive {suc n} (s<s n<n) = <-irreflexive n<n
 
     data _>_ : ℕ → ℕ → Set where
         co-m>n : ∀ {m n : ℕ} → n < m → m > n
