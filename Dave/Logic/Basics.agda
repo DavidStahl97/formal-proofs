@@ -38,6 +38,12 @@ module Dave.Logic.Basics where
     ¬¬¬-elim : ∀ {A : Set} → ¬ ¬ ¬ A → ¬ A
     ¬¬¬-elim ¬¬¬a a = ¬¬¬a (¬¬-intro a)
 
+    contraposition : ∀ {A B : Set} → (A → B) → (¬ B → ¬ A)
+    contraposition A→B ¬B A = ¬B (A→B A)
+
+    _≢_ : ∀ {A : Set} → A → A → Set
+    x ≢ y  =  ¬ (x ≡ y)
+
     {- Product (Conjunction) -}
     data _×_ (A B : Set) : Set where
         ⟨_,_⟩ : A → B → A × B
