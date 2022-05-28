@@ -1,5 +1,6 @@
 module Dave.Algebra.Naturals.Definition where
   open import Dave.Equality public
+  open import Dave.Logic.Basics
   open import Dave.Structures.Monoid public
   
   data ℕ : Set where
@@ -20,3 +21,9 @@ module Dave.Algebra.Naturals.Definition where
 
   ℕ-suc-≡ : ∀ {m n : ℕ} → m ≡ n → suc m ≡ suc n
   ℕ-suc-≡ refl = refl
+
+  suc≡→≡ : ∀ {m n : ℕ} → suc m ≡ suc n → m ≡ n
+  suc≡→≡ refl = refl
+
+  ℕ-suc-≠ : ∀ {m n : ℕ} → m ≠ n → suc m ≠ suc n
+  ℕ-suc-≠ m≠n suc-≡ = m≠n (suc≡→≡ suc-≡)

@@ -84,6 +84,9 @@ module Dave.Algebra.Naturals.Ordering where
     data _<_ : ℕ → ℕ → Set where
         z<s : ∀ {n : ℕ} → zero < suc n
         s<s : ∀ {m n : ℕ} → m < n → suc m < suc n
+    
+    suc<→< : ∀ {m n : ℕ} → suc m < suc n → m < n
+    suc<→< (s<s m<n) = m<n
 
     <-trans : ∀ {m n p : ℕ} → m < n → n < p → m < p
     <-trans z<s (s<s n<p) = z<s
@@ -111,26 +114,39 @@ module Dave.Algebra.Naturals.Ordering where
     <-irreflexive {zero} ()
     <-irreflexive {suc n} (s<s n<n) = <-irreflexive n<n
 
+    ¬s<s : ∀ {m n : ℕ} → ¬ (m < n) → ¬ (suc m < suc n)
+    ¬s<s ¬m<n sucm<sucn = ¬m<n (suc<→< sucm<sucn)
+
     data _>_ : ℕ → ℕ → Set where
         co-m>n : ∀ {m n : ℕ} → n < m → m > n
 
     ℕ-suc-> : ∀ {m n : ℕ} → m > n → suc m > suc n
     ℕ-suc-> (co-m>n x) = co-m>n (s<s x)
 
+    suc>→> : ∀ {m n : ℕ} → suc m > suc n → m > n
+    suc>→> (co-m>n sucn<sucm) = co-m>n (suc<→< sucn<sucm)
+
+    ¬s>s : ∀ {m n : ℕ} → ¬ (m > n) → ¬ (suc m > suc n)
+    ¬s>s ¬m>n sucm>sucn = ¬m>n (suc>→> sucm>sucn)
+
+    >-irreflexive : ∀ {n : ℕ} → ¬ (n > n)
+    >-irreflexive = {! co-m>n ?  !}
+
     {- Trichotomy -}
     data Trichotomy (m n : ℕ) : Set where
-        t-m>n : m > n → Trichotomy m n
-        t-m≡n : m ≡ n → Trichotomy m n
-        t-m<n : m < n → Trichotomy m n
+        t-m>n : m > n → ¬ (m < n) → ¬ (m ≡ n) → Trichotomy m n
+        t-m≡n : m ≡ n → ¬ (m < n) → ¬ (m > n) → Trichotomy m n
+        t-m<n : m < n → ¬ (m > n) → ¬ (m ≡ n) → Trichotomy m n
 
     ℕ-suc-Trichotomy : ∀ {m n : ℕ} → Trichotomy m n → Trichotomy (suc m) (suc n)
-    ℕ-suc-Trichotomy (t-m>n x) = t-m>n (ℕ-suc-> x)
-    ℕ-suc-Trichotomy (t-m≡n refl) = t-m≡n refl
-    ℕ-suc-Trichotomy (t-m<n x) = t-m<n (s<s x)
+    ℕ-suc-Trichotomy (t-m>n m>n ¬m<n ¬m≡n) = t-m>n (ℕ-suc-> m>n) (¬s<s ¬m<n) (ℕ-suc-≠ ¬m≡n)
+    ℕ-suc-Trichotomy (t-m≡n m≡n ¬m<n ¬m>n) = t-m≡n (ℕ-suc-≡ m≡n) (¬s<s ¬m<n) (¬s>s ¬m>n)
+    ℕ-suc-Trichotomy (t-m<n m<n ¬m>n ¬m≡n) = t-m<n (s<s m<n) (¬s>s ¬m>n) (ℕ-suc-≠ ¬m≡n)
 
+    
     ℕ-is-Trichotomy : ∀ (m n : ℕ) → Trichotomy m n
-    ℕ-is-Trichotomy zero zero = t-m≡n refl
-    ℕ-is-Trichotomy zero (suc n) = t-m<n z<s
-    ℕ-is-Trichotomy (suc m) zero = t-m>n (co-m>n z<s)
+    ℕ-is-Trichotomy zero zero = t-m≡n refl <-irreflexive {!   !}
+    ℕ-is-Trichotomy zero (suc n) = t-m<n z<s {!   !} {!   !}
+    ℕ-is-Trichotomy (suc m) zero = t-m>n (co-m>n z<s) {!   !} {!   !}
     ℕ-is-Trichotomy (suc m) (suc n) = ℕ-suc-Trichotomy (ℕ-is-Trichotomy m n)
     

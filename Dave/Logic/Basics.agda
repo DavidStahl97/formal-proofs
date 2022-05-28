@@ -41,8 +41,8 @@ module Dave.Logic.Basics where
     contraposition : ∀ {A B : Set} → (A → B) → (¬ B → ¬ A)
     contraposition A→B ¬B A = ¬B (A→B A)
 
-    _≢_ : ∀ {A : Set} → A → A → Set
-    x ≢ y  =  ¬ (x ≡ y)
+    _≠_ : ∀ {A : Set} → A → A → Set
+    x ≠ y  =  ¬ (x ≡ y)
 
     {- Product (Conjunction) -}
     data _×_ (A B : Set) : Set where
