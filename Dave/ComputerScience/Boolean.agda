@@ -1,4 +1,6 @@
 module Dave.ComputerScience.Boolean where
+    open import Dave.Equality
+
     data Bool : Set where
         false : Bool
         true : Bool    
@@ -50,3 +52,8 @@ module Dave.ComputerScience.Boolean where
 
     _nor_ : Bool → Bool → Bool
     x nor y = ~ (x || y)
+
+    -- Theorems
+    ~~-elim : ∀ {b : Bool} → ~ ~ b ≡ b
+    ~~-elim {false} = refl
+    ~~-elim {true} = refl
