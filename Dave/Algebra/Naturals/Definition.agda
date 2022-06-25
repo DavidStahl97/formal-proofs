@@ -27,3 +27,9 @@ module Dave.Algebra.Naturals.Definition where
 
   ℕ-suc-≠ : ∀ {m n : ℕ} → m ≠ n → suc m ≠ suc n
   ℕ-suc-≠ m≠n suc-≡ = m≠n (suc≡→≡ suc-≡)
+
+  0≠suc : ∀ {n : ℕ} → 0 ≠ suc n
+  0≠suc ()
+
+  suc≠0 : ∀ {n : ℕ} → suc n ≠ 0
+  suc≠0 sucn=0 = 0≠suc (sym sucn=0)
