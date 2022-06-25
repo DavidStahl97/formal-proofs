@@ -32,7 +32,7 @@ module Dave.ComputerScience.Boolean where
     true xor false = true
     true xor true = false
 
-    if_then_else_ : {A : Set} → Bool → A → A → A
+    if_then_else_ : ∀ {ℓ} {A : Set ℓ} → Bool → A → A → A
     if false then a else b = b
     if true then a else b = a
 
