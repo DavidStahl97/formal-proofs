@@ -1,13 +1,7 @@
-module Dave.ComputerScience.Boolean where
+module Dave.ComputerScience.Algorithms.Boolean where
     open import Dave.Equality
-
-    data Bool : Set where
-        false : Bool
-        true : Bool    
-
-    {-# BUILTIN BOOL  Bool  #-}
-    {-# BUILTIN TRUE  true  #-}
-    {-# BUILTIN FALSE false #-}
+    open import Dave.Logic.Basics
+    open import Dave.ComputerScience.ComputationalEquality  
 
     infix  7 ~_
     infixl 6 _xor_ _nand_
@@ -71,4 +65,4 @@ module Dave.ComputerScience.Boolean where
     double-neg {true} = refl
 
     Bool-contra : false ≡ true → ∀ {P : Set} → P
-    Bool-contra ()
+    Bool-contra ()    

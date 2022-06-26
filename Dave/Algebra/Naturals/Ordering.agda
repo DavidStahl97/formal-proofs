@@ -117,6 +117,9 @@ module Dave.Algebra.Naturals.Ordering where
     suc-¬< : ∀ {m n : ℕ} → ¬ (m < n) → ¬ (suc m < suc n)
     suc-¬< ¬m<n sucm<sucn = ¬m<n (suc<→< sucm<sucn)
 
+    pred-¬< : ∀ {m n : ℕ} → ¬ suc m < suc n → ¬ m < n
+    pred-¬< {m} {n} ¬m<n m<n = ¬m<n (s<s m<n)    
+
     data _>_ : ℕ → ℕ → Set where
         co-m>n : ∀ {m n : ℕ} → n < m → m > n
 
