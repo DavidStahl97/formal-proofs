@@ -57,3 +57,18 @@ module Dave.ComputerScience.Boolean where
     ~~-elim : ∀ {b : Bool} → ~ ~ b ≡ b
     ~~-elim {false} = refl
     ~~-elim {true} = refl
+
+    &&-idem : ∀ {b : Bool} → b && b ≡ b
+    &&-idem {false} = refl
+    &&-idem {true} = refl
+
+    ||-idem : ∀ {b : Bool} → b || b ≡ b
+    ||-idem {false} = refl
+    ||-idem {true} = refl
+
+    double-neg : ∀ {b : Bool} → ~ ~ b ≡ b
+    double-neg {false} = refl
+    double-neg {true} = refl
+
+    Bool-contra : false ≡ true → ∀ {P : Set} → P
+    Bool-contra ()
