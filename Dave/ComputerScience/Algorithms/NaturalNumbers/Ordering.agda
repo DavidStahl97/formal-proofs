@@ -11,8 +11,8 @@ module Dave.ComputerScience.Algorithms.NaturalNumbers.Ordering where
     is suc m < zero = false
     is suc m < suc n = is m < n
 
-    is▸< : is_<_ ◂≃₂▸ _<_
-    is≃< = record 
+    is▸< : is_<_ ▸ _<_
+    is▸< = record 
         {
             true▸ = <-true▸;
             false▸ = <-false▸;
