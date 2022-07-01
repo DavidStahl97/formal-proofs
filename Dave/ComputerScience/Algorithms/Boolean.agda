@@ -1,7 +1,7 @@
 module Dave.ComputerScience.Algorithms.Boolean where
     open import Dave.Equality
-    open import Dave.Logic.Basics
-    open import Dave.ComputerScience.ComputationalEquality  
+    open import Dave.Logic.Basics  
+    open import Dave.ComputerScience.DataStructures.Boolean
 
     infix  7 ~_
     infixl 6 _xor_ _nand_
