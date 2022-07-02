@@ -1,7 +1,14 @@
 module Dave.ComputerScience.Algorithms.Boolean where
     open import Dave.Equality
-    open import Dave.Logic.Basics  
-    open import Dave.ComputerScience.DataStructures.Boolean
+    open import Dave.Logic.Basics      
+
+    data Bool : Set where
+        false : Bool
+        true : Bool    
+
+    {-# BUILTIN BOOL  Bool  #-}
+    {-# BUILTIN TRUE  true  #-}
+    {-# BUILTIN FALSE false #-}  
 
     infix  7 ~_
     infixl 6 _xor_ _nand_
@@ -17,6 +24,8 @@ module Dave.ComputerScience.Algorithms.Boolean where
     _&&_ : Bool → Bool → Bool
     a && true = a
     a && false = false
+
+    &&▸× : _&&
 
     _||_ : Bool → Bool → Bool
     a || false = a
