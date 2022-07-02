@@ -1,7 +1,6 @@
 module Dave.ComputerScience.Algorithms.NaturalNumbers.Ordering where
     open import Dave.ComputerScience.Algorithms.Decidable
     open import Dave.ComputerScience.Algorithms.Boolean
-    open import Dave.ComputerScience.DataStructures.Boolean
     open import Dave.ComputerScience.Algorithms.NaturalNumbers.Equality
     open import Dave.Logic.Basics
     open import Dave.Algebra.Naturals.Definition

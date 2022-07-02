@@ -2,7 +2,7 @@ module Dave.ComputerScience.Algorithms.Decidable where
     open import Dave.Equality
     open import Dave.Isomorphism
     open import Dave.Logic.Basics
-    open import Dave.ComputerScience.DataStructures.Boolean
+    open import Dave.ComputerScience.Algorithms.Boolean
     open import Dave.Functions
 
     record _▸₂_ {A B : Set} (f : A → B → Bool) (P : A → B → Set) : Set where
