@@ -1,14 +1,7 @@
 module Dave.ComputerScience.Algorithms.Boolean where
     open import Dave.Equality
     open import Dave.Logic.Basics      
-
-    data Bool : Set where
-        false : Bool
-        true : Bool    
-
-    {-# BUILTIN BOOL  Bool  #-}
-    {-# BUILTIN TRUE  true  #-}
-    {-# BUILTIN FALSE false #-}  
+    open import Dave.ComputerScience.Algorithms.Decidable
 
     infix  7 ~_
     infixl 6 _xor_ _nand_
@@ -21,11 +14,46 @@ module Dave.ComputerScience.Algorithms.Boolean where
     ~ true = false
     ~ false = true
 
+    ~▸¬ : ~_ ▸₁ λ a → ¬ a ≡ true
+    ~▸¬ = record 
+        {
+            true▸ = true▸;
+            false▸ = false▸;
+            true◂ = true◂
+        }
+        where
+        true▸ : ∀ {a} → ~ a ≡ true → ¬ a ≡ true
+        true▸ {false} ~a≡t ()
+        true▸ {true} () a≡true
+
+        false▸ : ∀ {a} → ~ a ≡ false → ¬ ¬ a ≡ true
+        false▸ {true} ~a≡f x = x refl
+
+        true◂ : ∀ {a} → ¬ a ≡ true → ~ a ≡ true
+        true◂ {false} ¬a≡t = refl
+        true◂ {true} ¬a≡t = ⊥-elim (¬a≡t refl)
+
     _&&_ : Bool → Bool → Bool
     a && true = a
     a && false = false
 
-    -- &&▸× : _&&_ 
+    &&▸× : _&&_ ▸₂ λ a b → (a ≡ true) × (b ≡ true)
+    &&▸× = record 
+        {
+            true▸ = true▸;
+            false▸ = false▸;
+            true◂ = ◂true
+        }
+        where
+        true▸ : ∀ {a b : Bool} → a && b ≡ true → (a ≡ true) × (b ≡ true)
+        true▸ {true} {true} a&&b≡t = ⟨ refl , refl ⟩
+
+        false▸ : ∀ {a b : Bool} → a && b ≡ false → ¬ (a ≡ true × b ≡ true)
+        false▸ {a} {false} a&&b≡f ⟨ x , () ⟩
+        false▸ {false} {true} a&&b≡f ⟨ () , x₁ ⟩
+
+        ◂true : ∀ {a b : Bool} → (a ≡ true × b ≡ true) → a && b ≡ true
+        ◂true {true} {true} ⟨ a≡t , b≡f ⟩ = refl
 
     _||_ : Bool → Bool → Bool
     a || false = a
@@ -57,6 +85,10 @@ module Dave.ComputerScience.Algorithms.Boolean where
     x nor y = ~ (x || y)
 
     -- Theorems
+    true⊎false : ∀ {a} → a ≡ true ⊎ a ≡ false
+    true⊎false {false} = inj₂ refl
+    true⊎false {true} = inj₁ refl
+
     ~~-elim : ∀ {b : Bool} → ~ ~ b ≡ b
     ~~-elim {false} = refl
     ~~-elim {true} = refl
@@ -74,4 +106,4 @@ module Dave.ComputerScience.Algorithms.Boolean where
     double-neg {true} = refl
 
     Bool-contra : false ≡ true → ∀ {P : Set} → P
-    Bool-contra ()    
+    Bool-contra ()   
