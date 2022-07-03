@@ -24,4 +24,6 @@ module Symbols where
         ≥ - \ge
         > - \geq
         ÷ - \div
+        ◂ - \blacktriangleleft
+        ▸ - \blacktriangleright
     -}

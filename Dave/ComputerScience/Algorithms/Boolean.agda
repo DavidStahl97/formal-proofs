@@ -25,7 +25,7 @@ module Dave.ComputerScience.Algorithms.Boolean where
     a && true = a
     a && false = false
 
-    &&▸× : _&&
+    -- &&▸× : _&&_ 
 
     _||_ : Bool → Bool → Bool
     a || false = a
