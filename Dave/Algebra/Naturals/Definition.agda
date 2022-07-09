@@ -1,7 +1,7 @@
 module Dave.Algebra.Naturals.Definition where
-  open import Dave.Equality public
-  open import Dave.Logic.Basics
-  open import Dave.Structures.Monoid public
+  open import Dave.Module public
+  open import Dave.Logic.Basics public
+  open import Dave.Structures.Module public
   
   data ℕ : Set where
     zero : ℕ

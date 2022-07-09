@@ -1,10 +1,8 @@
 module Dave.ComputerScience.Algorithms.NaturalNumbers.Ordering where
-    open import Dave.ComputerScience.Algorithms.Decidable
-    open import Dave.ComputerScience.Algorithms.Boolean
+    open import Dave.ComputerScience.Datastructures.Module
     open import Dave.ComputerScience.Algorithms.NaturalNumbers.Equality
     open import Dave.Logic.Basics
-    open import Dave.Algebra.Naturals.Definition
-    open import Dave.Algebra.Naturals.Ordering
+    open import Dave.Algebra.Naturals.Module
 
     is_<_ : ℕ → ℕ → Bool
     is zero < zero = false

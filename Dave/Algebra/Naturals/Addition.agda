@@ -1,6 +1,5 @@
 module Dave.Algebra.Naturals.Addition where  
-  open import Dave.Algebra.Naturals.Definition public
-  open import Dave.Extensionality
+  open import Dave.Algebra.Naturals.Definition
 
   _+_ : ℕ → ℕ → ℕ
   zero + b = b

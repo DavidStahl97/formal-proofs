@@ -1,8 +1,7 @@
 module Dave.Algebra.Naturals.Ordering where
-    open import Dave.Algebra.Naturals.Definition public
-    open import Dave.Algebra.Naturals.Addition public
-    open import Dave.Algebra.Naturals.Multiplication public
-    open import Dave.Logic.Basics
+    open import Dave.Algebra.Naturals.Definition
+    open import Dave.Algebra.Naturals.Addition
+    open import Dave.Algebra.Naturals.Multiplication
 
     -- TO-DO: define relation
     data _≤_ : ℕ → ℕ → Set where
