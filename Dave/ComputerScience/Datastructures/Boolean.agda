@@ -1,5 +1,5 @@
 module Dave.ComputerScience.Datastructures.Boolean where
-    open import Dave.Equality
+    open import Dave.Algebra.Naturals.Module
     open import Dave.Logic.Basics
 
     data Bool : Set where

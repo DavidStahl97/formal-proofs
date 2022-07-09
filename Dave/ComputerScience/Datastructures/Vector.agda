@@ -1,6 +1,5 @@
 module Dave.ComputerScience.Datastructures.Vector where
-    open import Dave.Algebra.Naturals.Definition
-    open import Dave.Algebra.Naturals.Addition
+    open import Dave.Algebra.Naturals.Module
     open import Dave.ComputerScience.Datastructures.Boolean
 
     data Vector {ℓ} (A : Set ℓ) : ℕ → Set ℓ where
