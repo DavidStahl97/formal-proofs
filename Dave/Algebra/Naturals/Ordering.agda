@@ -17,7 +17,7 @@ module Dave.Algebra.Naturals.Ordering where
     inv-z≤n z≤n = refl
 
     -- TO-DO: define relation properties in general
-    ≤-refl : ∀ {n : ℕ} → n ≤ n
+    ≤-refl : reflexiv _≤_
     ≤-refl {zero} = z≤n
     ≤-refl {suc n} = s≤s ≤-refl
 

@@ -1,15 +1,18 @@
 module Dave.Equality where
-  data _≡_ {A : Set} (x : A) : A → Set where
+  open import Agda.Primitive
+  open import Dave.Definitions
+
+  data _≡_ {ℓ} {A : Set ℓ} (x : A) : A → Set ℓ where
     refl : x ≡ x
 
   infix 4 _≡_
   
   {-# BUILTIN EQUALITY _≡_ #-}
 
-  sym : ∀ {A : Set} {x y : A} → x ≡ y → y ≡ x
+  sym : ∀ {ℓ} {A : Set ℓ} → symmetry {ℓ} {A} _≡_
   sym refl = refl
 
-  trans : ∀ {A : Set} {x y z : A} → x ≡ y → y ≡ z → x ≡ z
+  trans : ∀ {ℓ} {A : Set ℓ} → transitivity {ℓ} {A} _≡_
   trans refl b = b
 
   cong : ∀ {A B : Set} (f : A → B) {x y : A} → x ≡ y → f x ≡ f y

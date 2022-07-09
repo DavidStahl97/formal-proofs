@@ -1,11 +1,11 @@
 module Dave.Structures.Definitions where
     open import Dave.Equality public
-
+ 
     op₁ : Set → Set
     op₁ A = A → A
 
     op₂ : Set → Set
-    op₂ A = A → A → A
+    op₂ A = A → A → A 
 
     associative : {A : Set} → op₂ A → Set
     associative _·_ = ∀ m n p → (m · n) · p ≡ m · (n · p)

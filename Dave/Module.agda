@@ -1,4 +1,5 @@
 module Dave.Module where
+    open import Dave.Definitions public
     open import Dave.Equality public
     open import Dave.LeibnizEquality public
     open import Dave.Functions public
