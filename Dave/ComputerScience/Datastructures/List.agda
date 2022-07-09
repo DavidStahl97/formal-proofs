@@ -1,8 +1,7 @@
-module Dave.ComputerScience.Algorithms.List where
+module Dave.ComputerScience.Datastructures.List where
     open import Dave.Algebra.Naturals.Definition
-    open import Dave.ComputerScience.Algorithms.Decidable
-    open import Dave.ComputerScience.Algorithms.Boolean
-    open import Dave.ComputerScience.Maybe
+    open import Dave.ComputerScience.Datastructures.Boolean
+    open import Dave.ComputerScience.Datastructures.Maybe
 
     data List {ℓ} (A : Set ℓ) : Set ℓ where
         [] : List A

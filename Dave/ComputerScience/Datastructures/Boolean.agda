@@ -1,7 +1,26 @@
-module Dave.ComputerScience.Algorithms.Boolean where
+module Dave.ComputerScience.Datastructures.Boolean where
     open import Dave.Equality
-    open import Dave.Logic.Basics      
-    open import Dave.ComputerScience.Algorithms.Decidable public
+    open import Dave.Logic.Basics
+
+    data Bool : Set where
+        false : Bool
+        true : Bool    
+
+    {-# BUILTIN BOOL  Bool  #-}
+    {-# BUILTIN TRUE  true  #-}
+    {-# BUILTIN FALSE false #-}  
+
+    record _▸₁_ {A : Set} (f : A → Bool) (P : A → Set) : Set where
+        field
+            true▸ : ∀ {a} → f a ≡ true → P a
+            false▸ : ∀ {a} → f a ≡ false → ¬ P a
+            true◂ : ∀ {a} → P a → f a ≡ true
+
+    record _▸₂_ {A B : Set} (f : A → B → Bool) (P : A → B → Set) : Set where
+        field
+            true▸ : ∀ {a b} → f a b ≡ true → P a b
+            false▸ : ∀ {a b} → f a b ≡ false → ¬ P a b
+            true◂ : ∀ {a b} → P a b → f a b ≡ true  
 
     infix  7 ~_
     infixl 6 _xor_ _nand_
