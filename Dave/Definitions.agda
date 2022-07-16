@@ -1,20 +1,38 @@
 module Dave.Definitions where
     open import Agda.Primitive
+
+    private
+        variable
+            ℓ : Level
+
+    P₂ : ∀ {ℓ} → Set (lsuc (lsuc ℓ))
+    P₂ {ℓ} = (∀ {A : Set ℓ} → A → A → Set ℓ) → Set (lsuc ℓ) 
+
+    refl : P₂ {ℓ}
+    refl {ℓ} prop = ∀ {A : Set ℓ} {m : A} → prop m m
     
-    P₁ : ∀ {ℓ : Level} → Set ℓ → Set (lsuc ℓ)
-    P₁ {ℓ} A = A → Set ℓ
+    sym : P₂ {ℓ}
+    sym {ℓ} prop = ∀ {A : Set ℓ} {m n : A} → prop m n → prop n m
 
-    P₂ : ∀ {ℓ : Level} → Set ℓ → Set (lsuc ℓ)
-    P₂ {ℓ} A = A → A → Set ℓ
+    trans : P₂ {ℓ}
+    trans {ℓ} prop = ∀ {A : Set ℓ} {m n p : A} → prop m n → prop n p → prop m p
 
-    reflexiv : ∀ {ℓ} {A : Set ℓ} → P₂ A → Set ℓ
-    reflexiv {ℓ} {A} prop = ∀ {m : A} → prop m m
-    
-    symmetry : ∀ {ℓ} {A : Set ℓ} → P₂ A → Set ℓ
-    symmetry {ℓ} {A} prop = ∀ {m n : A} → prop m n → prop n m
+    cong : P₂ {ℓ}
+    cong {ℓ} prop = ∀ {A B : Set ℓ} {m n : A} → (f : A → B) → prop m n → prop (f m) (f n)    
 
-    transitivity : ∀ {ℓ} {A : Set ℓ} → P₂ A → Set ℓ
-    transitivity {ℓ} {A} prop = ∀ {m n p : A} → prop m n → prop n p → prop m p
+    cong₂ : P₂ {ℓ}
+    cong₂ {ℓ} prop = ∀ {A B C : Set ℓ} {m n : A} {o p : B} 
+        → (f : A → B → C) 
+        → prop m n 
+        → prop o p 
+        → prop (f m o) (f n p)
 
-    congruence : ∀ {ℓ} {A B : Set ℓ} → P₂ A → Set ℓ
-    congruence {ℓ} {A} prop = ∀ {m n : A} → (f : A → B) → prop m n → prop (f m) (f n)
+    cong-app : P₂ {ℓ}
+    cong-app {ℓ} prop = ∀ {A B : Set ℓ} {f g : A → B}
+        → prop f g
+        → ∀ {x : A} → prop (f x) (g x) 
+
+    subst : P₂ {ℓ}
+    subst {ℓ} prop = ∀ {A : Set ℓ} {x y : A} {P : A → Set ℓ}
+        → prop x y
+        → P x → P y

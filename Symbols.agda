@@ -2,6 +2,7 @@ module Symbols where
     {-
         → - \to
         ℓ - \ell
+        ⊔ - \lub
         ∀ - \all
         λ - \lambda
         ⊤ - \top
