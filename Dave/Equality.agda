@@ -1,10 +1,10 @@
 module Dave.Equality where
   open import Agda.Primitive
-  open import Dave.Definitions
+  open import Dave.Relations.Module
 
   private
     variable
-      ℓ : Level
+      ℓ ℓ₁ ℓ₂ : Level
 
   data _≡_ {A : Set ℓ} (x : A) : A → Set ℓ where
     ≡-refl : x ≡ x
@@ -13,22 +13,22 @@ module Dave.Equality where
   
   {-# BUILTIN EQUALITY _≡_ #-}
 
-  ≡-sym : sym {ℓ} _≡_
+  ≡-sym : homo-sym {ℓ} _≡_
   ≡-sym ≡-refl = ≡-refl
 
-  ≡-trans : trans {ℓ} _≡_
+  ≡-trans : homo-trans {ℓ} _≡_
   ≡-trans ≡-refl b = b
 
-  ≡-cong : cong {ℓ} _≡_
+  ≡-cong : cong {ℓ} {ℓ₁} _≡_
   ≡-cong f ≡-refl = ≡-refl
 
-  ≡-cong₂ : cong₂ {ℓ} _≡_
+  ≡-cong₂ : cong₂ {ℓ} {ℓ₁} {ℓ₂} _≡_
   ≡-cong₂ f ≡-refl ≡-refl = ≡-refl
 
-  ≡-cong-app : cong-app {ℓ} _≡_
+  ≡-cong-app : cong-app {ℓ} {ℓ₁} _≡_
   ≡-cong-app ≡-refl = ≡-refl
 
-  ≡-subst : subst {ℓ} _≡_
+  ≡-subst : subst {ℓ} {ℓ₁} _≡_
   ≡-subst ≡-refl Px = Px
 
   module ≡-Reasoning {A : Set} where
@@ -61,4 +61,4 @@ module Dave.Equality where
       → x ≡ x
     x ∎  =  ≡-refl
 
-  open ≡-Reasoning
+  open ≡-Reasoning public
