@@ -2,7 +2,6 @@
     "files.exclude": {
         "**/*.agda~": true,
         "**/*.agdai": true,
-        "**/MAlonzo": true,
-        "index.agda": true
+        "**/MAlonzo": true
     }
 }
