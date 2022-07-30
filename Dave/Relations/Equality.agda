@@ -4,18 +4,19 @@ module Dave.Relations.Equality where
 
   private
     variable
-      ℓ ℓ₁ ℓ₂ : Level
+      ℓ₁ ℓ₂ ℓ₃ : Level
 
-  data _≡_ {A : Set ℓ} (x : A) : A → Set ℓ where
+  data _≡_ {A : Set ℓ₁} (x : A) : A → Set ℓ₁ where
     ≡-refl : x ≡ x
 
   infix 4 _≡_
   
   {-# BUILTIN EQUALITY _≡_ #-}
 
-  ≡-sym : homo-sym {ℓ} _≡_
+  ≡-sym : homo-sym {ℓ₁} {ℓ₁} _≡_
   ≡-sym ≡-refl = ≡-refl
 
+{-
   ≡-trans : homo-trans {ℓ} _≡_
   ≡-trans ≡-refl b = b
 
@@ -61,4 +62,4 @@ module Dave.Relations.Equality where
       → x ≡ x
     x ∎  =  ≡-refl
 
-  open ≡-Reasoning public
+  open ≡-Reasoning public -}
