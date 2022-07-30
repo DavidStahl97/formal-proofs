@@ -1,5 +1,5 @@
-module Dave.Extensionality where
-    open import Dave.Equality
+module Dave.Relations.Extensionality where
+    open import Dave.Relations.Equality
 
     postulate
         extensionality : ∀ {A B : Set} {f g : A → B} 

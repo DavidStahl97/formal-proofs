@@ -1,7 +1,7 @@
-module Dave.Isomorphism where
+module Dave.Relations.Isomorphism where
     open import Agda.Primitive
-    open import Dave.Relations.Module
-    open import Dave.Equality
+    open import Dave.Relations.Definitions
+    open import Dave.Relations.Equality
     open import Dave.Functions
 
     private
@@ -17,16 +17,16 @@ module Dave.Isomorphism where
             to∘from : ∀ (x : B) → to (from x) ≡ x
     open _≃_
 
-    {- ≃-refl : refl {lsuc ℓ₁} _≃_
+    ≃-refl : ∀ {A : Set} → A ≃ A
     ≃-refl = record 
         { 
             to = λ x → x; 
             from = λ y → y; 
             from∘to = λ x → ≡-refl; 
             to∘from = λ y → ≡-refl
-        } -}
+        }
 
-    ≃-sym : sym {ℓ₁} {ℓ₂} _≃_
+    ≃-sym : ∀ {A B : Set} → A ≃ B → B ≃ A
     ≃-sym A≃B = record 
         {
             to = from A≃B ;
@@ -52,7 +52,7 @@ module Dave.Isomorphism where
                 x ∎
         }
     
-    {- module ≃-Reasoning where
+    module ≃-Reasoning where
 
         infix  1 ≃-begin_
         infixr 2 _≃⟨_⟩_
@@ -76,5 +76,5 @@ module Dave.Isomorphism where
             → A ≃ A
         A ≃-∎ = ≃-refl
 
-    open ≃-Reasoning public -}
+    open ≃-Reasoning public
         

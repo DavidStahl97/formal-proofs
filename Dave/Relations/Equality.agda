@@ -1,6 +1,6 @@
-module Dave.Equality where
+module Dave.Relations.Equality where
   open import Agda.Primitive
-  open import Dave.Relations.Module
+  open import Dave.Relations.Definitions
 
   private
     variable

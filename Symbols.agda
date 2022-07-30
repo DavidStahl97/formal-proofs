@@ -1,6 +1,7 @@
 module Symbols where
     {-
         → - \to
+        ⇔ - \iff
         ℓ - \ell
         ⊔ - \lub
         ∀ - \all
