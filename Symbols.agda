@@ -5,7 +5,10 @@ module Symbols where
         ℓ - \ell
         ⊔ - \lub
         ∀ - \all
+        Σ - \ge
+        Π - \Pi
         λ - \lambda
+        Λ - \Lambda
         ⊤ - \top
         ⊥ - \bot
         ⊢ - \vdash
@@ -14,7 +17,6 @@ module Symbols where
         ¬ - \neg
         × - \x
         ⊎ - \uplus
-        Σ - \ge
         ℕ - \bN
         ∎ - \qed
         ≡ - \==
