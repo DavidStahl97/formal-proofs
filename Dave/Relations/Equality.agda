@@ -2,35 +2,37 @@ module Dave.Relations.Equality where
   open import Agda.Primitive
   open import Dave.Relations.Definitions
 
-  private
-    variable
-      ℓ₁ ℓ₂ ℓ₃ : Level
-
-  data _≡_ {A : Set ℓ₁} (x : A) : A → Set ℓ₁ where
+  data _≡_ {ℓ} {A : Set ℓ} (x : A) : A → Set ℓ where
     ≡-refl : x ≡ x
 
   infix 4 _≡_
   
   {-# BUILTIN EQUALITY _≡_ #-}
 
-  ≡-sym : homo-sym {ℓ₁} {ℓ₁} _≡_
+  ≡-sym : ∀ {ℓ} {A : Set ℓ} → homo-sym A _≡_
   ≡-sym ≡-refl = ≡-refl
 
-{-
-  ≡-trans : homo-trans {ℓ} _≡_
+  ≡-trans : ∀ {ℓ} {A : Set ℓ} → homo-trans A _≡_
   ≡-trans ≡-refl b = b
 
-  ≡-cong : cong {ℓ} {ℓ₁} _≡_
+  ≡-cong : ∀ {A B : Set} (f : A → B) {x y : A} → x ≡ y → f x ≡ f y
   ≡-cong f ≡-refl = ≡-refl
 
-  ≡-cong₂ : cong₂ {ℓ} {ℓ₁} {ℓ₂} _≡_
+  ≡-cong₂ : ∀ {A B C : Set} (f : A → B → C) {u x : A} {v y : B}
+    → u ≡ x
+    → v ≡ y
+    → f u v ≡ f x y
   ≡-cong₂ f ≡-refl ≡-refl = ≡-refl
 
-  ≡-cong-app : cong-app {ℓ} {ℓ₁} _≡_
-  ≡-cong-app ≡-refl = ≡-refl
+  ≡-cong-app : ∀ {A B : Set} {f g : A → B}
+    → f ≡ g
+    → ∀ (x : A) → f x ≡ g x
+  ≡-cong-app ≡-refl x = ≡-refl
 
-  ≡-subst : subst {ℓ} {ℓ₁} _≡_
-  ≡-subst ≡-refl Px = Px
+  ≡-subst : ∀ {A : Set} {x y : A} (P : A → Set)
+    → x ≡ y
+    → P x → P y
+  ≡-subst P ≡-refl px = px  
 
   module ≡-Reasoning {A : Set} where
 
@@ -62,4 +64,4 @@ module Dave.Relations.Equality where
       → x ≡ x
     x ∎  =  ≡-refl
 
-  open ≡-Reasoning public -}
+  open ≡-Reasoning public
