@@ -11,7 +11,7 @@ module Dave.Logic.Propositions.Basics where
             D : Set ℓ-D
 
     {- Equality -}
-    record _⇔_ {ℓ-A ℓ-B} (A : Set ℓ-A) (B : Set ℓ-B) : Set (lsuc (ℓ-A ⊔ ℓ-B)) where
+    record _⇔_ {ℓ-A ℓ-B} (A : Set ℓ-A) (B : Set ℓ-B) : Set (ℓ-A ⊔ ℓ-B) where
         field
             to   : A → B
             from : B → A
@@ -56,8 +56,6 @@ module Dave.Logic.Propositions.Basics where
     ¬_ : ∀ {ℓ} → Set ℓ → Set ℓ
     ¬ A = A → ⊥
 
-    infix 3 ¬_
-
     ¬-elim : ¬ A → A → ⊥
     ¬-elim ¬x x = ¬x x   
 
@@ -68,7 +66,7 @@ module Dave.Logic.Propositions.Basics where
     ¬¬¬-elim ¬¬¬a a = ¬¬¬a (¬¬-intro a)
 
     contraposition : (A → B) → (¬ B → ¬ A)
-    contraposition A→B ¬B A = ¬B (A→B A)    
+    contraposition A→B ¬B A = ¬B (A→B A)
 
     {- Product (Conjunction) -}
     data _×_ {A-ℓ B-ℓ} (A : Set A-ℓ) (B : Set B-ℓ) : Set (A-ℓ ⊔ B-ℓ) where
@@ -169,6 +167,9 @@ module Dave.Logic.Propositions.Basics where
     ⊎×-implies-×⊎ : (A × B) ⊎ (C × D) → (A ⊎ C) × (B ⊎ D)
     ⊎×-implies-×⊎ (inj₁ ⟨ a , b ⟩) = ⟨ inj₁ a , inj₁ b ⟩
     ⊎×-implies-×⊎ (inj₂ ⟨ c , d ⟩) = ⟨ inj₂ c , inj₂ d ⟩  
+
+    em-irrefutable : ¬ ¬ (A ⊎ (¬ A))
+    em-irrefutable {ℓ} {A} f = f (inj₂ (λ a → f (inj₁ a)))
 
     {- Implication -}
 
