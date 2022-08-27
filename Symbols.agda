@@ -1,33 +1,37 @@
 module Symbols where
     {-
-        → - \to
-        ⇔ - \iff
-        ℓ - \ell
-        ⊔ - \lub
-        ∀ - \all
-        Σ - \ge
-        Π - \Pi
-        λ - \lambda
-        Λ - \Lambda
-        ⊤ - \top
-        ⊥ - \bot
-        ⊢ - \vdash
-        ∧ - \and
-        ∨ - \or
-        ¬ - \neg
-        × - \x
-        ⊎ - \uplus
-        ℕ - \bN
-        ∎ - \qed
+        ^1
         ≡ - \==
         ∸ - \.-
-        ⟨ - \<
         ⟩ - \>
-        ≤ - \le
-        < - \leq
-        ≥ - \ge
-        > - \geq
-        ÷ - \div
+        ⟨ - \<
+        ∀ - \all
+        ∧ - \and
         ◂ - \blacktriangleleft
         ▸ - \blacktriangleright
+        ℕ - \bN
+        ⊥ - \bot
+        Δ - \Delta
+        ÷ - \div
+        ℓ - \ell
+        ε - \epsilon
+        ≥ - \ge
+        > - \geq
+        ⇔ - \iff
+        Λ - \Lambda
+        λ - \lambda
+        ≤ - \le
+        < - \leq
+        ⊔ - \lub
+        ¬ - \neg
+        ∨ - \or
+        Π - \Pi
+        ∎ - \qed
+        ⇒ - \Rightarrow
+        Σ - \Sigma
+        → - \to
+        ⊤ - \top
+        ⊎ - \uplus
+        ⊢ - \vdash        
+        × - \x
     -}
