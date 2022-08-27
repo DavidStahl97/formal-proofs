@@ -1,5 +1,5 @@
-module Dave.Structures.Definitions where
-    open import Dave.Equality public
+module Dave.Algebra.Structures.Definitions where
+    open import Dave.Relations.Module public
  
     op₁ : Set → Set
     op₁ A = A → A

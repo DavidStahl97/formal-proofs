@@ -1,6 +1,6 @@
 module Dave.ComputerScience.Datastructures.Boolean where
     open import Dave.Algebra.Naturals.Module
-    open import Dave.Logic.Basics
+    open import Dave.Logic.Module
 
     data Bool : Set where
         false : Bool
@@ -46,11 +46,11 @@ module Dave.ComputerScience.Datastructures.Boolean where
         true▸ {true} () a≡true
 
         false▸ : ∀ {a} → ~ a ≡ false → ¬ ¬ a ≡ true
-        false▸ {true} ~a≡f x = x refl
+        false▸ {true} ~a≡f x = x ≡-refl
 
         true◂ : ∀ {a} → ¬ a ≡ true → ~ a ≡ true
-        true◂ {false} ¬a≡t = refl
-        true◂ {true} ¬a≡t = ⊥-elim (¬a≡t refl)
+        true◂ {false} ¬a≡t = ≡-refl
+        true◂ {true} ¬a≡t = ⊥-elim (¬a≡t ≡-refl)
 
     _&&_ : Bool → Bool → Bool
     a && true = a
@@ -65,14 +65,14 @@ module Dave.ComputerScience.Datastructures.Boolean where
         }
         where
         true▸ : ∀ {a b : Bool} → a && b ≡ true → (a ≡ true) × (b ≡ true)
-        true▸ {true} {true} a&&b≡t = ⟨ refl , refl ⟩
+        true▸ {true} {true} a&&b≡t = ⟨ ≡-refl , ≡-refl ⟩
 
         false▸ : ∀ {a b : Bool} → a && b ≡ false → ¬ (a ≡ true × b ≡ true)
         false▸ {a} {false} a&&b≡f ⟨ x , () ⟩
         false▸ {false} {true} a&&b≡f ⟨ () , x₁ ⟩
 
         ◂true : ∀ {a b : Bool} → (a ≡ true × b ≡ true) → a && b ≡ true
-        ◂true {true} {true} ⟨ a≡t , b≡f ⟩ = refl
+        ◂true {true} {true} ⟨ a≡t , b≡f ⟩ = ≡-refl
 
     _||_ : Bool → Bool → Bool
     a || false = a
@@ -105,24 +105,24 @@ module Dave.ComputerScience.Datastructures.Boolean where
 
     -- Theorems
     true⊎false : ∀ {a} → a ≡ true ⊎ a ≡ false
-    true⊎false {false} = inj₂ refl
-    true⊎false {true} = inj₁ refl
+    true⊎false {false} = inj₂ ≡-refl
+    true⊎false {true} = inj₁ ≡-refl
 
     ~~-elim : ∀ {b : Bool} → ~ ~ b ≡ b
-    ~~-elim {false} = refl
-    ~~-elim {true} = refl
+    ~~-elim {false} = ≡-refl
+    ~~-elim {true} = ≡-refl
 
     &&-idem : ∀ {b : Bool} → b && b ≡ b
-    &&-idem {false} = refl
-    &&-idem {true} = refl
+    &&-idem {false} = ≡-refl
+    &&-idem {true} = ≡-refl
 
     ||-idem : ∀ {b : Bool} → b || b ≡ b
-    ||-idem {false} = refl
-    ||-idem {true} = refl
+    ||-idem {false} = ≡-refl
+    ||-idem {true} = ≡-refl
 
     double-neg : ∀ {b : Bool} → ~ ~ b ≡ b
-    double-neg {false} = refl
-    double-neg {true} = refl
+    double-neg {false} = ≡-refl
+    double-neg {true} = ≡-refl
 
     Bool-contra : false ≡ true → ∀ {P : Set} → P
     Bool-contra ()   

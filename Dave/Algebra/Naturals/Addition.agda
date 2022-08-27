@@ -9,8 +9,8 @@ module Dave.Algebra.Naturals.Addition where
 
   {- Semigroup -}
   +-assoc : associative _+_
-  +-assoc zero n p = refl
-  +-assoc (suc m) n p = cong suc (+-assoc m n p)
+  +-assoc zero n p = ≡-refl
+  +-assoc (suc m) n p = ≡-cong suc (+-assoc m n p)
 
   +-assoc' : associative _+_
   +-assoc' zero n p = begin
@@ -20,7 +20,7 @@ module Dave.Algebra.Naturals.Addition where
   +-assoc' (suc m) n p = begin
     (suc m + n) + p ≡⟨⟩
     suc (m + n) + p ≡⟨⟩
-    suc ((m + n) + p) ≡⟨ cong suc (+-assoc' m n p) ⟩
+    suc ((m + n) + p) ≡⟨ ≡-cong suc (+-assoc' m n p) ⟩
     suc (m + (n + p)) ∎
    
   ℕ-+-IsSemigroup : IsSemigroup _+_
@@ -33,11 +33,11 @@ module Dave.Algebra.Naturals.Addition where
 
   {- Identity -}
   +-right-identity : right-identity _+_ 0
-  +-right-identity zero = refl
-  +-right-identity (suc n) = cong suc (+-right-identity n)
+  +-right-identity zero = ≡-refl
+  +-right-identity (suc n) = ≡-cong suc (+-right-identity n)
 
   +-left-identity : left-identity _+_ 0
-  +-left-identity m = refl
+  +-left-identity m = ≡-refl
 
   ℕ-+-HasIdentity : Identity _+_ 0
   Identity.left ℕ-+-HasIdentity = +-left-identity
@@ -56,18 +56,18 @@ module Dave.Algebra.Naturals.Addition where
 
   {- Commutative Monoid -}
   +-suc : ∀ (m n : ℕ) → m + suc n ≡ suc (m + n)
-  +-suc zero n = refl
-  +-suc (suc m) n = cong suc (+-suc m n)
+  +-suc zero n = ≡-refl
+  +-suc (suc m) n = ≡-cong suc (+-suc m n)
 
   +-comm : commutative _+_
   +-comm m zero = +-right-identity m
-  +-comm m (suc n) = trans (+-suc m n) (cong suc (+-comm m n))
+  +-comm m (suc n) = ≡-trans (+-suc m n) (≡-cong suc (+-comm m n))
 
   +-comm' : commutative _+_
   +-comm' m zero = +-right-identity m
   +-comm' m (suc n) = begin
       (m + suc n) ≡⟨ +-suc m n ⟩
-      suc (m + n) ≡⟨ cong suc (+-comm' m n) ⟩
+      suc (m + n) ≡⟨ ≡-cong suc (+-comm' m n) ⟩
       suc (n + m) ∎
 
   ℕ-+-IsCommutativeMonoid : IsCommutativeMonoid _+_ 0
@@ -77,11 +77,11 @@ module Dave.Algebra.Naturals.Addition where
 
   {- Additional Theorems -}
   +-add1ᵣ : ∀ (m : ℕ) → m + 1 ≡ suc m
-  +-add1ᵣ zero = refl
-  +-add1ᵣ (suc m) = cong suc (+-add1ᵣ m)
+  +-add1ᵣ zero = ≡-refl
+  +-add1ᵣ (suc m) = ≡-cong suc (+-add1ᵣ m)
 
   +-add1ₗ : ∀ (m : ℕ) → 1 + m ≡ suc m
-  +-add1ₗ m = refl
+  +-add1ₗ m = ≡-refl
 
   {- Another equal Addition Definition -}
   _+´_ : ℕ → ℕ → ℕ
@@ -89,10 +89,10 @@ module Dave.Algebra.Naturals.Addition where
   m +´ suc n = suc (m +´ n)
 
   app-+≡+´ : ∀ (m n : ℕ) → m + n ≡ m +´ n
-  app-+≡+´ zero zero = refl
-  app-+≡+´ zero (suc n) = cong suc (app-+≡+´ zero n)
-  app-+≡+´ (suc m) zero = cong suc (app-+≡+´ m zero)
-  app-+≡+´ (suc m) (suc n) = cong suc ( 
+  app-+≡+´ zero zero = ≡-refl
+  app-+≡+´ zero (suc n) = ≡-cong suc (app-+≡+´ zero n)
+  app-+≡+´ (suc m) zero = ≡-cong suc (app-+≡+´ m zero)
+  app-+≡+´ (suc m) (suc n) = ≡-cong suc ( 
     begin
       m + suc n ≡⟨ +-suc m n ⟩
       suc m + n ≡⟨ app-+≡+´ (suc m) n ⟩

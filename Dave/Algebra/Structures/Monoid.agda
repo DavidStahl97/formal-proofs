@@ -1,6 +1,6 @@
-module Dave.Structures.Monoid where
-    open import Dave.Structures.Definitions
-    open import Dave.Structures.Semigroup
+module Dave.Algebra.Structures.Monoid where
+    open import Dave.Algebra.Structures.Definitions
+    open import Dave.Algebra.Structures.Semigroup
 
     record Identity {A : Set} (_·_ : op₂ A) (e : A) : Set where
         field
@@ -42,31 +42,31 @@ module Dave.Structures.Monoid where
         swap021 : ∀ (m n p : A) → (m · n) · p ≡ (m · p) · n
         swap021 m n p = begin
             (m · n) · p ≡⟨ IsSemigroup.assoc isSemigroup m n p ⟩
-            m · (n · p) ≡⟨ cong (λ a → m · a) (comm n p) ⟩
-            m · (p · n) ≡⟨ sym (IsSemigroup.assoc isSemigroup m p n) ⟩
+            m · (n · p) ≡⟨ ≡-cong (λ a → m · a) (comm n p) ⟩
+            m · (p · n) ≡⟨ ≡-sym (IsSemigroup.assoc isSemigroup m p n) ⟩
             (m · p) · n ∎
 
         swap102 : ∀ (m n p : A) → (m · n) · p ≡ (n · m) · p
         swap102 m n p = begin
-            (m · n) · p ≡⟨ cong (λ a → a · p) (comm m n) ⟩
+            (m · n) · p ≡⟨ ≡-cong (λ a → a · p) (comm m n) ⟩
             (n · m) · p ∎
 
         swap120 : ∀ (m n p : A) → (m · n) · p ≡ (n · m) · p
         swap120 m n p = begin 
-            (m · n) · p ≡⟨ cong (λ a → a · p) (comm m n) ⟩ 
+            (m · n) · p ≡⟨ ≡-cong (λ a → a · p) (comm m n) ⟩ 
             (n · m) · p ∎
 
         swap210 : ∀ (m n p : A) → (m · n) · p ≡ (p · n) · m
         swap210 m n p = begin
             (m · n) · p ≡⟨ comm (m · n) p ⟩
-            p · (m · n) ≡⟨ cong (λ a → p · a) (comm m n) ⟩
-            p · (n · m) ≡⟨ sym (IsSemigroup.assoc isSemigroup p n m) ⟩
+            p · (m · n) ≡⟨ ≡-cong (λ a → p · a) (comm m n) ⟩
+            p · (n · m) ≡⟨ ≡-sym (IsSemigroup.assoc isSemigroup p n m) ⟩
             (p · n) · m ∎
 
         swap201 : ∀ (m n p : A) → (m · n) · p ≡ (p · m) · n
         swap201 m n p = begin
             (m · n) · p ≡⟨ comm (m · n) p ⟩
-            p · (m · n) ≡⟨ sym (IsSemigroup.assoc isSemigroup p m n) ⟩
+            p · (m · n) ≡⟨ ≡-sym (IsSemigroup.assoc isSemigroup p m n) ⟩
             (p · m) · n ∎
 
     record CommutativeMonoid : Set₁ where

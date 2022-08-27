@@ -1,7 +1,7 @@
 module Dave.ComputerScience.Algorithms.NaturalNumbers.Ordering where
     open import Dave.ComputerScience.Datastructures.Module
     open import Dave.ComputerScience.Algorithms.NaturalNumbers.Equality
-    open import Dave.Logic.Basics
+    open import Dave.Logic.Module
     open import Dave.Algebra.Naturals.Module
 
     is_<_ : ℕ → ℕ → Bool
@@ -23,12 +23,12 @@ module Dave.ComputerScience.Algorithms.NaturalNumbers.Ordering where
         true▸ {suc m} {suc n} is-true = s<s (true▸ is-true)
 
         false▸ : ∀ {m n : ℕ} → (is m < n) ≡ false → ¬ m < n        
-        false▸ {zero} {zero} refl ()
+        false▸ {zero} {zero} ≡-refl ()
         false▸ {suc m} {zero} is-false ()
         false▸ {suc m} {suc n} is-false (s<s x) = false▸ is-false x
 
         true◂ : ∀ {m n : ℕ} → m < n → (is m < n) ≡ true
-        true◂ {zero} {suc n} m<n = refl
+        true◂ {zero} {suc n} m<n = ≡-refl
         true◂ {suc m} {suc n} (s<s m<n) = true◂ m<n
 
     is_≤_ : ℕ → ℕ → Bool
@@ -51,7 +51,7 @@ module Dave.ComputerScience.Algorithms.NaturalNumbers.Ordering where
             → (is m ≤ n) ≡ false
         pred-is≤≡false {zero} {zero} ()
         pred-is≤≡false {zero} {suc n} ()
-        pred-is≤≡false {suc m} {zero} refl = refl
+        pred-is≤≡false {suc m} {zero} ≡-refl = ≡-refl
         pred-is≤≡false {suc m} {suc n} is-sucm≤sucn = pred-is≤≡false {m} {n} is-sucm≤sucn    
 
         false▸ : ∀ {m n : ℕ} → (is m ≤ n) ≡ false → ¬ m ≤ n
@@ -60,11 +60,11 @@ module Dave.ComputerScience.Algorithms.NaturalNumbers.Ordering where
         false▸ {suc m} {suc n} is-m≤n (s≤s x) = false▸ (pred-is≤≡false {m} {n} is-m≤n) x
 
         suc-is≤≡true : ∀ {m n : ℕ} → (is m ≤ n) ≡ true → (is suc m ≤ suc n) ≡ true
-        suc-is≤≡true {zero} {zero} is-m≤n = refl
-        suc-is≤≡true {zero} {suc n} is-m≤n = refl
+        suc-is≤≡true {zero} {zero} is-m≤n = ≡-refl
+        suc-is≤≡true {zero} {suc n} is-m≤n = ≡-refl
         suc-is≤≡true {suc m} {suc n} is-m≤n = suc-is≤≡true {m} {n} is-m≤n
 
         true◂ : ∀ {m n : ℕ} → m ≤ n → (is m ≤ n) ≡ true
-        true◂ {zero} {zero} m≤n = refl
-        true◂ {zero} {suc n} z≤n = refl
+        true◂ {zero} {zero} m≤n = ≡-refl
+        true◂ {zero} {suc n} z≤n = ≡-refl
         true◂ {suc m} {suc n} (s≤s m≤n) = suc-is≤≡true {m} {n} (true◂ m≤n)

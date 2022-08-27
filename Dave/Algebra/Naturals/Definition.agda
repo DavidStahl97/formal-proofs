@@ -1,7 +1,7 @@
 module Dave.Algebra.Naturals.Definition where
-  open import Dave.Module public
-  open import Dave.Logic.Basics public
-  open import Dave.Structures.Module public
+  open import Dave.Relations.Module public
+  open import Dave.Logic.Module public
+  open import Dave.Algebra.Structures.Module public
   
   data ℕ : Set where
     zero : ℕ
@@ -20,10 +20,10 @@ module Dave.Algebra.Naturals.Definition where
   {-# BUILTIN NATURAL  ℕ #-} 
 
   ℕ-suc-≡ : ∀ {m n : ℕ} → m ≡ n → suc m ≡ suc n
-  ℕ-suc-≡ refl = refl
+  ℕ-suc-≡ ≡-refl = ≡-refl
 
   suc≡→≡ : ∀ {m n : ℕ} → suc m ≡ suc n → m ≡ n
-  suc≡→≡ refl = refl
+  suc≡→≡ ≡-refl = ≡-refl
 
   ℕ-suc-≠ : ∀ {m n : ℕ} → m ≠ n → suc m ≠ suc n
   ℕ-suc-≠ m≠n suc-≡ = m≠n (suc≡→≡ suc-≡)
@@ -32,4 +32,4 @@ module Dave.Algebra.Naturals.Definition where
   0≠suc ()
 
   suc≠0 : ∀ {n : ℕ} → suc n ≠ 0
-  suc≠0 sucn=0 = 0≠suc (sym sucn=0)
+  suc≠0 sucn=0 = 0≠suc (≡-sym sucn=0)

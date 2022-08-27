@@ -1,4 +1,4 @@
-module Dave.Structures.Module where
-    open import Dave.Structures.Definitions public
-    open import Dave.Structures.Monoid public
-    open import Dave.Structures.Semigroup public
+module Dave.Algebra.Structures.Module where
+    open import Dave.Algebra.Structures.Definitions public
+    open import Dave.Algebra.Structures.Monoid public
+    open import Dave.Algebra.Structures.Semigroup public

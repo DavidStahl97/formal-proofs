@@ -62,7 +62,10 @@ module Dave.Relations.Definitions where
     RightUnambiguous {A-ℓ} {A} {B-ℓ} {B} rel equivRel {equiv-ℓ} equivRelIsEquiv = 
         ∀ {a : A} {b c : B} → rel a b → rel a c → equivRel B equiv-ℓ b c 
 
-    record Biunambiguous {A-ℓ} {A : Set A-ℓ} {B-ℓ} {B : Set B-ℓ} {ℓ} (rel : Rel A B ℓ) : Set (A-ℓ ⊔ B-ℓ ⊔ ℓ) where
+    {- record Biunambiguous {A-ℓ} {A : Set A-ℓ} {B-ℓ} {B : Set B-ℓ} {ℓ} (rel : Rel A B ℓ) 
+        (equivRel : ∀ {X-ℓ} (X : Set X-ℓ) → (ℓ : Level) → HomoRel X ℓ)
+        {equiv-ℓ} : Set (A-ℓ ⊔ B-ℓ ⊔ ℓ) where
         field
-            leftUnambiguous : ∀ {ℓ}  {equiv : Equivalence homoRel} → LeftUnambiguous rel equiv -}
+            leftUnambiguous : ∀ {ℓ}  {equiv : Equivalence homoRel} → LeftUnambiguous rel equiv
+            -}
             

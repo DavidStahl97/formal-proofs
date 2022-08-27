@@ -14,10 +14,10 @@ module Dave.Algebra.Naturals.Ordering where
     inv-s≤s (s≤s m≤n) = m≤n
 
     inv-z≤n : ∀ {m : ℕ} → m ≤ zero → m ≡ zero
-    inv-z≤n z≤n = refl
+    inv-z≤n z≤n = ≡-refl
 
     -- TO-DO: define relation properties in general
-    ≤-refl : reflexiv _≤_
+    ≤-refl : ∀ {m : ℕ} → m ≤ m
     ≤-refl {zero} = z≤n
     ≤-refl {suc n} = s≤s ≤-refl
 
@@ -30,8 +30,8 @@ module Dave.Algebra.Naturals.Ordering where
     ≤-trans´ (suc m) (suc n) (suc p) (s≤s m≤n) (s≤s n≤p) = s≤s (≤-trans´ m n p m≤n n≤p)
 
     ≤-antisym : ∀ {m n : ℕ} → m ≤ n → n ≤ m → m ≡ n
-    ≤-antisym z≤n z≤n = refl
-    ≤-antisym (s≤s m≤n) (s≤s n≤m) = cong suc (≤-antisym m≤n n≤m)
+    ≤-antisym z≤n z≤n = ≡-refl
+    ≤-antisym (s≤s m≤n) (s≤s n≤m) = ≡-cong suc (≤-antisym m≤n n≤m)
 
     data Total (m n : ℕ) : Set where
         forward : m ≤ n → Total m n
@@ -162,7 +162,7 @@ module Dave.Algebra.Naturals.Ordering where
     >-swap (co-m>n n<m) (co-m>n m<n) = <-swap m<n n<m
 
     ℕ-is-Trichotomy : ∀ (m n : ℕ) → Trichotomy m n
-    ℕ-is-Trichotomy zero zero = t-m≡n refl <-irreflexive >-irreflexive
+    ℕ-is-Trichotomy zero zero = t-m≡n ≡-refl <-irreflexive >-irreflexive
     ℕ-is-Trichotomy zero (suc n) = t-m<n z<s ¬0>n 0≠suc
     ℕ-is-Trichotomy (suc m) zero = t-m>n (co-m>n z<s) ¬n<0 suc≠0
     ℕ-is-Trichotomy (suc m) (suc n) = ℕ-suc-Trichotomy (ℕ-is-Trichotomy m n)

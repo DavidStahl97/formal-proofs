@@ -1,18 +1,22 @@
 module Dave.Relations.Equality where
   open import Agda.Primitive
+  open import Dave.Logic.Module
   open import Dave.Relations.Definitions
 
   data _≡_ {ℓ} {A : Set ℓ} (x : A) : A → Set ℓ where
     ≡-refl : x ≡ x
 
+  _≠_ : ∀ {ℓ} {A : Set ℓ} (m n : A) → Set ℓ
+  m ≠ n = ¬ (m ≡ n)
+
   infix 4 _≡_
   
   {-# BUILTIN EQUALITY _≡_ #-}
 
-  ≡-sym : ∀ {ℓ} {A : Set ℓ} → homo-sym A _≡_
+  ≡-sym : ∀ {ℓ} {A : Set ℓ} {m n : A} → m ≡ n → n ≡ m
   ≡-sym ≡-refl = ≡-refl
 
-  ≡-trans : ∀ {ℓ} {A : Set ℓ} → homo-trans A _≡_
+  ≡-trans : ∀ {ℓ} {A : Set ℓ} {m n p : A} → m ≡ n → n ≡ p → m ≡ p
   ≡-trans ≡-refl b = b
 
   ≡-cong : ∀ {A B : Set} (f : A → B) {x y : A} → x ≡ y → f x ≡ f y
