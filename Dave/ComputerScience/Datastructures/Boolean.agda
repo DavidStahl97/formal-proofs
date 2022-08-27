@@ -33,7 +33,7 @@ module Dave.ComputerScience.Datastructures.Boolean where
     ~ true = false
     ~ false = true
 
-    ~▸¬ : ~_ ▸₁ λ a → ¬ a ≡ true
+    {- ~▸¬ : ~_ ▸₁ λ a → ¬ (a ≡ true)
     ~▸¬ = record 
         {
             true▸ = true▸;
@@ -50,13 +50,13 @@ module Dave.ComputerScience.Datastructures.Boolean where
 
         true◂ : ∀ {a} → ¬ a ≡ true → ~ a ≡ true
         true◂ {false} ¬a≡t = ≡-refl
-        true◂ {true} ¬a≡t = ⊥-elim (¬a≡t ≡-refl)
+        true◂ {true} ¬a≡t = ⊥-elim (¬a≡t ≡-refl) -}
 
     _&&_ : Bool → Bool → Bool
     a && true = a
     a && false = false
 
-    &&▸× : _&&_ ▸₂ λ a b → (a ≡ true) × (b ≡ true)
+    {- &&▸× : _&&_ ▸₂ λ a b → (a ≡ true) × (b ≡ true)
     &&▸× = record 
         {
             true▸ = true▸;
@@ -72,7 +72,7 @@ module Dave.ComputerScience.Datastructures.Boolean where
         false▸ {false} {true} a&&b≡f ⟨ () , x₁ ⟩
 
         ◂true : ∀ {a b : Bool} → (a ≡ true × b ≡ true) → a && b ≡ true
-        ◂true {true} {true} ⟨ a≡t , b≡f ⟩ = ≡-refl
+        ◂true {true} {true} ⟨ a≡t , b≡f ⟩ = ≡-refl -}
 
     _||_ : Bool → Bool → Bool
     a || false = a
