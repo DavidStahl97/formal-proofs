@@ -22,7 +22,7 @@ module Dave.ComputerScience.Algorithms.NaturalNumbers.Ordering where
         true▸ {zero} {suc n} is-true = z<s
         true▸ {suc m} {suc n} is-true = s<s (true▸ is-true)
 
-        false▸ : ∀ {m n : ℕ} → (is m < n) ≡ false → ¬ m < n        
+        false▸ : ∀ {m n : ℕ} → (is m < n) ≡ false → ¬ (m < n)        
         false▸ {zero} {zero} ≡-refl ()
         false▸ {suc m} {zero} is-false ()
         false▸ {suc m} {suc n} is-false (s<s x) = false▸ is-false x
@@ -54,7 +54,7 @@ module Dave.ComputerScience.Algorithms.NaturalNumbers.Ordering where
         pred-is≤≡false {suc m} {zero} ≡-refl = ≡-refl
         pred-is≤≡false {suc m} {suc n} is-sucm≤sucn = pred-is≤≡false {m} {n} is-sucm≤sucn    
 
-        false▸ : ∀ {m n : ℕ} → (is m ≤ n) ≡ false → ¬ m ≤ n
+        false▸ : ∀ {m n : ℕ} → (is m ≤ n) ≡ false → ¬ (m ≤ n)
         false▸ {.0} {zero} () z≤n
         false▸ {.0} {suc n} () z≤n
         false▸ {suc m} {suc n} is-m≤n (s≤s x) = false▸ (pred-is≤≡false {m} {n} is-m≤n) x

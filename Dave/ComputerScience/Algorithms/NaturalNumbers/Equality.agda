@@ -21,9 +21,9 @@ module Dave.ComputerScience.Algorithms.NaturalNumbers.Equality where
         true▸ {zero} {zero} is-m≡n = ≡-refl
         true▸ {suc m} {suc n} is-m≡n = ≡-cong suc (true▸ is-m≡n)
 
-        false▸ : ∀ {m n : ℕ} → (is m ≡ n) ≡ false → ¬ m ≡ n
-        false▸ {suc m} {zero} is-m≡n ()
-        false▸ {zero} {suc n} is-m≡n ()
+        false▸ : ∀ {m n : ℕ} → (is m ≡ n) ≡ false → ¬ (m ≡ n)
+        false▸ {zero} {suc n} ≡-refl ()
+        false▸ {suc m} {zero} ≡-refl ()
         false▸ {suc m} {suc .m} is-m≡n ≡-refl = false▸ {m} {m} is-m≡n ≡-refl
 
         true◂ : ∀ {m n : ℕ} → m ≡ n → (is m ≡ n) ≡ true
