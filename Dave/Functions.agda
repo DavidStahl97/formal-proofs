@@ -7,4 +7,4 @@ module Dave.Functions where
     (g ∘´ f) = λ x → g (f x)
 
     identity : {A : Set} → A → A
-    identity a = a
+    identity a = a    
