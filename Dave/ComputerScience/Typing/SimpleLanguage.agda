@@ -117,9 +117,30 @@ module Dave.ComputerScience.Typing.SimpleLanguage where
     TInf-Correct : ∀ {p : Prog} {t : Type} → just t ≡ TInf p → ⊢ p ∷ t
     TInf-Correct {V (VNat n)} {TNat} ≡-refl = ⊢-Nat n
     TInf-Correct {V (VBool b)} {TBool} ≡-refl = ⊢-Bool b
-    TInf-Correct {p + q} {t} t≡TInf with TInf p 
-    TInf-Correct {p + q} {t} t≡TInf | just TNat with TInf q
-    TInf-Correct {p + q} {TNat} ≡-refl | just TNat | just TNat = ⊢-Add (TInf-Correct {p} {TNat} {!   !}) (TInf-Correct {q} {TNat} {! ≡-refl  !})
+    TInf-Correct {p + q} {t} t≡TInf = ⊢p+q∷TNat
+        where
+            p≡TNat : just TNat ≡ TInf p
+            p≡TNat with TInf p
+            p≡TNat | just TNat = ≡-refl
+
+            q≡TNat : just TNat ≡ TInf q
+            q≡TNat with TInf p | TInf q
+            q≡TNat | just TNat | just TNat = ≡-refl            
+
+            t≡TNat : t ≡ TNat
+            t≡TNat with TInf p | TInf q
+            t≡TNat | just TNat | just TNat = ≡-just t≡TInf
+
+            ⊢p∷TNat : ⊢ p ∷ TNat
+            ⊢p∷TNat = TInf-Correct p≡TNat
+
+            ⊢q∷TNat : ⊢ q ∷ TNat
+            ⊢q∷TNat = TInf-Correct q≡TNat            
+
+            ⊢p+q∷TNat : ⊢ (p + q) ∷ t
+            ⊢p+q∷TNat with t≡TNat
+            ⊢p+q∷TNat | ≡-refl = ⊢-Add ⊢p∷TNat ⊢q∷TNat
+
     TInf-Correct {p < q} {TNat} t≡TInf = {!  !}
     TInf-Correct {p < q} {TBool} t≡TInf = {!   !}
     TInf-Correct {if p then p₁ else p₂} {t} t≡TInf = {!   !}

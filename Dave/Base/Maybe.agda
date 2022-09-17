@@ -1,5 +1,6 @@
 module Dave.Base.Maybe where
     open import Agda.Primitive
+    open import Dave.Relations.Module
 
     private
         variable
@@ -15,6 +16,9 @@ module Dave.Base.Maybe where
     _>>=Maybe_ : Maybe A → (A → Maybe B) → Maybe B
     nothing >>=Maybe f = nothing
     just a  >>=Maybe f = f a
+
+    ≡-just : {x y : A} → just x ≡ just y → x ≡ y
+    ≡-just ≡-refl = ≡-refl
    
 
         
