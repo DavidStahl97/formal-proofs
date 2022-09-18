@@ -114,64 +114,98 @@ module Dave.ComputerScience.Typing.SimpleLanguage where
         >>=Maybe λ qType → r =Type qType
          
     {- Correctness of Type Inference -}
-    TInf-Correct : ∀ {p : Prog} {t : Type} → just t ≡ TInf p → ⊢ p ∷ t
-    TInf-Correct {V (VNat n)} {TNat} ≡-refl = ⊢-Nat n
-    TInf-Correct {V (VBool b)} {TBool} ≡-refl = ⊢-Bool b
-    TInf-Correct {p + q} {t} t≡TInf = ⊢p+q∷TNat
+    CorrectnessOfTInf : ∀ {p : Prog} {t : Type} → just t ≡ TInf p ⇔ ⊢ p ∷ t
+    CorrectnessOfTInf = record 
+        {
+            to = TInf-Correct;
+            from = TInf-Complete
+        }
         where
-            p≡TNat : just TNat ≡ TInf p
-            p≡TNat with TInf p
-            p≡TNat | just TNat = ≡-refl
 
-            q≡TNat : just TNat ≡ TInf q
-            q≡TNat with TInf p | TInf q
-            q≡TNat | just TNat | just TNat = ≡-refl            
+            TInf-Correct : ∀ {p : Prog} {t : Type} → just t ≡ TInf p → ⊢ p ∷ t
+            TInf-Correct {V (VNat n)} {TNat} ≡-refl = ⊢-Nat n
+            TInf-Correct {V (VBool b)} {TBool} ≡-refl = ⊢-Bool b
+            TInf-Correct {p + q} {t} t≡TInf = ⊢p+q∷TNat
+                where
+                    p≡TNat : just TNat ≡ TInf p
+                    p≡TNat with TInf p
+                    p≡TNat | just TNat = ≡-refl
 
-            t≡TNat : t ≡ TNat
-            t≡TNat with TInf p | TInf q
-            t≡TNat | just TNat | just TNat = ≡-just t≡TInf            
+                    q≡TNat : just TNat ≡ TInf q
+                    q≡TNat with TInf p | TInf q
+                    q≡TNat | just TNat | just TNat = ≡-refl            
 
-            ⊢p+q∷TNat : ⊢ (p + q) ∷ t
-            ⊢p+q∷TNat with t≡TNat
-            ⊢p+q∷TNat | ≡-refl = ⊢-Add (TInf-Correct p≡TNat) (TInf-Correct q≡TNat)
-  
-    TInf-Correct {p < q} {t} t≡TInf = ⊢p<q∷TBool    
-        where
-            p≡TNat : just TNat ≡ TInf p
-            p≡TNat with TInf p
-            p≡TNat | just TNat = ≡-refl
+                    t≡TNat : t ≡ TNat
+                    t≡TNat with TInf p | TInf q
+                    t≡TNat | just TNat | just TNat = ≡-just t≡TInf            
 
-            q≡TNat : just TNat ≡ TInf q
-            q≡TNat with TInf p | TInf q
-            q≡TNat | just TNat | just TNat = ≡-refl
+                    ⊢p+q∷TNat : ⊢ (p + q) ∷ t
+                    ⊢p+q∷TNat with t≡TNat
+                    ⊢p+q∷TNat | ≡-refl = ⊢-Add (TInf-Correct p≡TNat) (TInf-Correct q≡TNat)
+        
+            TInf-Correct {p < q} {t} t≡TInf = ⊢p<q∷TBool    
+                where
+                    p≡TNat : just TNat ≡ TInf p
+                    p≡TNat with TInf p
+                    p≡TNat | just TNat = ≡-refl
 
-            t≡TBool : t ≡ TBool
-            t≡TBool with TInf p | TInf q
-            t≡TBool | just TNat | just TNat = ≡-just t≡TInf                       
+                    q≡TNat : just TNat ≡ TInf q
+                    q≡TNat with TInf p | TInf q
+                    q≡TNat | just TNat | just TNat = ≡-refl
 
-            ⊢p<q∷TBool : ⊢ (p < q) ∷ t
-            ⊢p<q∷TBool with t≡TBool
-            ⊢p<q∷TBool | ≡-refl = ⊢-Lt (TInf-Correct p≡TNat) (TInf-Correct q≡TNat)
+                    t≡TBool : t ≡ TBool
+                    t≡TBool with TInf p | TInf q
+                    t≡TBool | just TNat | just TNat = ≡-just t≡TInf                       
 
-    TInf-Correct {if p then q else r} {t} t≡TInf =  IsCorrect                    
-        where
-            p≡TBool : just TBool ≡ TInf p
-            p≡TBool with TInf p
-            p≡TBool | just TBool = ≡-refl            
+                    ⊢p<q∷TBool : ⊢ (p < q) ∷ t
+                    ⊢p<q∷TBool with t≡TBool
+                    ⊢p<q∷TBool | ≡-refl = ⊢-Lt (TInf-Correct p≡TNat) (TInf-Correct q≡TNat)
 
-            ReturnType : just t ≡ TInf q × just t ≡ TInf r
-            ReturnType with TInf p
-            ReturnType | just TBool with TInf q
-            ReturnType | just TBool | just TNat with TInf r
-            ReturnType | just TBool | just TNat | just TNat rewrite t≡TInf = ⟨ ≡-refl , ≡-refl ⟩
-            ReturnType | just TBool | just TBool with TInf r
-            ReturnType | just TBool | just TBool | just TBool rewrite t≡TInf = ⟨ ≡-refl , ≡-refl ⟩
+            TInf-Correct {if p then q else r} {t} t≡TInf =  IsCorrect                    
+                where
+                    p≡TBool : just TBool ≡ TInf p
+                    p≡TBool with TInf p
+                    p≡TBool | just TBool = ≡-refl            
 
-            IsCorrect : ⊢ (if p then q else r) ∷ t
-            IsCorrect = ⊢-If (TInf-Correct p≡TBool) (TInf-Correct (proj₁ ReturnType)) (TInf-Correct (proj₂ ReturnType))
+                    ReturnType : just t ≡ TInf q × just t ≡ TInf r
+                    ReturnType with TInf p
+                    ReturnType | just TBool with TInf q
+                    ReturnType | just TBool | just TNat with TInf r
+                    ReturnType | just TBool | just TNat | just TNat rewrite t≡TInf = ⟨ ≡-refl , ≡-refl ⟩
+                    ReturnType | just TBool | just TBool with TInf r
+                    ReturnType | just TBool | just TBool | just TBool rewrite t≡TInf = ⟨ ≡-refl , ≡-refl ⟩
 
-            
+                    IsCorrect : ⊢ (if p then q else r) ∷ t
+                    IsCorrect = ⊢-If (TInf-Correct p≡TBool) (TInf-Correct (proj₁ ReturnType)) (TInf-Correct (proj₂ ReturnType))
 
+    
+            TInf-Complete : ∀ {p : Prog} {t : Type} → ⊢ p ∷ t → just t ≡ TInf p
+            TInf-Complete {V (VNat x)} {TNat} ⊢p∷t = ≡-refl
+            TInf-Complete {V (VBool x)} {TBool} ⊢p∷t = ≡-refl
+            TInf-Complete {p + q} {TNat} (⊢-Add ⊢p∷TNat ⊢q∷TNat) with TInf-Complete ⊢p∷TNat | TInf-Complete ⊢q∷TNat
+            TInf-Complete {p + q} {TNat} (⊢-Add ⊢p∷TNat ⊢q∷TNat) | t≡TInfp | t≡TInfq with TInf p | TInf q
+            TInf-Complete {p + q} {TNat} (⊢-Add ⊢p∷TNat ⊢q∷TNat) | t≡TInfp | t≡TInfq | just TNat | just TNat = ≡-refl
+            TInf-Complete {p < q} {TBool} (⊢-Lt ⊢p∷t ⊢q∷t) with TInf-Complete ⊢p∷t | TInf-Complete ⊢q∷t
+            TInf-Complete {p < q} {TBool} (⊢-Lt ⊢p∷t ⊢q∷t) | TNat≡TInfp | TNat≡TInfq with TInf p | TInf q
+            TInf-Complete {p < q} {TBool} (⊢-Lt ⊢p∷t ⊢q∷t) | TNat≡TInfp | TNat≡TInfq | just TNat | just TNat = ≡-refl
+            TInf-Complete {if p then q else r} {TNat} (⊢-If ⊢p∷t ⊢q∷t ⊢r∷t) = Complete
+                where
+                    Complete : just TNat ≡ TInf (if p then q else r)
+                    Complete with TInf-Complete ⊢p∷t
+                    Complete | x with TInf p
+                    Complete | ≡-refl | just TBool with TInf-Complete ⊢q∷t
+                    Complete | ≡-refl | just TBool | x with TInf q
+                    Complete | ≡-refl | just TBool | ≡-refl | .(just TNat) with TInf-Complete ⊢r∷t
+                    Complete | ≡-refl | just TBool | ≡-refl | .(just TNat) | x with TInf r
+                    Complete | ≡-refl | just TBool | ≡-refl | .(just TNat) | ≡-refl | .(just TNat) = ≡-refl
 
-
- 
+            TInf-Complete {if p then q else r} {TBool} (⊢-If ⊢p∷t ⊢q∷t ⊢r∷t) = Complete
+                where
+                    Complete : just TBool ≡ TInf (if p then q else r)
+                    Complete with TInf-Complete ⊢p∷t
+                    Complete | x with TInf p
+                    Complete | ≡-refl | just TBool with TInf-Complete ⊢q∷t
+                    Complete | ≡-refl | just TBool | x with TInf q 
+                    Complete | ≡-refl | just TBool | ≡-refl | just TBool with TInf-Complete ⊢r∷t
+                    Complete | ≡-refl | just TBool | ≡-refl | just TBool | x with TInf r
+                    Complete | ≡-refl | just TBool | ≡-refl | just TBool | ≡-refl | just TBool = ≡-refl        
