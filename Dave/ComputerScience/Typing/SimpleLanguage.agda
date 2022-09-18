@@ -129,21 +129,49 @@ module Dave.ComputerScience.Typing.SimpleLanguage where
 
             t≡TNat : t ≡ TNat
             t≡TNat with TInf p | TInf q
-            t≡TNat | just TNat | just TNat = ≡-just t≡TInf
-
-            ⊢p∷TNat : ⊢ p ∷ TNat
-            ⊢p∷TNat = TInf-Correct p≡TNat
-
-            ⊢q∷TNat : ⊢ q ∷ TNat
-            ⊢q∷TNat = TInf-Correct q≡TNat            
+            t≡TNat | just TNat | just TNat = ≡-just t≡TInf            
 
             ⊢p+q∷TNat : ⊢ (p + q) ∷ t
             ⊢p+q∷TNat with t≡TNat
-            ⊢p+q∷TNat | ≡-refl = ⊢-Add ⊢p∷TNat ⊢q∷TNat
+            ⊢p+q∷TNat | ≡-refl = ⊢-Add (TInf-Correct p≡TNat) (TInf-Correct q≡TNat)
+  
+    TInf-Correct {p < q} {t} t≡TInf = ⊢p<q∷TBool    
+        where
+            p≡TNat : just TNat ≡ TInf p
+            p≡TNat with TInf p
+            p≡TNat | just TNat = ≡-refl
 
-    TInf-Correct {p < q} {TNat} t≡TInf = {!  !}
-    TInf-Correct {p < q} {TBool} t≡TInf = {!   !}
-    TInf-Correct {if p then p₁ else p₂} {t} t≡TInf = {!   !}
-                    
+            q≡TNat : just TNat ≡ TInf q
+            q≡TNat with TInf p | TInf q
+            q≡TNat | just TNat | just TNat = ≡-refl
+
+            t≡TBool : t ≡ TBool
+            t≡TBool with TInf p | TInf q
+            t≡TBool | just TNat | just TNat = ≡-just t≡TInf                       
+
+            ⊢p<q∷TBool : ⊢ (p < q) ∷ t
+            ⊢p<q∷TBool with t≡TBool
+            ⊢p<q∷TBool | ≡-refl = ⊢-Lt (TInf-Correct p≡TNat) (TInf-Correct q≡TNat)
+
+    TInf-Correct {if p then q else r} {t} t≡TInf =  IsCorrect                    
+        where
+            p≡TBool : just TBool ≡ TInf p
+            p≡TBool with TInf p
+            p≡TBool | just TBool = ≡-refl            
+
+            ReturnType : just t ≡ TInf q × just t ≡ TInf r
+            ReturnType with TInf p
+            ReturnType | just TBool with TInf q
+            ReturnType | just TBool | just TNat with TInf r
+            ReturnType | just TBool | just TNat | just TNat rewrite t≡TInf = ⟨ ≡-refl , ≡-refl ⟩
+            ReturnType | just TBool | just TBool with TInf r
+            ReturnType | just TBool | just TBool | just TBool rewrite t≡TInf = ⟨ ≡-refl , ≡-refl ⟩
+
+            IsCorrect : ⊢ (if p then q else r) ∷ t
+            IsCorrect = ⊢-If (TInf-Correct p≡TBool) (TInf-Correct (proj₁ ReturnType)) (TInf-Correct (proj₂ ReturnType))
+
+            
+
+
 
  
