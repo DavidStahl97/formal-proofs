@@ -15,6 +15,7 @@ module Symbols where
         ÷ - \div
         ℓ - \ell
         ε - \epsilon
+        Γ - \Gamma
         ≥ - \ge
         > - \geq
         ⇔ - \iff
