@@ -33,3 +33,11 @@ module Dave.Algebra.Naturals.Definition where
 
   suc≠0 : ∀ {n : ℕ} → suc n ≠ 0
   suc≠0 sucn=0 = 0≠suc (≡-sym sucn=0)
+
+  ≡ℕ-ExcludedMiddle : ∀ (m n : ℕ) → ExcludedMiddle (m ≡ n)
+  ≡ℕ-ExcludedMiddle zero zero = inj₁ ≡-refl
+  ≡ℕ-ExcludedMiddle zero (suc n) = inj₂ λ{ () }
+  ≡ℕ-ExcludedMiddle (suc m) zero = inj₂ λ{ () }
+  ≡ℕ-ExcludedMiddle (suc m) (suc n) with ≡ℕ-ExcludedMiddle m n
+  ≡ℕ-ExcludedMiddle (suc m) (suc n) | inj₁ m≡n = inj₁ (ℕ-suc-≡ m≡n)
+  ≡ℕ-ExcludedMiddle (suc m) (suc n) | inj₂ x = inj₂ (ℕ-suc-≠ x)

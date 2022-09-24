@@ -10,6 +10,22 @@ module Dave.Relations.Definitions where
     HomoRel : ∀ {A-ℓ} → Set A-ℓ → (ℓ : Level) → Set (A-ℓ ⊔ (lsuc ℓ))
     HomoRel A ℓ = Rel A A ℓ
 
+    {- Properties of Heterogenous Relations  -}
+    LeftTotal : ∀ {A-ℓ} {A : Set A-ℓ} {B-ℓ} {B : Set B-ℓ} {ℓ}
+        → Rel A B ℓ
+        → Set (ℓ ⊔ A-ℓ ⊔ B-ℓ)
+    LeftTotal {A-ℓ} {A} {B-ℓ} {B} rel = ∀ {a : A} → Σ B (λ b → rel a b)
+
+    RightTotal : ∀ {A-ℓ} {A : Set A-ℓ} {B-ℓ} {B : Set B-ℓ} {ℓ}
+        → Rel A B ℓ
+        → Set (ℓ ⊔ A-ℓ ⊔ B-ℓ)
+    RightTotal {A-ℓ} {A} {B-ℓ} {B} rel = ∀ {b : B} → Σ A (λ a → rel a b)
+
+    record Bitotal {A-ℓ} {A : Set A-ℓ} {B-ℓ} {B : Set B-ℓ} {ℓ} (rel : Rel A B ℓ) : Set (A-ℓ ⊔ B-ℓ ⊔ ℓ) where
+        field
+            leftTotal : LeftTotal rel
+            rightTotal : RightTotal rel
+
     {- Properties of Homogenous Relations  -}
     Reflexive : ∀ {A-ℓ} {A : Set A-ℓ} {ℓ} 
         → HomoRel A ℓ 
@@ -40,7 +56,7 @@ module Dave.Relations.Definitions where
         → rel n m 
         → EquivalenceRel.rel equivRel m n
 
-    record PartialOrder {A-ℓ} (A : Set A-ℓ) : Set (lsuc A-ℓ) where
+    record PartialOrderRel {A-ℓ} (A : Set A-ℓ) : Set (lsuc A-ℓ) where
         field
             rel : HomoRel A A-ℓ
             equivalenceRel : EquivalenceRel A
@@ -53,29 +69,37 @@ module Dave.Relations.Definitions where
         → Set (ℓ ⊔ A-ℓ)
     Irreflexiv {A-ℓ} {A} rel = ∀ {m : A} → ¬ rel m m
 
-    record StrictPartialOrder {A-ℓ} (A : Set A-ℓ) : Set (lsuc A-ℓ) where
+    Asymetric : ∀ {A-ℓ : Level} {A : Set A-ℓ} {ℓ : Level}
+         → HomoRel A ℓ 
+         → Set (ℓ ⊔ A-ℓ)
+    Asymetric {A-ℓ} {A} rel = ∀ {m n : A} → rel m n → ¬ (rel n m)
+
+    record StrictPartialOrderRel {ℓ} (A : Set ℓ) : Set (lsuc ℓ) where
         field
-            rel : HomoRel A A-ℓ
-            equivalenceRel : EquivalenceRel A
+            rel : HomoRel A ℓ            
             irreflexive : Irreflexiv rel
-            antiSymmetric : AntiSymmetric rel equivalenceRel
-            transitive : Transitive rel            
+            asymetric : Asymetric rel
+            transitive : Transitive rel  
 
-    {- Properties of Heterogenous Relations  -}
-    LeftTotal : ∀ {A-ℓ} {A : Set A-ℓ} {B-ℓ} {B : Set B-ℓ} {ℓ}
-        → Rel A B ℓ
-        → Set (ℓ ⊔ A-ℓ ⊔ B-ℓ)
-    LeftTotal {A-ℓ} {A} {B-ℓ} {B} rel = ∀ {a : A} → Σ B (λ b → rel a b)
+    Total : ∀ {A-ℓ : Level} {A : Set A-ℓ} {ℓ : Level}
+        → HomoRel A ℓ 
+        → Set (ℓ ⊔ A-ℓ)
+    Total {A-ℓ} {A} rel = ∀ {m n : A} → rel m n ⊎ rel n m
+        
 
-    RightTotal : ∀ {A-ℓ} {A : Set A-ℓ} {B-ℓ} {B : Set B-ℓ} {ℓ}
-        → Rel A B ℓ
-        → Set (ℓ ⊔ A-ℓ ⊔ B-ℓ)
-    RightTotal {A-ℓ} {A} {B-ℓ} {B} rel = ∀ {b : B} → Σ A (λ a → rel a b)
-
-    record Bitotal {A-ℓ} {A : Set A-ℓ} {B-ℓ} {B : Set B-ℓ} {ℓ} (rel : Rel A B ℓ) : Set (A-ℓ ⊔ B-ℓ ⊔ ℓ) where
+    record TotalStrictPartialOrderRel {ℓ} (A : Set ℓ) : Set (lsuc ℓ) where
         field
-            leftTotal : LeftTotal rel
-            rightTotal : RightTotal rel
+            orderRel : StrictPartialOrderRel A
+            total : Total (StrictPartialOrderRel.rel orderRel)        
+                    
+
+    LowerBound : ∀ {A-ℓ} {A : Set A-ℓ} 
+        → StrictPartialOrderRel A
+        → Set A-ℓ
+    LowerBound {A-ℓ} {A} orderRel = Σ A (λ m → ∀ (n : A) → StrictPartialOrderRel.rel orderRel m n)        
+
+
+    
 
     {- LeftUnambiguous : ∀ {A-ℓ} {A : Set A-ℓ} {B-ℓ} {B : Set B-ℓ} {ℓ}
         → Rel A B ℓ
