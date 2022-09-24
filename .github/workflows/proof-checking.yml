@@ -6,7 +6,7 @@ on:
 
 env:
   AGDA_VERSION: 2.6.0.1-1build4
-  PYTHON_VERSION: 3.10.5
+  PYTHON_VERSION: 3.10.7
 
 jobs:
   proof-checking:
