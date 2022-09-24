@@ -36,4 +36,4 @@ module Dave.NaturalDeduction.NJ.Rules where
     constr (Γ' , A) ax = ax
     constr (Γ' , A) (wk p) = wk (constr _ p)
     constr (Γ' , A) (⇒E p q) = ⇒E (constr (Γ' , A) p) (constr (Γ' , A) q)
-    constr (Γ' , A) (⇒I p) = ⇒I (constr (Γ' , A , _) p) 
+    constr (Γ' , A) (⇒I p) = ⇒I (constr (Γ' , A , _) p)
