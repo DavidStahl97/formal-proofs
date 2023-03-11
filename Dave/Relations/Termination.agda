@@ -9,17 +9,20 @@ module Dave.Relations.Termination where
     WellFounded : {ℓ : Level} {A : Set ℓ} → HomoRel A ℓ → Set ℓ
     WellFounded {ℓ} {A} _<_ = ∀ (x : A) → Acc _<_ x
 
-    OrderRel-WF : {ℓ : Level} {A : Set ℓ} 
+    {- OrderRel-WF : {ℓ : Level} {A : Set ℓ} 
         → (rel : StrictPartialOrderRel A)
         → LowerBound rel
         → WellFounded (StrictPartialOrderRel.rel rel)
-    OrderRel-WF {ℓ} {A} rel (a , x) n = acc {!  !}        
+    OrderRel-WF {ℓ} {A} rel (low , low<x) n = acc lem        
         where
-            lem : {n m : A} → StrictPartialOrderRel.rel rel m n → Acc (StrictPartialOrderRel.rel rel) m
-            lem {n} {m} m<n = {!   !}
+            lem : {y : A} → StrictPartialOrderRel.rel rel y n → Acc (StrictPartialOrderRel.rel rel) y
+            lem {y} y<n = {!   !}
 
-            tst : Acc (StrictPartialOrderRel.rel rel) a
-            tst = acc λ{ {y} y<a → ⊥-elim (StrictPartialOrderRel.asymetric rel y<a (x y))}
+            tst : Acc (StrictPartialOrderRel.rel rel) low
+            tst = acc λ{ {y} y<a → ⊥-elim (StrictPartialOrderRel.asymetric rel y<a (low<x y))}
+
+            hsllo : ∀ {y : A} → StrictPartialOrderRel.rel rel y n → Acc (StrictPartialOrderRel.rel rel) y
+            hsllo y>n = {! !}             -}
 
             
 

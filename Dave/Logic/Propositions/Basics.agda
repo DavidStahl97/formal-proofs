@@ -68,6 +68,9 @@ module Dave.Logic.Propositions.Basics where
     contraposition : (A → B) → (¬ B → ¬ A)
     contraposition A→B ¬B A = ¬B (A→B A)
 
+    ¬[P⇔¬P] : ¬ (A ⇔ ¬ A)
+    ¬[P⇔¬P] record { to = to ; from = from } = to (from λ a → to a a) (from λ a → to a a)
+
     {- Product (Conjunction) -}
     data _×_ {A-ℓ B-ℓ} (A : Set A-ℓ) (B : Set B-ℓ) : Set (A-ℓ ⊔ B-ℓ) where
         ⟨_,_⟩ : A → B → A × B

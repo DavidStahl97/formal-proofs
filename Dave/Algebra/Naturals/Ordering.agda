@@ -2,6 +2,7 @@ module Dave.Algebra.Naturals.Ordering where
     open import Dave.Algebra.Naturals.Definition
     open import Dave.Algebra.Naturals.Addition
     open import Dave.Algebra.Naturals.Multiplication
+    open import Dave.Relations.Termination
 
     -- TO-DO: define relation
     data _≤_ : ℕ → ℕ → Set where
@@ -33,27 +34,31 @@ module Dave.Algebra.Naturals.Ordering where
     ≤-antisym z≤n z≤n = ≡-refl
     ≤-antisym (s≤s m≤n) (s≤s n≤m) = ≡-cong suc (≤-antisym m≤n n≤m)
 
-    data Total (m n : ℕ) : Set where
-        forward : m ≤ n → Total m n
-        flipped : n ≤ m → Total m n
+    ≡→≤ : ∀ {m n : ℕ} → m ≡ n → m ≤ n
+    ≡→≤ {zero} {zero} refl = z≤n
+    ≡→≤ {suc m} {suc .m} ≡-refl = s≤s (≡→≤ ≡-refl)
+
+    data ℕ-<-Total (m n : ℕ) : Set where
+        forward : m ≤ n → ℕ-<-Total m n
+        flipped : n ≤ m → ℕ-<-Total m n
 
     data Total´ : ℕ → ℕ → Set where
         forward´ : ∀ {m n : ℕ} → m ≤ n → Total´ m n
         flipped´ : ∀ {m n : ℕ} → n ≤ m → Total´ m n
 
-    ≤-total : ∀ (m n : ℕ) → Total m n
+    ≤-total : ∀ (m n : ℕ) → ℕ-<-Total m n
     ≤-total zero n = forward z≤n
     ≤-total (suc m) zero = flipped z≤n
     ≤-total (suc m) (suc n) with ≤-total m n
     ...                         | forward m≤n = forward (s≤s m≤n)    
     ...                         | flipped n≤m = flipped (s≤s n≤m)
 
-    ≤-total´ : ∀ (m n : ℕ) → Total m n
+    ≤-total´ : ∀ (m n : ℕ) → ℕ-<-Total m n
     ≤-total´ zero n = forward z≤n
     ≤-total´ (suc m) zero = flipped z≤n
     ≤-total´ (suc m) (suc n) = helper (≤-total´ m n)
         where
-        helper : Total m n → Total (suc m) (suc n)
+        helper : ℕ-<-Total m n → ℕ-<-Total (suc m) (suc n)
         helper (forward m≤n) = forward (s≤s m≤n)
         helper (flipped n≤m) = flipped (s≤s n≤m)
 
@@ -87,6 +92,13 @@ module Dave.Algebra.Naturals.Ordering where
     suc<→< : ∀ {m n : ℕ} → suc m < suc n → m < n
     suc<→< (s<s m<n) = m<n
 
+    ≤→[≡⊎<] : ∀ {m n} → m ≤ n → m ≡ n ⊎ m < n
+    ≤→[≡⊎<] {zero} {zero} z≤n = inj₁ ≡-refl
+    ≤→[≡⊎<] {zero} {suc n} z≤n = inj₂ z<s
+    ≤→[≡⊎<] {suc m} {.(suc _)} (s≤s m≤n) with ≤→[≡⊎<] m≤n
+    ≤→[≡⊎<] {suc m} {.(suc _)} (s≤s m≤n) | inj₁ m≡n = inj₁ (≡-cong suc m≡n)
+    ≤→[≡⊎<] {suc m} {.(suc _)} (s≤s m≤n) | inj₂ m<n = inj₂ (s<s m<n)
+
     <-trans : ∀ {m n p : ℕ} → m < n → n < p → m < p
     <-trans z<s (s<s n<p) = z<s
     <-trans (s<s m<n) (s<s n<p) = s<s (<-trans m<n n<p)    
@@ -117,7 +129,15 @@ module Dave.Algebra.Naturals.Ordering where
     suc-¬< ¬m<n sucm<sucn = ¬m<n (suc<→< sucm<sucn)
 
     pred-¬< : ∀ {m n : ℕ} → ¬ (suc m < suc n) → ¬ (m < n)
-    pred-¬< {m} {n} ¬m<n m<n = ¬m<n (s<s m<n)    
+    pred-¬< {m} {n} ¬m<n m<n = ¬m<n (s<s m<n)
+
+    <→≤ : ∀ {m n} → m < n → m ≤ n
+    <→≤ {zero} {n} m<n = z≤n
+    <→≤ {suc m} {suc n} m<n = s≤s (<→≤ (suc<→< m<n))    
+
+    <→≤₁ : ∀ {m n} → m < suc n → m ≤ n
+    <→≤₁ {zero} {n} m<sucm = z≤n
+    <→≤₁ {suc m} {suc n} (s<s m<sucm) = s≤s (<→≤₁ m<sucm)
 
     data _>_ : ℕ → ℕ → Set where
         co-m>n : ∀ {m n : ℕ} → n < m → m > n
@@ -125,11 +145,21 @@ module Dave.Algebra.Naturals.Ordering where
     >→< : ∀ {m n : ℕ} → m > n → n < m
     >→< (co-m>n n<m) = n<m    
 
+    ¬n<0 : ∀ {n : ℕ} → ¬ (n < 0)
+    ¬n<0 ()
+
+    ¬0>n : ∀ {n : ℕ} → ¬ (0 > n)
+    ¬0>n (co-m>n n<m) = ¬n<0 n<m  
+
     ℕ-suc-> : ∀ {m n : ℕ} → m > n → suc m > suc n
     ℕ-suc-> (co-m>n x) = co-m>n (s<s x)
 
     suc>→> : ∀ {m n : ℕ} → suc m > suc n → m > n
     suc>→> (co-m>n sucn<sucm) = co-m>n (suc<→< sucn<sucm)
+
+    >⊎<→⊥ : ∀ {m n} → m < n → m > n → ⊥
+    >⊎<→⊥ {zero} _ 0>n = ¬0>n 0>n
+    >⊎<→⊥ {suc m} {suc n} m<n m>n = >⊎<→⊥ (suc<→< m<n) (suc>→> m>n)
 
     suc-¬> : ∀ {m n : ℕ} → ¬ (m > n) → ¬ (suc m > suc n)
     suc-¬> ¬m>n sucm>sucn = ¬m>n (suc>→> sucm>sucn)
@@ -146,13 +176,7 @@ module Dave.Algebra.Naturals.Ordering where
     ℕ-suc-Trichotomy : ∀ {m n : ℕ} → Trichotomy m n → Trichotomy (suc m) (suc n)
     ℕ-suc-Trichotomy (t-m>n m>n ¬m<n ¬m≡n) = t-m>n (ℕ-suc-> m>n) (suc-¬< ¬m<n) (ℕ-suc-≠ ¬m≡n)
     ℕ-suc-Trichotomy (t-m≡n m≡n ¬m<n ¬m>n) = t-m≡n (ℕ-suc-≡ m≡n) (suc-¬< ¬m<n) (suc-¬> ¬m>n)
-    ℕ-suc-Trichotomy (t-m<n m<n ¬m>n ¬m≡n) = t-m<n (s<s m<n) (suc-¬> ¬m>n) (ℕ-suc-≠ ¬m≡n)
-
-    ¬n<0 : ∀ {n : ℕ} → ¬ (n < 0)
-    ¬n<0 ()
-
-    ¬0>n : ∀ {n : ℕ} → ¬ (0 > n)
-    ¬0>n (co-m>n n<m) = ¬n<0 n<m                
+    ℕ-suc-Trichotomy (t-m<n m<n ¬m>n ¬m≡n) = t-m<n (s<s m<n) (suc-¬> ¬m>n) (ℕ-suc-≠ ¬m≡n)              
 
     <-swap : ∀ {m n : ℕ} → m < n → ¬ (n < m)
     <-swap z<s ()
@@ -166,3 +190,21 @@ module Dave.Algebra.Naturals.Ordering where
     ℕ-is-Trichotomy zero (suc n) = t-m<n z<s ¬0>n 0≠suc
     ℕ-is-Trichotomy (suc m) zero = t-m>n (co-m>n z<s) ¬n<0 suc≠0
     ℕ-is-Trichotomy (suc m) (suc n) = ℕ-suc-Trichotomy (ℕ-is-Trichotomy m n)
+
+    ℕ-<-WellFounded : WellFounded _<_
+    ℕ-<-WellFounded zero = acc λ{y<0 → ⊥-elim (¬n<0 y<0)}
+    ℕ-<-WellFounded (suc n) = acc h
+        where
+            h : ∀ {y} → y < suc n → Acc _<_ y
+            h {y} y<sucn with ℕ-is-Trichotomy y n
+            h {y} y<sucn | t-m>n _ ¬y<n ¬y≡n with ≤→[≡⊎<] (<→≤₁ y<sucn)
+            h {y} y<sucn | t-m>n _ ¬y<n ¬y≡n | inj₁ y≡n = ⊥-elim (¬y≡n y≡n)
+            h {y} y<sucn | t-m>n _ ¬y<n ¬y≡n | inj₂ y<n = ⊥-elim (¬y<n y<n)
+            h {y} y<sucn | t-m≡n ≡-refl ¬y<y _ = ℕ-<-WellFounded y
+            h {y} y<sucn | t-m<n x _ _ with ℕ-<-WellFounded n
+            h {y} y<sucn | t-m<n y<n _ _ | acc f = f y<n
+            
+
+            
+
+            
