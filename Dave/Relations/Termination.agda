@@ -2,28 +2,29 @@ module Dave.Relations.Termination where
     open import Agda.Primitive
     open import Dave.Relations.Definitions    
     open import Dave.Logic.Module
+    open import Dave.Relations.Isomorphism
 
-    data Acc {ℓ} {A : Set ℓ} (_<_ : HomoRel A ℓ) (x : A) : Set ℓ where
-        acc : ({y : A} → y < x → Acc _<_ y) → Acc _<_ x
+    data ↓ {ℓ ℓ'} {A : Set ℓ} (_<_ : HomoRel A ℓ') (x : A) : Set (ℓ ⊔ ℓ') where
+        pf↓ : ({y : A} → y < x → ↓ _<_ y) → ↓ _<_ x
     
     WellFounded : {ℓ : Level} {A : Set ℓ} → HomoRel A ℓ → Set ℓ
-    WellFounded {ℓ} {A} _<_ = ∀ (x : A) → Acc _<_ x
+    WellFounded {ℓ} {A} _<_ = ∀ (x : A) → ↓ _<_ x     
 
-    {- OrderRel-WF : {ℓ : Level} {A : Set ℓ} 
-        → (rel : StrictPartialOrderRel A)
-        → LowerBound rel
-        → WellFounded (StrictPartialOrderRel.rel rel)
-    OrderRel-WF {ℓ} {A} rel (low , low<x) n = acc lem        
+    module measure-module {ℓ ℓ' ℓ1 ℓ2 : Level} {A : Set ℓ} {B : Set ℓ'}
+                {_<A_ : HomoRel A ℓ1} {_<B_ : HomoRel B ℓ2}
+                {m : A → B}
+                (decreasem : ∀ {a a' : A} → a <A a' → m a <B m a')
         where
-            lem : {y : A} → StrictPartialOrderRel.rel rel y n → Acc (StrictPartialOrderRel.rel rel) y
-            lem {y} y<n = {!   !}
+            measure-↓ : ∀ {a : A} → ↓ _<B_ (m a) → ↓ _<A_ a
+            measure-↓ {a} (pf↓ fM) = pf↓ h
+                where
+                    h : {y : A} → y <A a → ↓ _<A_ y
+                    h p = measure-↓ (fM (decreasem p))
 
-            tst : Acc (StrictPartialOrderRel.rel rel) low
-            tst = acc λ{ {y} y<a → ⊥-elim (StrictPartialOrderRel.asymetric rel y<a (low<x y))}
+    open measure-module public
 
-            hsllo : ∀ {y : A} → StrictPartialOrderRel.rel rel y n → Acc (StrictPartialOrderRel.rel rel) y
-            hsllo y>n = {! !}             -}
 
-            
 
-            
+     
+
+    

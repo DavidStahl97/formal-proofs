@@ -151,8 +151,8 @@ module Dave.Algebra.Naturals.Ordering where
     ¬0>n : ∀ {n : ℕ} → ¬ (0 > n)
     ¬0>n (co-m>n n<m) = ¬n<0 n<m  
 
-    ℕ-suc-> : ∀ {m n : ℕ} → m > n → suc m > suc n
-    ℕ-suc-> (co-m>n x) = co-m>n (s<s x)
+    suc-> : ∀ {m n : ℕ} → m > n → suc m > suc n
+    suc-> (co-m>n x) = co-m>n (s<s x)
 
     suc>→> : ∀ {m n : ℕ} → suc m > suc n → m > n
     suc>→> (co-m>n sucn<sucm) = co-m>n (suc<→< sucn<sucm)
@@ -174,9 +174,9 @@ module Dave.Algebra.Naturals.Ordering where
         t-m<n : m < n → ¬ (m > n) → ¬ (m ≡ n) → Trichotomy m n
     
     ℕ-suc-Trichotomy : ∀ {m n : ℕ} → Trichotomy m n → Trichotomy (suc m) (suc n)
-    ℕ-suc-Trichotomy (t-m>n m>n ¬m<n ¬m≡n) = t-m>n (ℕ-suc-> m>n) (suc-¬< ¬m<n) (ℕ-suc-≠ ¬m≡n)
-    ℕ-suc-Trichotomy (t-m≡n m≡n ¬m<n ¬m>n) = t-m≡n (ℕ-suc-≡ m≡n) (suc-¬< ¬m<n) (suc-¬> ¬m>n)
-    ℕ-suc-Trichotomy (t-m<n m<n ¬m>n ¬m≡n) = t-m<n (s<s m<n) (suc-¬> ¬m>n) (ℕ-suc-≠ ¬m≡n)              
+    ℕ-suc-Trichotomy (t-m>n m>n ¬m<n ¬m≡n) = t-m>n (suc-> m>n) (suc-¬< ¬m<n) (suc-≠ ¬m≡n)
+    ℕ-suc-Trichotomy (t-m≡n m≡n ¬m<n ¬m>n) = t-m≡n (suc-≡ m≡n) (suc-¬< ¬m<n) (suc-¬> ¬m>n)
+    ℕ-suc-Trichotomy (t-m<n m<n ¬m>n ¬m≡n) = t-m<n (s<s m<n) (suc-¬> ¬m>n) (suc-≠ ¬m≡n)              
 
     <-swap : ∀ {m n : ℕ} → m < n → ¬ (n < m)
     <-swap z<s ()
@@ -191,18 +191,18 @@ module Dave.Algebra.Naturals.Ordering where
     ℕ-is-Trichotomy (suc m) zero = t-m>n (co-m>n z<s) ¬n<0 suc≠0
     ℕ-is-Trichotomy (suc m) (suc n) = ℕ-suc-Trichotomy (ℕ-is-Trichotomy m n)
 
-    ℕ-<-WellFounded : WellFounded _<_
-    ℕ-<-WellFounded zero = acc λ{y<0 → ⊥-elim (¬n<0 y<0)}
-    ℕ-<-WellFounded (suc n) = acc h
+    ↓-< : WellFounded _<_
+    ↓-< zero = pf↓ λ{y<0 → ⊥-elim (¬n<0 y<0)}
+    ↓-< (suc n) = pf↓ h
         where
-            h : ∀ {y} → y < suc n → Acc _<_ y
+            h : ∀ {y} → y < suc n → ↓ _<_ y
             h {y} y<sucn with ℕ-is-Trichotomy y n
             h {y} y<sucn | t-m>n _ ¬y<n ¬y≡n with ≤→[≡⊎<] (<→≤₁ y<sucn)
             h {y} y<sucn | t-m>n _ ¬y<n ¬y≡n | inj₁ y≡n = ⊥-elim (¬y≡n y≡n)
             h {y} y<sucn | t-m>n _ ¬y<n ¬y≡n | inj₂ y<n = ⊥-elim (¬y<n y<n)
-            h {y} y<sucn | t-m≡n ≡-refl ¬y<y _ = ℕ-<-WellFounded y
-            h {y} y<sucn | t-m<n x _ _ with ℕ-<-WellFounded n
-            h {y} y<sucn | t-m<n y<n _ _ | acc f = f y<n
+            h {y} y<sucn | t-m≡n ≡-refl ¬y<y _ = ↓-< y
+            h {y} y<sucn | t-m<n x _ _ with ↓-< n
+            h {y} y<sucn | t-m<n y<n _ _ | pf↓ f = f y<n
             
 
             
