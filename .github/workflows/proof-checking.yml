@@ -21,7 +21,7 @@ jobs:
 
     - name: Install Agda
       run: |
-        sudo apt-get install agda agda-mode
+        sudo apt-get install agda
         sudo agda --version
 
     - name: Install Python      
