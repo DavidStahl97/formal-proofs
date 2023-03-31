@@ -1,5 +1,5 @@
 name: Compile Agda and Deploy HTML
-on: [push]
+on: [push, pull_request]
 
 env:
   AGDA_VERSION: 2.6.2.2-1.1build1
