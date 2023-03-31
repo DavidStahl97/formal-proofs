@@ -16,6 +16,9 @@ jobs:
     - name: Checkout main
       uses: actions/checkout@v2
 
+    - name: Update APT
+      run: sudo apt-get update    
+
     - name: Install Agda
       run: |
         sudo apt-get install agda agda-mode
