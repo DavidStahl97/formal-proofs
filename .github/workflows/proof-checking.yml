@@ -1,9 +1,6 @@
 name: Compile Agda and Deploy HTML
 on: [push]
 
-env:
-  AGDA_VERSION: 2.6.2.2-1.1build1  
-
 jobs:
   proof-checking:
     runs-on: ubuntu-latest
@@ -12,13 +9,10 @@ jobs:
     - name: Checkout main
       uses: actions/checkout@v3
 
-    - name: Update APT
-      run: sudo apt-get update    
-
-    - name: Install Agda
-      run: |
-        sudo apt-get install agda
-        sudo agda --version
+    - uses: awalsh128/cache-apt-pkgs-action@latest
+      with:
+        packages: agda
+        version: 2.6.2.2-1.1build1  
 
     - name: Generate Agda Modules for Proof Checking
       shell: pwsh
