@@ -10,12 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: Setup Auto Merge
-      uses: alexwilson/enable-github-automerge-action@main
-      if: github.event_name == 'pull_request'
-      with:
-        github-token: "${{ secrets.GITHUB_TOKEN }}"
-
     - name: Checkout main
       uses: actions/checkout@v2
 
