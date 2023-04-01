@@ -1,8 +1,6 @@
 module Dave.Relations.Termination where
     open import Agda.Primitive
-    open import Dave.Relations.Definitions    
-    open import Dave.Logic.Module
-    open import Dave.Relations.Isomorphism
+    open import Dave.Relations.Definitions
 
     data ↓ {ℓ ℓ'} {A : Set ℓ} (_<_ : HomoRel A ℓ') (x : A) : Set (ℓ ⊔ ℓ') where
         pf↓ : ({y : A} → y < x → ↓ _<_ y) → ↓ _<_ x

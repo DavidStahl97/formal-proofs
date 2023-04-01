@@ -1,5 +1,6 @@
 module Dave.ComputerScience.Algorithms.NaturalNumbers.Equality where
-    open import Dave.ComputerScience.Datastructures.Module
+    open import Dave.Core.Proofed.Module
+    open import Dave.Core.Module
     open import Dave.Logic.Module
     open import Dave.Algebra.Naturals.Module
 

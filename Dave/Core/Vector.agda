@@ -1,6 +1,6 @@
-module Dave.ComputerScience.Datastructures.Vector where
-    open import Dave.Algebra.Naturals.Module
-    open import Dave.ComputerScience.Datastructures.Boolean
+module Dave.Core.Vector where
+    open import Dave.Core.Naturals
+    open import Dave.Core.Boolean
 
     data Vector {ℓ} (A : Set ℓ) : ℕ → Set ℓ where
         [] : Vector A zero

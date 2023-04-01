@@ -1,6 +1,5 @@
-module Dave.ComputerScience.Datastructures.Maybe where
-    open import Agda.Primitive
-    open import Dave.Relations.Module
+module Dave.Core.Maybe where
+    open import Agda.Primitive    
 
     private
         variable
@@ -13,9 +12,7 @@ module Dave.ComputerScience.Datastructures.Maybe where
         nothing : Maybe A
 
     infixl 1 _>>=Maybe_
+
     _>>=Maybe_ : Maybe A → (A → Maybe B) → Maybe B
     nothing >>=Maybe f = nothing
     just a  >>=Maybe f = f a
-
-    ≡-just : {x y : A} → just x ≡ just y → x ≡ y
-    ≡-just ≡-refl = ≡-refl

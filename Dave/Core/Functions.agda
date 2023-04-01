@@ -1,4 +1,4 @@
-module Dave.Functions where
+module Dave.Core.Functions where
 
     _∘_ : ∀ {A B C : Set} → (B → C) → (A → B) → (A → C)
     (g ∘ f) a = g (f a)
