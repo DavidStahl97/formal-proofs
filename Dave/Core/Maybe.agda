@@ -1,4 +1,4 @@
-module Dave.ComputerScience.Datastructures.Maybe where
+module Dave.Core.Maybe where
     open import Agda.Primitive
     open import Dave.Relations.Module
 
