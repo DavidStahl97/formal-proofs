@@ -92,14 +92,18 @@ function CreateModules {
 }
 
 function CreateIndexFile {
-    $moduleFiles = Get-ChildItem -Recurse -File -Filter "Module.agda" -Path "Dave"     
+    $moduleFiles = Get-ChildItem -Recurse -File -Filter "Module.agda" -Path "Dave" | Sort-Object -Property FullName     
 
     $builder = [System.Text.StringBuilder]::new()
 
     foreach ($moduleFile in $moduleFiles) {
-        [void]$builder.Append("import ")
+        [void]$builder.Append("import ")        
 
         $moduleName = GetModuleName -Directory $moduleFile.Directory
+        
+        Write-Host "Add Module: " -NoNewLine
+        Write-Host $moduleName
+        
         [void]$builder.AppendLine($moduleName)
     }
 
