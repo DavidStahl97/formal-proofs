@@ -2,9 +2,7 @@ module Dave.Algebra.Naturals.Multiplication where
   open import Dave.Algebra.Naturals.Definition
   open import Dave.Algebra.Naturals.Addition
 
-  _*_ : ℕ → ℕ → ℕ
-  zero * b = zero
-  suc a * b = (a * b) + b
+
 
   infixl 7 _*_
 

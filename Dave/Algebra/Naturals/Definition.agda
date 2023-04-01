@@ -1,23 +1,9 @@
 module Dave.Algebra.Naturals.Definition where
-  open import Dave.Relations.Module public
-  open import Dave.Logic.Module public
-  open import Dave.Algebra.Structures.Module public
+  open import Dave.Core.Naturals public
   
-  data ℕ : Set where
-    zero : ℕ
-    suc : ℕ → ℕ
-
-  one = suc zero
-  two = suc one
-  three = suc two
-  four = suc three
-  five = suc four
-  six = suc five
-  seven = suc six
-  eight = suc seven
-  nine = suc eight
-
-  {-# BUILTIN NATURAL  ℕ #-} 
+  open import Dave.Relations.Module
+  open import Dave.Logic.Module
+  open import Dave.Algebra.Structures.Module  
 
   suc-≡ : ∀ {m n : ℕ} → m ≡ n → suc m ≡ suc n
   suc-≡ ≡-refl = ≡-refl

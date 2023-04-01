@@ -1,10 +1,6 @@
 module Dave.Algebra.Naturals.Addition where  
   open import Dave.Algebra.Naturals.Definition
 
-  _+_ : ℕ → ℕ → ℕ
-  zero + b = b
-  suc a + b = suc (a + b)
-
   infixl 6 _+_
 
   {- Semigroup -}
