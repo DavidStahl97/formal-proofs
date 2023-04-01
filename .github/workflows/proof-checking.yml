@@ -1,4 +1,4 @@
-name: Compile Agda and Deploy HTML
+name: Proof Checking and Deploy HTML
 on: [push]
 
 jobs:
