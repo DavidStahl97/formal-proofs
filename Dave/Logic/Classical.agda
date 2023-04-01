@@ -1,6 +1,6 @@
-module Dave.Logic.Propositions.Classical where
+module Dave.Logic.Classical where
     open import Agda.Primitive
-    open import Dave.Logic.Propositions.Basics
+    open import Dave.Logic.Propositions
 
     private
         variable

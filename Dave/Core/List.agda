@@ -1,7 +1,7 @@
 module Dave.Core.List where
-    open import Dave.Algebra.Naturals.Definition
-    open import Dave.ComputerScience.Datastructures.Boolean
-    open import Dave.ComputerScience.Datastructures.Maybe
+    open import Dave.Core.Naturals
+    open import Dave.Core.Boolean
+    open import Dave.Core.Maybe
 
     data List {ℓ} (A : Set ℓ) : Set ℓ where
         [] : List A

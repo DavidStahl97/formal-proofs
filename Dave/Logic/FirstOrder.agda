@@ -1,4 +1,4 @@
-module Dave.Logic.FirstOrder.Basics where
+module Dave.Logic.FirstOrder where
     open import Agda.Primitive
 
     private
