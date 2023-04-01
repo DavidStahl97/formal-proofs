@@ -10,7 +10,7 @@ jobs:
     steps:
 
     - name: Checkout main
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Update APT
       run: sudo apt-get update    
@@ -20,11 +20,8 @@ jobs:
         sudo apt-get install agda
         sudo agda --version
 
-    - name: Install Powershell      
-      run: |
-        sudo apt-get install -y powershell
-
     - name: Generate Agda Modules for Proof Checking
+      shell: pwsh
       run: .\generate-modules.ps1
 
     - name: Proof Checking
