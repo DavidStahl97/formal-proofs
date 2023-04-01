@@ -1,8 +1,6 @@
 module Dave.Algebra.Naturals.Monus where
     open import Dave.Algebra.Naturals.Definition
-    open import Dave.Algebra.Naturals.Addition
-
-    infixl 6 _∸_
+    open import Dave.Algebra.Naturals.Addition    
 
     ∸-zero : ∀ (n : ℕ) → 0 ∸ n ≡ 0
     ∸-zero zero = ≡-refl

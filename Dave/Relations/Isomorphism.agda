@@ -2,7 +2,7 @@ module Dave.Relations.Isomorphism where
     open import Agda.Primitive
     open import Dave.Relations.Definitions
     open import Dave.Relations.Equality
-    open import Dave.Functions
+    open import Dave.Core.Functions
 
     private
         variable

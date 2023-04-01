@@ -6,6 +6,10 @@ module Dave.Core.Naturals where
 
   {-# BUILTIN NATURAL  ℕ #-} 
 
+  infixl 6 _+_
+  infixl 7 _*_
+  infixl 6 _∸_
+  
   _+_ : ℕ → ℕ → ℕ
   zero + b = b
   suc a + b = suc (a + b)

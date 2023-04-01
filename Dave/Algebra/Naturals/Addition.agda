@@ -1,7 +1,5 @@
 module Dave.Algebra.Naturals.Addition where  
-  open import Dave.Algebra.Naturals.Definition
-
-  infixl 6 _+_
+  open import Dave.Algebra.Naturals.Definition  
 
   {- Semigroup -}
   +-assoc : associative _+_

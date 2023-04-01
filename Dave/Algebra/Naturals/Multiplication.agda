@@ -1,10 +1,6 @@
 module Dave.Algebra.Naturals.Multiplication where
   open import Dave.Algebra.Naturals.Definition
-  open import Dave.Algebra.Naturals.Addition
-
-
-
-  infixl 7 _*_
+  open import Dave.Algebra.Naturals.Addition  
 
   *-zero : ∀ (m : ℕ) → m * zero ≡ zero
   *-zero zero = ≡-refl

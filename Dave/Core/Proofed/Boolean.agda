@@ -1,6 +1,7 @@
-module Dave.Core.Proofs where
+module Dave.Core.Proofed.Boolean where
     open import Dave.Algebra.Naturals.Module
     open import Dave.Logic.Module
+    open import Dave.Core.Boolean
 
     record _▸₁_ {A : Set} (f : A → Bool) (P : A → Set) : Set where
         field

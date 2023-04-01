@@ -1,8 +1,9 @@
 module Dave.ComputerScience.Typing.SimpleLanguage where    
-    open import Dave.Algebra.Naturals.Module renaming (_+_ to _+ℕ_ ; _<_ to _<ℕ_)
-    open import Dave.ComputerScience.Datastructures.Boolean hiding (if_then_else_)
-    open import Dave.ComputerScience.Datastructures.Maybe
-    open import Dave.ComputerScience.Algorithms.NaturalNumbers.Ordering 
+    open import Dave.ComputerScience.Algorithms.NaturalNumbers.Ordering
+    open import Dave.Relations.Module
+    open import Dave.Logic.Module
+    open import Dave.Core.Proofed.Module
+    open import Dave.Core.Module renaming (_+_ to _+ℕ_) hiding (if_then_else_)
 
     {- see Program=Proof -}
 

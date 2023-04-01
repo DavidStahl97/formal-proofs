@@ -1,9 +1,9 @@
 module Dave.Algebra.Naturals.Definition where
   open import Dave.Core.Naturals public
-  
-  open import Dave.Relations.Module
-  open import Dave.Logic.Module
-  open import Dave.Algebra.Structures.Module  
+
+  open import Dave.Relations.Module public
+  open import Dave.Logic.Module public
+  open import Dave.Algebra.Structures.Module public
 
   suc-≡ : ∀ {m n : ℕ} → m ≡ n → suc m ≡ suc n
   suc-≡ ≡-refl = ≡-refl

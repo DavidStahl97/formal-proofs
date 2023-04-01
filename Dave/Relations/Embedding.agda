@@ -1,5 +1,5 @@
 module Dave.Relations.Embedding where
-    open import Dave.Functions
+    open import Dave.Core.Functions
     open import Dave.Relations.Equality
     open import Dave.Relations.Isomorphism
 
