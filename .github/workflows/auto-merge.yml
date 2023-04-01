@@ -1,0 +1,19 @@
+name: Set Auto Merge for Pull Requests
+on: pull_request 
+
+jobs:
+  enable-auto-merge:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Setup Auto Merge
+      uses: alexwilson/enable-github-automerge-action@main
+      with:
+        github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+    - name: Auto reviews branches
+      uses: golfzaptw/action-auto-reviews-from-branches@master
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+        EVENT_TYPE: APPROVE
+        BRANCHES: feature/*        

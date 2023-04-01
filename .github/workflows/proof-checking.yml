@@ -3,7 +3,7 @@ on: [push, pull_request]
 
 env:
   AGDA_VERSION: 2.6.2.2-1.1build1
-  PYTHON_VERSION: 3.11.3
+  PYTHON_VERSION: 3.11.1
 
 jobs:
   proof-checking:
@@ -30,11 +30,11 @@ jobs:
       run: python generate-complete-agda-file.py
 
     - name: Proof Checking
-      run: agda --html --html-dir=docs index.agda
+      run: agda --html --html-dir=docs index.agda    
 
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4.2.2
-      if: github.ref == 'refs/heads/main'
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: gh-pages
