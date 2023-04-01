@@ -23,7 +23,7 @@ jobs:
       run: agda --html --html-dir=docs index.agda    
 
     - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4.2.2
+      uses: JamesIves/github-pages-deploy-action@v4.4.1
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       with:
         BRANCH: gh-pages
