@@ -3,7 +3,7 @@ on: [push]
 
 env:
   AGDA_VERSION: 2.6.2.2-1.1build1
-  PYTHON_VERSION: 3.11.5
+  PYTHON_VERSION: 3.11.2
 
 jobs:
   proof-checking:
