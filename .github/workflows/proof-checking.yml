@@ -36,6 +36,5 @@ jobs:
       uses: JamesIves/github-pages-deploy-action@v4.2.2
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: gh-pages
         FOLDER: docs   
