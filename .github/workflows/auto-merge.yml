@@ -9,11 +9,11 @@ jobs:
     - name: Setup Auto Merge
       uses: alexwilson/enable-github-automerge-action@main
       with:
-        github-token: "${{ secrets.GITHUB_TOKEN }}"
+        github-token: "${{ secrets.PAT }}"
 
     - name: Auto reviews branches
       uses: golfzaptw/action-auto-reviews-from-branches@master
       with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         EVENT_TYPE: APPROVE
         BRANCHES: feature/*        

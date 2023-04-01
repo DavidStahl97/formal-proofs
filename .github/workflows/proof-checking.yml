@@ -12,6 +12,8 @@ jobs:
 
     - name: Checkout main
       uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.PAT }}
 
     - name: Update APT
       run: sudo apt-get update    
@@ -36,6 +38,6 @@ jobs:
       uses: JamesIves/github-pages-deploy-action@v4.2.2
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PAT }}
         BRANCH: gh-pages
         FOLDER: docs   
