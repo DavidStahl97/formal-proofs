@@ -3,4 +3,8 @@
 *.agda#
 hello-world.exe
 MAlonzo/**
+
 index.agda
+Module.agda
+
+Libraries/**
