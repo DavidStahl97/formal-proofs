@@ -2,7 +2,7 @@ name: Proof Checking and Deploy HTML
 on: [push]
 
 env:
-  AGDA_VERSION: 2.6.0.1-1build4
+  AGDA_VERSION: 2.6.2.2-1.1build1
 
 jobs:
   proof-checking:
@@ -14,7 +14,7 @@ jobs:
 
     - name: Install Agda
       run: |
-        sudo apt install -y agda-bin=${{ env.AGDA_VERSION }}
+        sudo apt install -y agda=${{ env.AGDA_VERSION }}
         sudo agda --version
 
     - name: Generate Agda Modules for Proof Checking
