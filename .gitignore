@@ -7,4 +7,5 @@ MAlonzo/**
 index.agda
 Module.agda
 
-Libraries/**
+src/libs/**
+src/libraries
