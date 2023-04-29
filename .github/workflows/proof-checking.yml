@@ -17,14 +17,11 @@ jobs:
 
     - name: Generate Agda Modules for Proof Checking
       shell: pwsh
-      run: .\generate-modules.ps1
-
-    - name: Proof Checking
-      run: agda --html --html-dir=docs index.agda    
+      run: .\sripts\publish.ps1
 
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4.4.1
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       with:
         BRANCH: gh-pages
-        FOLDER: docs   
+        FOLDER: src/docs   

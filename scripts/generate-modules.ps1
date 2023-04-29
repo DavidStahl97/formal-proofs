@@ -1,4 +1,7 @@
-$srcFolder = . $PSScriptRoot\getSrcLocation.ps1
+Write-Host "Generate module files"
+
+. $PSScriptRoot\utils.ps1
+$srcFolder = getSrcFolder
 $daveFoldePath = Join-Path -Path $srcFolder -ChildPath "Dave"
 
 function GetModuleDirectoryPath {
@@ -112,7 +115,7 @@ function CreateIndexFile {
         [void]$builder.AppendLine($moduleName)
     }
 
-    $indexFilePath = Join-Path -Path $srcFolder -ChildPath "index.agda"
+    $indexFilePath = Join-Path -Path $srcFolder -ChildPath "Index.agda"
 
     Set-Content -Path $indexFilePath -Value $builder.ToString()
 }

@@ -1,5 +1,10 @@
-$libraryFilePath = Join-Path -Path $PSScriptRoot -ChildPath "..\src\libraries"
-$librariesFolder = Join-Path -Path $PSScriptRoot -ChildPath "..\src\libs"
+Write-Host "Gnerate libraries file"
+
+. $PSScriptRoot\utils.ps1
+$srcFolder = getSrcFolder
+
+$libraryFilePath = Join-Path -Path $srcFolder -ChildPath "libraries"
+$librariesFolder = Join-Path -Path $srcFolder -ChildPath "libs"
 
 $libraries = @(
     "agda-stdlib/standard-library.agda-lib"
