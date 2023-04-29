@@ -19,6 +19,7 @@ module Symbols where
         ≥ - \ge
         > - \geq
         ⇔ - \iff
+        ∈ - \in 
         Λ - \Lambda
         λ - \lambda
         ≤ - \le
