@@ -24,4 +24,10 @@ jobs:
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       with:
         BRANCH: gh-pages
-        FOLDER: src/docs   
+        FOLDER: src/docs  
+
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v3
+      with:
+        name: code-coverage-report
+        path: /usr/share/libghc-agda-dev     
