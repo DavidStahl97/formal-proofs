@@ -17,7 +17,7 @@ jobs:
 
     - name: Generate Agda Modules for Proof Checking
       shell: pwsh
-      run: .\sripts\publish.ps1
+      run: .\scripts\publish.ps1
 
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4.4.1
