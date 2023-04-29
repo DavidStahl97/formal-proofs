@@ -13,7 +13,7 @@ jobs:
       uses: awalsh128/cache-apt-pkgs-action@latest
       with:
         packages: agda
-        version: 2.6.2.2-1
+        version: 2.6.2.2-1.1build1
 
     - name: Generate Agda Modules for Proof Checking
       shell: pwsh
