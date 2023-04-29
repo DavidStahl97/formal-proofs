@@ -1,3 +1,9 @@
+Write-Host "Generate module files"
+
+. $PSScriptRoot\utils.ps1
+$srcFolder = getSrcFolder
+$daveFoldePath = Join-Path -Path $srcFolder -ChildPath "Dave"
+
 function GetModuleDirectoryPath {
     param (
         [Parameter(Mandatory)]
@@ -68,7 +74,7 @@ function ExistsAnyAgdaFiles {
 }
 
 function DeleteAllModuleFiles {
-    $directories = Get-ChildItem -Recurse -Directory -Path "Dave"
+    $directories = Get-ChildItem -Recurse -Directory -Path $daveFoldePath
     foreach ($directory in $directories) {
         $moduleFile = Join-Path -Path $directory.FullName -ChildPath "Module.agda"
         if (Test-Path $moduleFile) {
@@ -78,7 +84,7 @@ function DeleteAllModuleFiles {
 }
 
 function CreateModules {
-    $directories = Get-ChildItem -Recurse -Directory -Path "Dave" | Where-Object { ExistsAnyAgdaFiles -Directory $_.FullName } | Sort-Object -Property FullName
+    $directories = Get-ChildItem -Recurse -Directory -Path $daveFoldePath | Where-Object { ExistsAnyAgdaFiles -Directory $_.FullName } | Sort-Object -Property FullName
     foreach ($directory in $directories) {
         $ModuleNamePrefix = GetModuleDirectoryPath -Directory $directory
         $moduleFile = GetModuleFile -Directory $directory
@@ -92,12 +98,14 @@ function CreateModules {
 }
 
 function CreateIndexFile {
-    $moduleFiles = Get-ChildItem -Recurse -File -Filter "Module.agda" -Path "Dave" | Sort-Object -Property FullName     
+    $moduleFiles = Get-ChildItem -Recurse -File -Filter "Module.agda" -Path $daveFoldePath | Sort-Object -Property FullName     
 
     $builder = [System.Text.StringBuilder]::new()
 
+    $builder.AppendLine("module Index where")
+
     foreach ($moduleFile in $moduleFiles) {
-        [void]$builder.Append("import ")        
+        [void]$builder.Append(" import ")        
 
         $moduleName = GetModuleName -Directory $moduleFile.Directory
         
@@ -107,7 +115,9 @@ function CreateIndexFile {
         [void]$builder.AppendLine($moduleName)
     }
 
-    Set-Content -Path "index.agda" -Value $builder.ToString()
+    $indexFilePath = Join-Path -Path $srcFolder -ChildPath "Index.agda"
+
+    Set-Content -Path $indexFilePath -Value $builder.ToString()
 }
 
 DeleteAllModuleFiles
