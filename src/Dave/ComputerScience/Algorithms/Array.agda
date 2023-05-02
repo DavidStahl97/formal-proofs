@@ -5,6 +5,7 @@ module Dave.ComputerScience.Algorithms.Array where
     open import Data.Nat
     open import Data.Fin
     open import Data.Product
+    open import Data.Empty.Irrelevant
     import Data.Vec 
     open import Relation.Unary
     open import Relation.Binary.PropositionalEquality
@@ -53,5 +54,20 @@ module Dave.ComputerScience.Algorithms.Array where
 
     lookup : Array A n × Fin n → Count A
     lookup (x , n) = Data.Vec.lookup (Array→Vec x) n , 1
+
+    lookup∈O[1] : {A : Set} {n : ℕ} → lookup {A} {n} ∈ O[1]
+    lookup∈O[1] {A} {n} = record 
+        {
+            map-args = λ x → n;
+            f = λ n → 1;
+            f-isworst = λ x → s≤s z≤n;
+            o = record 
+                {
+                    k = 1;
+                    k>0 = λ();
+                    n₀ = 0;
+                    cond = λ n n≥n₀ → s≤s z≤n
+                }
+        }
 
      
