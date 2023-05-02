@@ -10,14 +10,30 @@ module Dave.ComputerScience.Complexity where
         variable            
             A B : Set
 
-    record Count (A : Set) : Set where
-        constructor _,_
+    record Cost (A : Set) : Set where        
         field
             value : A
-            n : ℕ
+            n : ℕ 
+
+    cost : A → Cost A
+    cost a = record 
+        {
+            value = a;
+            n = 1
+        }           
+
+    _>>+_ : {A B : Set} → Cost A → (A → Cost B) → Cost B
+    _>>+_ {A} {B} a f = let b : Cost B
+                            b = f (Cost.value a)
+                        in
+        record 
+        {
+            value = Cost.value b;
+            n = Cost.n a + Cost.n b
+        }       
 
     Algorithm : (A B : Set) → Set
-    Algorithm A B = A → Count B 
+    Algorithm A B = A → Cost B 
 
     n-× : ℕ → Set
     n-× zero = ℕ
@@ -39,7 +55,7 @@ module Dave.ComputerScience.Complexity where
         field
             map-args : A → (n-× n-args)
             f : (n-× n-args) → ℕ
-            f-isworst : ∀ (a : A) → f (map-args a) ≥ Count.n (algo a)
+            f-isworst : ∀ (a : A) → f (map-args a) ≥ Cost.n (algo a)
             o : O n-args g f
 
     O₁ : {A : Set} {B : Set} → (g : ℕ → ℕ) → Pred (Algorithm A B) lzero

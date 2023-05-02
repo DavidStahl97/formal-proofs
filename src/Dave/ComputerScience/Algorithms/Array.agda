@@ -52,13 +52,13 @@ module Dave.ComputerScience.Algorithms.Array where
                 right-inverse (x Data.Vec.∷ xs) = cong (λ xs → x Data.Vec.Vec.∷ xs) (right-inverse xs)
 
 
-    lookup : Array A n × Fin n → Count A
-    lookup (x , n) = Data.Vec.lookup (Array→Vec x) n , 1
+    lookup : Array A n × Fin n → Cost A
+    lookup (x , n) = cost (Data.Vec.lookup (Array→Vec x) n)
 
-    lookup∈O[1] : {A : Set} {n : ℕ} → lookup {A} {n} ∈ O[1]
+    lookup∈O[1] : lookup {A} {n} ∈ O[1]
     lookup∈O[1] {A} {n} = record 
         {
-            map-args = λ x → n;
+            map-args = λ _ → n;
             f = λ n → 1;
             f-isworst = λ x → s≤s z≤n;
             o = record 
@@ -70,4 +70,22 @@ module Dave.ComputerScience.Algorithms.Array where
                 }
         }
 
-     
+    updateAt : Array A n × Fin n × A → Cost (Array A n)
+    updateAt (array , n , a) = cost (Vec→Array (Data.Vec.updateAt n (λ _ → a) (Array→Vec array)))
+
+    updateAt∈O[1] : lookup {A} {n} ∈ O[1]
+    updateAt∈O[1] {A} {n} = record 
+        {
+            map-args = λ _ → n;
+            f = λ n → 1;
+            f-isworst = λ x → s≤s z≤n;
+            o = record 
+                {
+                    k = 1;
+                    k>0 = λ();
+                    n₀ = 0;
+                    cond = λ n n≥n₀ → s≤s z≤n
+                }
+        }
+
+      
