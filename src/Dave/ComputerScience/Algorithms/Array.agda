@@ -2,27 +2,35 @@ module Dave.ComputerScience.Algorithms.Array where
     open import Agda.Primitive
     open import Function.LeftInverse
     open import Function.Inverse
-    open import Data.Nat
-    open import Data.Fin
+    open import Agda.Builtin.Nat using (_-_)
+    open import Data.Nat hiding (_<_)
+    open import Data.Fin using (Fin)
+    open import Data.Bool using (Bool; if_then_else_)
     open import Data.Product
     open import Data.Empty.Irrelevant
     import Data.Vec 
     open import Relation.Unary
     open import Relation.Binary.PropositionalEquality
+    open import Relation.Binary
+    open import Relation.Nullary
 
     open import Dave.ComputerScience.Complexity
 
     private
         variable
-            a : Level
-            A : Set a            
+            A : Set lzero            
             n : ℕ
+            _≈_ : Rel A lzero 
+            _<_ : Rel A lzero
 
-    data Array (A : Set a) : ℕ → Set a where
+    data Array (A : Set) : ℕ → Set where
         []  : Array A zero
         _∷_ : ∀ (x : A) (xs : Array A n) → Array A (suc n)
         
     private
+        tail : Array A (suc n) → Array A n
+        tail (x ∷ xs) = xs
+
         Array→Vec : Array A n → Data.Vec.Vec A n
         Array→Vec [] = Data.Vec.Vec.[]
         Array→Vec (x ∷ xs) = Data.Vec._∷_ x (Array→Vec xs)
@@ -88,4 +96,31 @@ module Dave.ComputerScience.Algorithms.Array where
                 }
         }
 
-      
+    min : {A : Set} {n : ℕ} 
+        → {_≈_ : Rel A lzero} {_<_ : Rel A lzero} → IsStrictTotalOrder _≈_ _<_ 
+        → Array A (suc n)
+        → Cost A
+    min {n = n} rel (x ∷ array) = find array x rel
+        where
+            find : {A : Set} {n : ℕ} → Array A n → A 
+                →  {_≈_ : Rel A lzero} {_<_ : Rel A lzero} → IsStrictTotalOrder _≈_ _<_ 
+                → Cost A
+            find [] min rel = cost-nothing min
+            find {A = A} (x ∷ array) min rel = (x cost[ IsStrictTotalOrder._<?_ rel ] min) 
+                >>+ λ x<min → if x<min then (find array x rel) else (find array min rel)
+
+     
+    min∈O[N] : {_≈_ : Rel A lzero} {_<_ : Rel A lzero} → (rel : IsStrictTotalOrder _≈_ _<_) 
+        → (min {A} {n} rel) ∈ O[N]
+    min∈O[N] {A = A} {n = n} rel = record 
+        {
+            map-args = λ _ → n;
+            f = λ n → n;
+            f-isworst = f-isworst;
+            o = {!   !}
+        }
+            where
+                f-isworst : (a : Array A (suc n)) → n ≥ Cost.n (min rel a)
+                f-isworst array = {!   !}
+
+       

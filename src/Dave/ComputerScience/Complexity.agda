@@ -1,10 +1,12 @@
 module Dave.ComputerScience.Complexity where
     open import Agda.Primitive
+    open import Data.Bool using (Bool)
     open import Data.Nat hiding (_⊔_)
     open import Data.Product
-    open import Relation.Unary
+    open import Relation.Unary hiding (Decidable)
     open import Relation.Nullary
     open import Relation.Binary.PropositionalEquality
+    open import Relation.Binary
 
     private
         variable            
@@ -20,8 +22,19 @@ module Dave.ComputerScience.Complexity where
         {
             value = a;
             n = 1
-        }           
+        }
 
+    cost-nothing : A → Cost A
+    cost-nothing a = record 
+        {
+            value = a;
+            n = 0
+        }    
+
+    _cost[_]_ : A → {rel : Rel A lzero} → Decidable rel → A → Cost Bool
+    a cost[ rel ] b = cost (does (rel a b))      
+
+    infixl 1 _>>+_
     _>>+_ : {A B : Set} → Cost A → (A → Cost B) → Cost B
     _>>+_ {A} {B} a f = let b : Cost B
                             b = f (Cost.value a)
