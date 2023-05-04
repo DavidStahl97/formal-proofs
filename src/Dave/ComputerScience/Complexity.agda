@@ -54,28 +54,64 @@ module Dave.ComputerScience.Complexity where
 
     n-≥ : {n-args : ℕ} → (n₀ : n-× n-args) → (n : n-× n-args) → Set
     n-≥ {zero} n₀ n = n ≥ n₀
-    n-≥ {suc n-args} (n₀ , n₀-tail) (n , n-tail) = n ≥ n₀ × n-≥ n₀-tail n-tail 
+    n-≥ {suc n-args} (n₀ , n₀-tail) (n , n-tail) = n ≥ n₀ × n-≥ n₀-tail n-tail    
 
-    record O (n-args : ℕ) (g : (n-× n-args) → ℕ) (f : (n-× n-args) → ℕ) : Set where
+    record O {n-args : ℕ} (g : (n-× n-args) → ℕ) (f : (n-× n-args) → ℕ) : Set where
         field
             k : ℕ
             k>0 : ¬ k ≡ 0
             n₀ : n-× n-args
             cond : ∀ (n : (n-× n-args)) → n-≥ n₀ n → f n ≤ k * g n
 
-    record IsInO (n-args : ℕ) (g : (n-× n-args) → ℕ) 
-        (algo : Algorithm A B) : Set where 
+    record Ω {n-args : ℕ} (g : (n-× n-args) → ℕ) (f : (n-× n-args) → ℕ) : Set where
         field
-            map-args : A → (n-× n-args)
-            f : (n-× n-args) → ℕ
-            f-isworst : ∀ (a : A) → f (map-args a) ≥ Cost.n (algo a)
-            o : O n-args g f
+            k : ℕ
+            k>0 : ¬ k ≡ 0
+            n₀ : n-× n-args
+            cond : ∀ (n : (n-× n-args)) → n-≥ n₀ n → f n ≥ k * g n    
 
-    O₁ : {A : Set} {B : Set} → (g : ℕ → ℕ) → Pred (Algorithm A B) lzero
-    O₁ = IsInO 0
+    record Φ {n-args : ℕ} (g : (n-× n-args) → ℕ) (f : (n-× n-args) → ℕ) : Set where
+        field
+            worst : O g f
+            best : Ω g f    
 
-    O[1] : {A : Set} {B : Set} → Pred (Algorithm A B) lzero
-    O[1] = O₁ (λ n → 1)
+    record ArgSize (algo : Algorithm A B) : Set where
+        field
+            n-args : ℕ
+            f : A → (n-× n-args)
 
-    O[N] : {A : Set} {B : Set} → Pred (Algorithm A B) lzero
-    O[N] = O₁ (λ n → n) 
+        type : Set
+        type = n-× n-args
+
+    module AlgoComplexity {algo : Algorithm A B} (argSize : ArgSize algo) where
+
+        record rel-case-arg (_⋆_ : Rel ℕ lzero)            
+            (n : ArgSize.type argSize)
+            (f : ArgSize.type argSize → ℕ) : Set where
+            field            
+                arg : A
+                is-mapped : ArgSize.f argSize arg ≡ n
+                arg⋆A : ∀ (a : A) → ArgSize.f argSize a ≡ n → Cost.n (algo arg) ⋆ Cost.n (algo a)
+                f-correct : Cost.n (algo arg) ≡ f n
+
+        record rel-case-func (_⋆_ : Rel ℕ lzero) : Set where
+            field
+                n-args : ℕ
+                f : ArgSize.type argSize → ℕ
+                args-map : A → ArgSize.type argSize
+                is-worst : ∀ (n : ArgSize.type argSize) → rel-case-arg _⋆_ n f    
+
+        record O[_] (g : ArgSize.type argSize → ℕ) : Set where 
+            field                
+                worst-case : rel-case-func _≥_ 
+                o : O g (rel-case-func.f worst-case)
+
+        record Ω[_] (g : ArgSize.type argSize → ℕ) : Set where
+            field
+                best-case : rel-case-func _≤_
+                ω : Ω g (rel-case-func.f best-case)
+
+        record Φ[_] (g : ArgSize.type argSize → ℕ) : Set where
+            field
+                worst : O[ g ]
+                best : Ω[ g ]
