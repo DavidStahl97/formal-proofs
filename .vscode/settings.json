@@ -3,7 +3,5 @@
         "**/*.agda~": true,
         "**/*.agdai": true,
         "**/MAlonzo": true
-    },
-    "agdaMode.connection.commandLineOptions": "--library-file=\"C:\\Users\\de18702\\source\\repos\\formal-proofs\\src\\libraries\"",
-    "agdaMode.inputMethod.activationKey": "#"
+    }
 }

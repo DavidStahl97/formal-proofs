@@ -4,8 +4,9 @@ module Dave.ComputerScience.Algorithms.Array where
     open import Function.Inverse
     open import Agda.Builtin.Nat using (_-_)
     open import Data.Nat hiding (_<_)
+    open import Data.Nat.Properties
     open import Data.Fin using (Fin)
-    open import Data.Bool using (Bool; if_then_else_)
+    open import Data.Bool using (Bool; if_then_else_; true; false)
     open import Data.Product
     open import Data.Empty.Irrelevant
     import Data.Vec 
@@ -96,20 +97,30 @@ module Dave.ComputerScience.Algorithms.Array where
                 }
         }
 
+    private
+        find-min : Array A n → A 
+            →  {_≈_ : Rel A lzero} {_<_ : Rel A lzero} → IsStrictTotalOrder _≈_ _<_ 
+            → Cost A
+        find-min [] min rel = cost-nothing min
+        find-min {A = A} (x ∷ array) min rel = (x cost[ IsStrictTotalOrder._<?_ rel ] min) 
+            >>+ λ x<min → if x<min then (find-min array x rel) else (find-min array min rel)
+
     min : {A : Set} {n : ℕ} 
         → {_≈_ : Rel A lzero} {_<_ : Rel A lzero} → IsStrictTotalOrder _≈_ _<_ 
         → Array A (suc n)
         → Cost A
-    min {n = n} rel (x ∷ array) = find array x rel
-        where
-            find : {A : Set} {n : ℕ} → Array A n → A 
-                →  {_≈_ : Rel A lzero} {_<_ : Rel A lzero} → IsStrictTotalOrder _≈_ _<_ 
-                → Cost A
-            find [] min rel = cost-nothing min
-            find {A = A} (x ∷ array) min rel = (x cost[ IsStrictTotalOrder._<?_ rel ] min) 
-                >>+ λ x<min → if x<min then (find array x rel) else (find array min rel)
+    min {n = n} rel (x ∷ array) = find-min array x rel        
 
      
+    private
+        n≥Cost[find-min] : (array : Array A n) → (start : A)
+            → {_≈_ : Rel A lzero} {_<_ : Rel A lzero} → (rel : IsStrictTotalOrder _≈_ _<_)            
+            → n ≥ Cost.n (find-min array start rel)
+        n≥Cost[find-min] [] start rel = z≤n
+        n≥Cost[find-min] (x ∷ array) start rel with Cost.value (x cost[ IsStrictTotalOrder._<?_ rel ] start)
+        n≥Cost[find-min] (x ∷ array) start rel | false = s≤s (n≥Cost[find-min] array start rel)
+        n≥Cost[find-min] (x ∷ array) start rel | true = s≤s (n≥Cost[find-min] array x rel)
+
     min∈O[N] : {_≈_ : Rel A lzero} {_<_ : Rel A lzero} → (rel : IsStrictTotalOrder _≈_ _<_) 
         → (min {A} {n} rel) ∈ O[N]
     min∈O[N] {A = A} {n = n} rel = record 
@@ -117,10 +128,17 @@ module Dave.ComputerScience.Algorithms.Array where
             map-args = λ _ → n;
             f = λ n → n;
             f-isworst = f-isworst;
-            o = {!   !}
+            o = record 
+                {
+                    k = 1;
+                    k>0 = λ();
+                    n₀ = 1;
+                    cond = λ n n≥n₀ → m≤n*m n {1} (s≤s z≤n)
+                }
         }
             where
                 f-isworst : (a : Array A (suc n)) → n ≥ Cost.n (min rel a)
-                f-isworst array = {!   !}
+                f-isworst (x ∷ []) = z≤n
+                f-isworst (start ∷ (x ∷ array)) = n≥Cost[find-min] (x ∷ array) start rel
 
        
