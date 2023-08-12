@@ -1,12 +1,13 @@
 module Dave.ComputerScience.Complexity where
+    open import Agda.Builtin.Sigma
     open import Agda.Primitive
     open import Data.Bool using (Bool)
     open import Data.Nat hiding (_⊔_)
     open import Data.Product
     open import Relation.Unary hiding (Decidable)
     open import Relation.Nullary
+    open import Relation.Binary using (Rel; Decidable) 
     open import Relation.Binary.PropositionalEquality
-    open import Relation.Binary
 
     private
         variable            
@@ -56,24 +57,31 @@ module Dave.ComputerScience.Complexity where
     n-≥ {zero} n₀ n = n ≥ n₀
     n-≥ {suc n-args} (n₀ , n₀-tail) (n , n-tail) = n ≥ n₀ × n-≥ n₀-tail n-tail    
 
-    record O {n-args : ℕ} (g : (n-× n-args) → ℕ) (f : (n-× n-args) → ℕ) : Set where
+    record _∈O[_] {n-args : ℕ} (f : (n-× n-args) → ℕ) (g : (n-× n-args) → ℕ) : Set where
         field
             k : ℕ
             k>0 : ¬ k ≡ 0
             n₀ : n-× n-args
             cond : ∀ (n : (n-× n-args)) → n-≥ n₀ n → f n ≤ k * g n
 
-    record Ω {n-args : ℕ} (g : (n-× n-args) → ℕ) (f : (n-× n-args) → ℕ) : Set where
+    record _∈Ω[_] {n-args : ℕ} (f : (n-× n-args) → ℕ) (g : (n-× n-args) → ℕ) : Set where
         field
             k : ℕ
             k>0 : ¬ k ≡ 0
             n₀ : n-× n-args
             cond : ∀ (n : (n-× n-args)) → n-≥ n₀ n → f n ≥ k * g n    
 
-    record Φ {n-args : ℕ} (g : (n-× n-args) → ℕ) (f : (n-× n-args) → ℕ) : Set where
+    f∈O[g]⇔g∈Ω[f] : {n-args : ℕ} (f : (n-× n-args) → ℕ) (g : (n-× n-args) → ℕ) → 
+        f ∈O[ g ] ⇔ g ∈Ω[ f ]
+    f∈O[g]⇔g∈Ω[f] f g = {!   !}
+        where
+            f∈O[g]→g∈Ω[f] : f ∈O[ g ] → g ∈Ω[ f ]
+            f∈O[g]→g∈Ω[f] O = {!   !}
+
+    record _∈Φ[_] {n-args : ℕ} (f : (n-× n-args) → ℕ) (g : (n-× n-args) → ℕ) : Set where
         field
-            worst : O g f
-            best : Ω g f    
+            worst : f ∈O[ g ]
+            best : f ∈Ω[ g ]
 
     record ArgSize (algo : Algorithm A B) : Set where
         field
@@ -83,35 +91,44 @@ module Dave.ComputerScience.Complexity where
         type : Set
         type = n-× n-args
 
-    module AlgoComplexity {algo : Algorithm A B} (argSize : ArgSize algo) where
+        isOfSize : type → A → Set
+        isOfSize n a = n ≡ f a      
 
-        record rel-case-arg (_⋆_ : Rel ℕ lzero)            
-            (n : ArgSize.type argSize)
-            (f : ArgSize.type argSize → ℕ) : Set where
-            field            
-                arg : A
-                is-mapped : ArgSize.f argSize arg ≡ n
-                arg⋆A : ∀ (a : A) → ArgSize.f argSize a ≡ n → Cost.n (algo arg) ⋆ Cost.n (algo a)
-                f-correct : Cost.n (algo arg) ≡ f n
+    record _∈O[_,_] 
+        (algo : Algorithm A B)
+        (argSize : ArgSize algo)
+        (g : ArgSize.type argSize → ℕ) : Set where 
+        field                
+            f : ArgSize.type argSize → ℕ
+            f-correctness : ∀ (n : ArgSize.type argSize) (a : A) → f n ≥ Cost.n (algo a)
+            isInO : f ∈O[ g ]
 
-        record rel-case-func (_⋆_ : Rel ℕ lzero) : Set where
-            field
-                n-args : ℕ
-                f : ArgSize.type argSize → ℕ
-                args-map : A → ArgSize.type argSize
-                is-worst : ∀ (n : ArgSize.type argSize) → rel-case-arg _⋆_ n f    
+    record _∈Ω[_,_] 
+        (algo : Algorithm A B)
+        (argSize : ArgSize algo)
+        (g : ArgSize.type argSize → ℕ) : Set where 
+        field                
+            f : ArgSize.type argSize → ℕ
+            f-correctness : ∀ (n : ArgSize.type argSize) (a : A) → f n ≤ Cost.n (algo a)
+            isInΩ : f ∈Ω[ g ]
 
-        record O[_] (g : ArgSize.type argSize → ℕ) : Set where 
-            field                
-                worst-case : rel-case-func _≥_ 
-                o : O g (rel-case-func.f worst-case)
+    record _∈Φ[_,_] 
+        (algo : Algorithm A B)
+        (argSize : ArgSize algo)
+        (g : ArgSize.type argSize → ℕ) : Set where 
+        field                
+            f : ArgSize.type argSize → ℕ
+            isInO : f ∈O[ g ]
+            isInΩ : f ∈Ω[ g ]
+            
 
-        record Ω[_] (g : ArgSize.type argSize → ℕ) : Set where
-            field
-                best-case : rel-case-func _≤_
-                ω : Ω g (rel-case-func.f best-case)
+    special-case : Rel ℕ lzero → (algo : Algorithm A B) → ArgSize algo → Set
+    special-case {A = A} _⋆_ algo argSize = (n : ArgSize.type argSize) →
+        {a : A} → ArgSize.isOfSize argSize n a → 
+        Σ A λ special → ArgSize.isOfSize argSize n special × Cost.n (algo special) ⋆ Cost.n (algo a)
 
-        record Φ[_] (g : ArgSize.type argSize → ℕ) : Set where
-            field
-                worst : O[ g ]
-                best : Ω[ g ]
+    worst-case : (algo : Algorithm A B) → ArgSize algo → Set
+    worst-case = special-case _≥_
+
+    best-case : (algo : Algorithm A B) → ArgSize algo → Set
+    best-case = special-case _≤_            
